@@ -1,3 +1,7 @@
+'use client'
+
+import { MouseEventHandler } from "react"
+
 type ButtonOptions = {
     type: 'fill' | 'outline'
     color: 'primary' | 'secondary' | 'accent' | 'secondary-accent' | 'dark'
@@ -9,9 +13,10 @@ type ButtonProps = {
     title: string
     tooltip?: string
     options?: ButtonOptions
+    handleClick?: MouseEventHandler<HTMLButtonElement>
 }
 
-const Button = ({ type, title, tooltip, options }: ButtonProps) => {
+const Button = ({ type, title, tooltip, options, handleClick }: ButtonProps) => {
     const defaultOptions: ButtonOptions = {
         type: 'fill',
         color: 'primary',
@@ -24,7 +29,7 @@ const Button = ({ type, title, tooltip, options }: ButtonProps) => {
     }
 
     const colors = {
-        'primary': 'bg-primary border-primary-700 text-primary-700 hover:bg-primary-700 hover:text-primary',
+        'primary': 'bg-blue-700 border-blue-700 text-white hover:bg-blue-900 hover:text-blue-400',
         'secondary': 'bg-secondary border-secondary-700 text-secondary-700 hover:bg-secondary-900',
         'accent': 'bg-accent border-accent-700 text-accent-700 hover:bg-accent-900',
         'secondary-accent': 'bg-secondary-accent-700 border-secondary-accent text-secondary-accent-700 hover:bg-secondary-accent-900',
@@ -45,7 +50,8 @@ const Button = ({ type, title, tooltip, options }: ButtonProps) => {
                 ${colors[options?.color || defaultOptions.color]}
                 ${sizes[options?.size || defaultOptions.size]}
             `}
-            title={tooltip}>
+            title={tooltip}
+            onClick={handleClick}>
             {title}
         </button>
     )

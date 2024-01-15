@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import prisma from "@/prisma/client";
 
-type Item = {
-    title: string
+import prisma from "@/prisma/client";
+import { itemSchema } from "@/app/validationSchemas";
+
+type Item = z.infer<typeof itemSchema>
+
+export async function GET() {
+    const items = await prisma.item.findMany()
+
+    return NextResponse.json(items, { status: 200 })
 }
 
-const itemSchema = z.object({
-    title: z.string().min(1)
-})
-
 export async function POST(request: NextRequest) {
-    const item = await request.json() as Item
+    const item: Item = await request.json()
 
     const validation = itemSchema.safeParse(item)
-    if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 })
+    if (!validation.success) return NextResponse.json(validation.error.format(), { status: 400 })
 
-    const newItem = prisma.item.create({
+    const newItem = await prisma.item.create({
         data: { title: item.title }
     })
 

@@ -1,15 +1,23 @@
-import { Dispatch, SetStateAction } from "react"
+import { forwardRef } from "react";
 import { HiIdentification } from "react-icons/hi2";
 
 type InputFieldProps = {
     id: string
     name: string
-    type: 'text' | 'password'
-    value: string
-    setValue: Dispatch<SetStateAction<string>>
+    type: 'text' | 'password' | 'number'
+    placeholder?: string
+    onChange: React.ChangeEventHandler<HTMLInputElement>;
+    onBlur: React.ChangeEventHandler<HTMLInputElement>
 }
 
-const InputField = ({ id, name, type, value, setValue }: InputFieldProps) => {
+const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputField({
+    id,
+    name,
+    type,
+    placeholder,
+    onChange,
+    onBlur
+}, ref) {
     return (
         <div className="flex text-xs">
             <label
@@ -22,12 +30,13 @@ const InputField = ({ id, name, type, value, setValue }: InputFieldProps) => {
                 id={id}
                 name={name}
                 type={type}
-                value={value}
+                ref={ref}
                 className="flex-1 min-w-0 px-1 rounded-r text-slate-600 bg-slate-300 focus:outline-none"
-                onInput={(e: React.FormEvent<HTMLInputElement>) => setValue((e.target as HTMLInputElement).value)}
-                required />
+                placeholder={placeholder}
+                onChange={onChange}
+                onBlur={onBlur} />
         </div>
     )
-}
+})
 
 export default InputField
