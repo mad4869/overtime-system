@@ -6,19 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import InputField from "@/app/components/InputField"
 import Button from "@/app/components/Button"
 import ErrorMessage from "@/app/components/ErrorMessage"
-import { loginUserSchema } from "@/app/validationSchemas"
+import { userLoginSchema } from "@/schemas/validationSchemas"
 
-type LoginUser = z.infer<typeof loginUserSchema>
-type RegisterResponse = {
-    success: boolean,
-    message: string,
-    user?: LoginUser
-}
+type UserLogin = z.infer<typeof userLoginSchema>
 
 const LoginForm = () => {
     const router = useRouter()
 
-    const loginUser = async (data: LoginUser) => {
+    const login = async (data: UserLogin) => {
         try {
             await signIn('credentials', {
                 npk: data.npk,
@@ -32,12 +27,12 @@ const LoginForm = () => {
         }
     }
 
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginUser>({
-        resolver: zodResolver(loginUserSchema)
+    const { register, handleSubmit, formState: { errors } } = useForm<UserLogin>({
+        resolver: zodResolver(userLoginSchema)
     })
 
     return (
-        <form className="flex flex-col gap-1" onSubmit={handleSubmit(loginUser)} noValidate>
+        <form className="flex flex-col gap-1" onSubmit={handleSubmit(login)} noValidate>
             <InputField id="login-npk" type="text" placeholder="085xxxxxxx" {...register('npk')} />
             <ErrorMessage>{errors.npk?.message}</ErrorMessage>
             <InputField id="login-password" type="password" {...register('password')} />

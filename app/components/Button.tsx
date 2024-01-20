@@ -49,6 +49,7 @@ const Button = ({ type, title, tooltip, options, handleClick }: ButtonProps) => 
                 ${types[options?.type || defaultOptions.type]}
                 ${colors[options?.color || defaultOptions.color]}
                 ${sizes[options?.size || defaultOptions.size]}
+                min-w-fit
             `}
             title={tooltip}
             onClick={handleClick}>

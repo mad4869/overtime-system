@@ -38,13 +38,13 @@ model Item {
 }
 
 model UserItem {
-  userId    Int
-  itemId    Int
-  duration  Float
-  createdAt DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  userId       Int
+  itemId       Int
+  startTime    DateTime
+  finishedTime DateTime
+  createdAt    DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
   item Item @relation(fields: [itemId], references: [id])
-
-  @@id([userId, itemId])
 }
