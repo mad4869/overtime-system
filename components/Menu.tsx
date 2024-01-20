@@ -8,8 +8,8 @@ import { MdDashboard, MdAdminPanelSettings } from "react-icons/md";
 const Menu = () => {
     const menus = [
         { title: 'Dashboard', url: '/dashboard', icon: MdDashboard },
-        { title: 'Profile', url: '/profile', icon: FaUserEdit },
-        { title: 'Admin', url: '/admin', icon: MdAdminPanelSettings },
+        { title: 'Profile', url: '/dashboard/profile', icon: FaUserEdit },
+        { title: 'Admin', url: '/dashboard/admin', icon: MdAdminPanelSettings },
     ]
 
     const [activeNav, setActiveNav] = useState('/')
@@ -27,7 +27,7 @@ const Menu = () => {
                     className={`flex items-center gap-2 ${activeNav === menu.url ? 'text-white' : ''} hover:text-white`}
                     title={menu.title}>
                     <menu.icon />
-                    <Link href={menu.url}>{menu.title}</Link>
+                    <Link href={menu.url} onClick={() => setActiveNav(menu.url)}>{menu.title}</Link>
                 </li>
             ))}
         </ul>

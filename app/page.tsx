@@ -1,11 +1,11 @@
-import AuthPanel from "./AuthPanel";
+import MainPanel from "./MainPanel";
 import Background from "./Background";
 
 export default function Home() {
   return (
     <main>
       <Background />
-      <AuthPanel />
+      <MainPanel />
     </main>
   )
 }

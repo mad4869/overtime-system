@@ -3,8 +3,8 @@
 import dynamic from "next/dynamic";
 import { useState } from "react";
 
-import Empty from "./Empty";
-import Button from "@/app/components/Button";
+import Empty from "@/components/Empty";
+import Button from "@/components/Button";
 import { type Item } from "@/types/customs";
 
 const UpdateItemForm = dynamic(() => import('./UpdateItemForm'))

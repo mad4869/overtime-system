@@ -1,11 +1,11 @@
-import { FaCircleUser, FaDoorOpen } from "react-icons/fa6";
 import { Oswald } from "next/font/google";
 import { getServerSession } from "next-auth";
+import { FaCircleUser, FaDoorOpen } from "react-icons/fa6";
 
-import Logo from "@/app/components/Logo"
-import Menu from "@/app/components/Menu";
-import { authOptions } from "@/config/authOptions";
+import Logo from "./Logo"
+import Menu from "./Menu";
 import LogoutButton from "./LogoutButton";
+import { authOptions } from "@/config/authOptions";
 
 const oswald = Oswald({ subsets: ['latin'] })
 

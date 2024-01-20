@@ -1,24 +1,9 @@
 'use client'
 
-import Button from "../components/Button"
+import Button from "@/components/Button"
 import useExportRecap from "@/hooks/useExportRecap"
+import { type UserItem } from "@/types/customs"
 
-type UserItem = {
-    id: number;
-    userId: number;
-    itemId: number;
-    startTime: Date;
-    finishedTime: Date;
-    createdAt: Date;
-} & {
-    user: {
-        name: string;
-        npk: string;
-    };
-    item: {
-        title: string;
-    };
-}
 type ExportRecapProps = {
     userItems: UserItem[]
 }

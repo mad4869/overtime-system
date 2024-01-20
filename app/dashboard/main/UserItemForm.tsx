@@ -3,8 +3,8 @@
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import InputField from "@/app/components/InputField"
-import Button from '@/app/components/Button'
+import InputField from "@/components/InputField"
+import Button from '@/components/Button'
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 import { userAddItem, type UserAddItem } from './actions/userItems'
 

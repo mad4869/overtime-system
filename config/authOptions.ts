@@ -43,6 +43,7 @@ export const authOptions: AuthOptions = {
                         npk: existingUser.npk,
                         position: existingUser.position,
                         unit: existingUser.unit,
+                        department: existingUser.department,
                         company: existingUser.company
                     };
                 } catch (error) {
@@ -56,10 +57,11 @@ export const authOptions: AuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id
-                token.npk = user.npk;
-                token.position = user.position;
-                token.unit = user.unit;
-                token.company = user.company;
+                token.npk = user.npk
+                token.position = user.position
+                token.unit = user.unit
+                token.department = user.department
+                token.company = user.company
             }
 
             return token;
@@ -73,6 +75,7 @@ export const authOptions: AuthOptions = {
                     npk: token.npk,
                     position: token.position,
                     unit: token.unit,
+                    department: token.department,
                     company: token.company
                 }
             };

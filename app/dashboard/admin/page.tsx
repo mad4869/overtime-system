@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import ItemList from "./ItemList"
 import ItemForm from "./ItemForm";
 
-const Content = async () => {
+export default async function Admin() {
     const items = await prisma.item.findMany()
 
     return (
@@ -20,5 +20,3 @@ const Content = async () => {
         </section>
     )
 }
-
-export default Content

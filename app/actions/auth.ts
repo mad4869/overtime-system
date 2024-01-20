@@ -1,44 +1,31 @@
-import { NextRequest, NextResponse } from "next/server";
-import { hash } from 'bcrypt'
+'use server'
 
 import prisma from "@/prisma/client";
+import { z } from "zod";
+import { hash } from 'bcrypt'
+import { revalidatePath } from "next/cache";
+import { userRegisterSchema } from "@/schemas/validationSchemas";
 
-type User = {
-    name: string
-    npk: string
-    password: string
-    position: string
-    unit: string
-    department: string
-    company: string
-}
-type UserWoPassword = Omit<User, 'password'>
+type UserRegister = z.infer<typeof userRegisterSchema>
+type UserRegisterWoPassword = Omit<UserRegister, 'password'>
 
-export async function GET() {
-    const users = await prisma.user.findFirst()
-
-    return NextResponse.json(users, { status: 200 })
-}
-
-export async function POST(request: NextRequest) {
+export async function userRegister(user: UserRegister) {
     try {
-        const user: User = await request.json()
-
         if (!user.name || !user.npk || !user.password || !user.position || !user.unit || !user.company) {
-            return NextResponse.json({
+            return {
                 success: false,
                 message: 'Missing required fields.'
-            }, { status: 400 });
+            }
         }
 
         const existingUser = await prisma.user.findUnique({
             where: { npk: user.npk }
         })
         if (existingUser) {
-            return NextResponse.json({
+            return {
                 success: false,
-                message: 'User with this npk already exists.'
-            }, { status: 409 })
+                message: 'User already exists.'
+            }
         }
 
         const hashedPassword = await hash(user.password, 10)
@@ -55,23 +42,24 @@ export async function POST(request: NextRequest) {
             }
         })
 
-        let newUserWoPassword: UserWoPassword | undefined
+        let newUserWoPassword: UserRegisterWoPassword | undefined
         if (newUser) {
             const { password, ...rest } = newUser
             newUserWoPassword = rest
         }
 
-        return NextResponse.json({
+        revalidatePath('/')
+
+        return {
             success: true,
-            message: 'User registered successfully',
-            user: newUserWoPassword
-        }, { status: 201 })
+            data: newUserWoPassword
+        }
     } catch (error) {
         console.error('Error during user registration:', error);
 
-        return NextResponse.json({
+        return {
             success: false,
-            message: 'Internal server error.'
-        }, { status: 500 });
+            message: 'Internal server error'
+        }
     }
 }

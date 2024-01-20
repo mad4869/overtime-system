@@ -6,7 +6,7 @@ import UserItemList from "./UserItemList"
 import ExportRecap from "./ExportRecap"
 import { authOptions } from "@/config/authOptions"
 
-const Content = async () => {
+export default async function Dashboard() {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
     const items = await prisma.item.findMany()
@@ -21,7 +21,8 @@ const Content = async () => {
             user: {
                 select: {
                     name: true,
-                    npk: true
+                    npk: true,
+                    unit: true
                 }
             }
         }
@@ -36,5 +37,3 @@ const Content = async () => {
         </section>
     )
 }
-
-export default Content

@@ -1,19 +1,5 @@
-type UserItem = {
-    id: number;
-    userId: number;
-    itemId: number;
-    startTime: Date;
-    finishedTime: Date;
-    createdAt: Date;
-} & {
-    user: {
-        name: string;
-        npk: string;
-    };
-    item: {
-        title: string;
-    };
-}
+import { type UserItem } from "@/types/customs"
+
 type UserItemListProps = {
     userItems: UserItem[]
 }

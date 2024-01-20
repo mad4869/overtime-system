@@ -11,17 +11,18 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(255)
-  npk       String     @unique @db.VarChar(255)
-  password  String     @db.Text
-  role      UserRole   @default(USER)
-  position  String     @db.VarChar(255)
-  unit      String     @db.VarChar(255)
-  company   String     @db.VarChar(255)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  items     UserItem[]
+  id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar(255)
+  npk        String     @unique @db.VarChar(255)
+  password   String     @db.Text
+  role       UserRole   @default(USER)
+  position   String     @db.VarChar(255)
+  unit       String     @db.VarChar(255)
+  department String     @db.VarChar(255)
+  company    String     @db.VarChar(255)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  items      UserItem[]
 }
 
 enum UserRole {

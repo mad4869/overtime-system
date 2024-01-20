@@ -7,6 +7,7 @@ declare module "next-auth" {
         npk: string
         position: string
         unit: string
+        department: string
         company: string
     }
     interface Session {

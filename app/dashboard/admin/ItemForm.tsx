@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect } from "react"
 
-import InputField from "@/app/components/InputField"
-import Button from "@/app/components/Button"
+import InputField from "@/components/InputField"
+import Button from "@/components/Button"
 import { adminAddItemSchema } from "@/schemas/validationSchemas"
 import { adminAddItem, type AdminAddItem } from "./actions/items"
 
