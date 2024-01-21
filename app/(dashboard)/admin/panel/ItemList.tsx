@@ -18,7 +18,7 @@ const ItemList = ({ items }: ItemListProps) => {
     const [editableItem, setEditableItem] = useState<Item[]>([])
 
     return (
-        <table className="w-full text-center border-separate table-auto text-amber-700 dark:text-white">
+        <table className="w-full text-center text-white border-separate table-auto">
             <thead className="text-white bg-amber-700">
                 <tr>
                     <th>ID Item</th>

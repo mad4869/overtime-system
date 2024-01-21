@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth"
 
 import UserItemForm from "./UserItemForm"
 import UserItemList from "./UserItemList"
+import UserItemRecapForm from "./UserItemRecapForm"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { authOptions } from "@/config/authOptions"
 
@@ -47,8 +48,11 @@ export default async function Dashboard() {
             <UserItemForm items={items} currentUserId={currentUser?.id as number} />
             <Accordion title="Working Items List">
                 <UserItemList userItems={userItems} />
+                <span className="flex items-center justify-end mt-4">
+                    <UserItemRecapForm userItems={userItems} />
+                </span>
             </Accordion>
-            <div className="flex justify-end items-center">
+            <div className="flex items-center justify-end">
                 <Link href="/dashboard/history" title="Show history" className="text-blue-400 hover:text-blue-600">
                     History
                 </Link>

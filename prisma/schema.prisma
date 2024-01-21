@@ -46,6 +46,16 @@ model UserItem {
   finishedTime DateTime
   createdAt    DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
-  item Item @relation(fields: [itemId], references: [id])
+  user            User           @relation(fields: [userId], references: [id])
+  item            Item           @relation(fields: [itemId], references: [id])
+  UserItemRecap   UserItemRecap? @relation(fields: [userItemRecapId], references: [id])
+  userItemRecapId Int?
+}
+
+model UserItemRecap {
+  id              Int        @id @default(autoincrement())
+  userItems       UserItem[]
+  isApprovedByVP  Boolean    @default(false)
+  isApprovedByAVP Boolean    @default(false)
+  createdAt       DateTime   @default(now())
 }

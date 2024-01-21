@@ -23,7 +23,6 @@ const Barcode = () => {
             QRCode.toDataURL('data-to-sign', (err, url) => {
                 if (err) throw err
                 setQrCodeData(url)
-                console.log(qrCodeData)
             })
         } catch (error) {
             console.error('Error:', error)

@@ -15,9 +15,10 @@ type ButtonProps = {
     tooltip?: string
     options?: ButtonOptions
     handleClick?: MouseEventHandler<HTMLButtonElement>
+    disabled?: boolean
 }
 
-const Button = ({ type, title, tooltip, options, handleClick }: ButtonProps) => {
+const Button = ({ type, title, tooltip, options, handleClick, disabled }: ButtonProps) => {
     const defaultOptions: ButtonOptions = {
         type: 'fill',
         color: 'primary',
@@ -53,8 +54,10 @@ const Button = ({ type, title, tooltip, options, handleClick }: ButtonProps) => 
                 ${sizes[options?.size || defaultOptions.size]}
                 ${options?.isFull ? 'w-full' : ''}
                 min-w-fit
+                disabled:bg-slate-400 disabled:text-slate-200 disabled:cursor-not-allowed
             `}
             title={tooltip}
+            disabled={disabled}
             onClick={handleClick}>
             {title}
         </button>

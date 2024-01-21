@@ -2,7 +2,6 @@ import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/
 
 import overtimeMap from '@/constants/overtimeMap'
 import setRecapPeriod from '@/constants/recapPeriod'
-import { type UserItem } from '@/types/customs'
 
 Font.register({
     family: 'Open Sans', src: 'http://fonts.gstatic.com/s/opensans/v13/cJZKeOuBrn4kERxqtaUH3aCWcynf_cDxXwCLxiixG1c.ttf', fontStyle: 'normal', fontWeight: 'normal'
@@ -110,12 +109,37 @@ const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
 const recapYear = recapStartYear + recapFinishedYear
 
 type LetterProps = {
-    userItems: UserItem[]
+    userItemsRecap: ({
+        userItems: {
+            item: {
+                title: string;
+            };
+            userId: number;
+            itemId: number;
+            startTime: Date;
+            finishedTime: Date;
+            user: {
+                name: string;
+                npk: string;
+                unit: string;
+            };
+        }[];
+    } & {
+        id: number;
+        isApprovedByVP: boolean;
+        isApprovedByAVP: boolean;
+        createdAt: Date;
+    }) | undefined
+    signature: string
 }
 
-const Letter = ({ userItems }: LetterProps) => {
+const Letter = ({ userItemsRecap, signature }: LetterProps) => {
     return (
-        <Document style={styles.document} title='Surat Perintah Lembur' author='PT. YUM' subject={userItems[0].user.name} >
+        <Document
+            style={styles.document}
+            title='Surat Perintah Lembur'
+            author='PT. YUM'
+            subject={userItemsRecap?.userItems[0].user.name}>
             <Page size="A4" style={styles.page}>
                 <View style={styles.title}>
                     <Image src="/logo_yum.png" style={{ width: 1047 / 10, height: 1080 / 10 }} />
@@ -132,15 +156,15 @@ const Letter = ({ userItems }: LetterProps) => {
                 <View style={styles.profile}>
                     <View style={styles.profileField}>
                         <Text style={styles.profileFieldWidth}>Nama</Text>
-                        <Text>: {userItems[0].user.name}</Text>
+                        <Text>: {userItemsRecap?.userItems[0].user.name}</Text>
                     </View>
                     <View style={styles.profileField}>
                         <Text style={styles.profileFieldWidth}>NPK</Text>
-                        <Text>: {userItems[0].user.npk}</Text>
+                        <Text>: {userItemsRecap?.userItems[0].user.npk}</Text>
                     </View>
                     <View style={styles.profileField}>
                         <Text style={styles.profileFieldWidth}>Unit Kerja</Text>
-                        <Text>: {userItems[0].user.unit}</Text>
+                        <Text>: {userItemsRecap?.userItems[0].user.unit}</Text>
                     </View>
                 </View>
                 <View style={styles.table}>
@@ -182,10 +206,10 @@ const Letter = ({ userItems }: LetterProps) => {
                         </View>
                     </View>
                     <View>
-                        {userItems.map((userItem, index) => {
+                        {userItemsRecap?.userItems.map((userItem, index) => {
                             const userItemDuration = (userItem.finishedTime.getHours()) - (userItem.startTime.getHours())
                             return (
-                                <View key={userItem.id} style={{ ...styles.tableHeader, borderTop: 1 }}>
+                                <View key={userItem.itemId} style={{ ...styles.tableHeader, borderTop: 1 }}>
                                     <View style={{ ...styles.center, ...styles.no }}>
                                         <Text>{index + 1}</Text>
                                     </View>
@@ -228,6 +252,7 @@ const Letter = ({ userItems }: LetterProps) => {
                             <Text>Menyetujui</Text>
                         </View>
                         <View style={styles.footerProfile}>
+                            {signature && <Image src={signature} style={{ width: 60, height: 60 }} />}
                             <Text style={styles.footerProfileName}>Mohammad Samsul</Text>
                             <Text>VP O & M 1</Text>
                         </View>
@@ -237,6 +262,7 @@ const Letter = ({ userItems }: LetterProps) => {
                             <Text>Diperintah</Text>
                         </View>
                         <View style={styles.footerProfile}>
+                            {signature && <Image src={signature} style={{ width: 60, height: 60 }} />}
                             <Text style={styles.footerProfileName}>Bramastra Wisnu Putra</Text>
                             <Text>AVP Mekanik P6</Text>
                         </View>
@@ -246,8 +272,8 @@ const Letter = ({ userItems }: LetterProps) => {
                             <Text>Yang Menerima Tugas</Text>
                         </View>
                         <View style={styles.footerProfile}>
-                            <Text style={styles.footerProfileName}>{userItems[0].user.name}</Text>
-                            <Text>{userItems[0].user.npk}</Text>
+                            <Text style={styles.footerProfileName}>{userItemsRecap?.userItems[0].user.name}</Text>
+                            <Text>{userItemsRecap?.userItems[0].user.npk}</Text>
                         </View>
                     </View>
                 </View>

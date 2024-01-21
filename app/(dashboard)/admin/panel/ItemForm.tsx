@@ -7,7 +7,7 @@ import { useEffect } from "react"
 import InputField from "@/components/InputField"
 import Button from "@/components/Button"
 import { adminAddItemSchema } from "@/schemas/validationSchemas"
-import { adminAddItem, type AdminAddItem } from "./actions/items"
+import { adminAddItem, type AdminAddItem } from "../actions/items"
 
 const ItemForm = () => {
     const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm<AdminAddItem>({

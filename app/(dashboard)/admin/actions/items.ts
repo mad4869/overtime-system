@@ -12,20 +12,80 @@ export type AdminAddItem = z.infer<typeof adminAddItemSchema>
 export type AdminUpdateItem = z.infer<typeof adminUpdateItemSchema>
 export type AdminDeleteItem = z.infer<typeof adminDeleteItemSchema>
 
-export async function adminGetUserRecaps() {
+export async function adminGetUserItemsRecaps() {
     const recapPeriod = setRecapPeriod()
 
-    const userRecaps = await prisma.userItem.groupBy({
-        by: ['userId'],
+    const userItemsRecaps = await prisma.userItemRecap.findMany({
         where: {
             AND: [
-                { startTime: { gte: recapPeriod.startPeriod } },
-                { startTime: { lte: recapPeriod.finishedPeriod } }
+                { createdAt: { gte: recapPeriod.startPeriod } },
+                { createdAt: { lte: recapPeriod.finishedPeriod } }
             ]
+        },
+        include: {
+            userItems: {
+                select: {
+                    item: {
+                        select: {
+                            title: true
+                        }
+                    },
+                    user: {
+                        select: {
+                            name: true,
+                            npk: true,
+                            unit: true
+                        }
+                    }
+                }
+            }
         }
     })
 
-    return userRecaps
+    return userItemsRecaps
+}
+
+export async function adminGetUserItemsRecap(recapId: number) {
+    const userItemsRecap = await prisma.userItemRecap.findUnique({
+        where: { id: recapId },
+        include: {
+            userItems: {
+                select: {
+                    item: {
+                        select: {
+                            title: true
+                        }
+                    },
+                    user: {
+                        select: {
+                            name: true,
+                            npk: true,
+                            unit: true
+                        }
+                    },
+                    userId: true,
+                    itemId: true,
+                    startTime: true,
+                    finishedTime: true
+                }
+            }
+        }
+    })
+
+    if (!userItemsRecap) return { success: false, message: 'Recap not found' }
+
+    return { success: true, message: 'Recap found', data: userItemsRecap }
+}
+
+export async function vpApproveUserItemsRecap(recapId: number) {
+    const updatedRecap = await prisma.userItemRecap.update({
+        where: { id: recapId },
+        data: { isApprovedByVP: true, isApprovedByAVP: true }
+    })
+
+    revalidatePath('/admin')
+
+    return updatedRecap
 }
 
 export async function adminGetUserItem(userId?: number) {

@@ -5,7 +5,7 @@ import InputField from "@/components/InputField";
 import Button from "@/components/Button";
 import { type Item } from "@/types/customs";
 import { adminUpdateItemSchema } from "@/schemas/validationSchemas";
-import { adminUpdateItem, type AdminUpdateItem } from "./actions/items";
+import { adminUpdateItem, type AdminUpdateItem } from "../actions/items";
 
 type UpdateItemFormProps = {
     item: Item

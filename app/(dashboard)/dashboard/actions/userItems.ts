@@ -6,6 +6,25 @@ import { revalidatePath } from "next/cache"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 
 export type UserAddItem = z.infer<typeof userAddItemSchema>
+type UserItem = ({
+    user: {
+        name: string;
+        npk: string;
+        unit: string;
+    };
+    item: {
+        title: string;
+    };
+} & {
+    id: number;
+    userId: number;
+    itemId: number;
+    startTime: Date;
+    finishedTime: Date;
+    createdAt: Date;
+    userItemRecapId: number | null;
+})
+
 
 export async function userAddItem(item: UserAddItem, currentUserId: number) {
     const startDate = new Date(item.date)
@@ -29,4 +48,23 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
     revalidatePath('/dashboard')
 
     return newUserItem
+}
+
+export async function userAddItemRecap(userItems: UserItem[]) {
+    const userItemIds = userItems.map((userItem) => userItem.id)
+
+    const newUserItemRecap = await prisma.userItemRecap.create({
+        data: {}
+    })
+
+    const updatedUserItems = await prisma.userItem.updateMany({
+        where: {
+            id: { in: userItemIds }
+        },
+        data: {
+            userItemRecapId: newUserItemRecap.id
+        }
+    })
+
+    return updatedUserItems
 }

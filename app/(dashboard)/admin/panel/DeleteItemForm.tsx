@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/Button";
 import { type Item } from "@/types/customs";
 import { adminDeleteItemSchema } from "@/schemas/validationSchemas";
-import { adminDeleteItem, type AdminDeleteItem } from "./actions/items";
+import { adminDeleteItem, type AdminDeleteItem } from "../actions/items";
 
 type DeleteItemFormProps = {
     item: Item
