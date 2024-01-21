@@ -1,3 +1,4 @@
+import Link from "next/link"
 import prisma from "@/prisma/client"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
@@ -47,6 +48,11 @@ export default async function Dashboard() {
             <Accordion title="Working Items List">
                 <UserItemList userItems={userItems} />
             </Accordion>
+            <div className="flex justify-end items-center">
+                <Link href="/dashboard/history" title="Show history" className="text-blue-400 hover:text-blue-600">
+                    History
+                </Link>
+            </div>
         </>
     )
 }
