@@ -39,18 +39,18 @@ const useExportRecap = (userItems: UserItem[]) => {
 
         if (!ws["!cols"]) ws["!cols"] = []
 
-        const COL_INDEX_1 = utils.decode_col("A")
+        const COL_INDEX_1 = utils.decode_col("B")
         if (!ws["!cols"][COL_INDEX_1]) ws["!cols"][COL_INDEX_1] = { wch: 8 }
         ws["!cols"][COL_INDEX_1].wpx = COL_WIDTH
 
-        const COL_INDEX_5 = utils.decode_col("E")
+        const COL_INDEX_5 = utils.decode_col("F")
         if (!ws["!cols"][COL_INDEX_5]) ws["!cols"][COL_INDEX_5] = { wch: 8 }
         ws["!cols"][COL_INDEX_5].wpx = COL_WIDTH
 
         const wb = utils.book_new();
         utils.book_append_sheet(wb, ws, `Recap - ${userItems[0].user.name}`)
 
-        writeFileXLSX(wb, 'UserItem.xlsx', { compression: true })
+        writeFileXLSX(wb, 'Recap.xlsx', { compression: true })
     }, [recap, userItems])
 
 

@@ -6,6 +6,7 @@ type ButtonOptions = {
     type: 'fill' | 'outline'
     color: 'primary' | 'secondary' | 'accent' | 'secondary-accent' | 'dark'
     size: 'sm' | 'md' | 'lg'
+    isFull: boolean
 }
 
 type ButtonProps = {
@@ -20,7 +21,8 @@ const Button = ({ type, title, tooltip, options, handleClick }: ButtonProps) => 
     const defaultOptions: ButtonOptions = {
         type: 'fill',
         color: 'primary',
-        size: 'sm'
+        size: 'sm',
+        isFull: false
     }
 
     const types = {
@@ -49,6 +51,7 @@ const Button = ({ type, title, tooltip, options, handleClick }: ButtonProps) => 
                 ${types[options?.type || defaultOptions.type]}
                 ${colors[options?.color || defaultOptions.color]}
                 ${sizes[options?.size || defaultOptions.size]}
+                ${options?.isFull ? 'w-full' : ''}
                 min-w-fit
             `}
             title={tooltip}

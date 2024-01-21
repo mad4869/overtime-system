@@ -15,8 +15,9 @@ export const adminDeleteItemSchema = z.object({
 
 export const userAddItemSchema = z.object({
     itemId: z.coerce.number(),
-    startTime: z.coerce.date(),
-    finishedTime: z.coerce.date()
+    date: z.coerce.date(),
+    startTime: z.string(),
+    finishedTime: z.string()
 });
 
 export const userLoginSchema = z.object({

@@ -1,17 +1,44 @@
 'use server'
 
+import fs from 'fs/promises'
 import prisma from "@/prisma/client";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+
+import setRecapPeriod from "@/constants/recapPeriod";
 import { adminAddItemSchema, adminDeleteItemSchema, adminUpdateItemSchema } from "@/schemas/validationSchemas";
 
 export type AdminAddItem = z.infer<typeof adminAddItemSchema>
 export type AdminUpdateItem = z.infer<typeof adminUpdateItemSchema>
 export type AdminDeleteItem = z.infer<typeof adminDeleteItemSchema>
 
-export async function adminGetUserItem(currentUserId: number) {
+export async function adminGetUserRecaps() {
+    const recapPeriod = setRecapPeriod()
+
+    const userRecaps = await prisma.userItem.groupBy({
+        by: ['userId'],
+        where: {
+            AND: [
+                { startTime: { gte: recapPeriod.startPeriod } },
+                { startTime: { lte: recapPeriod.finishedPeriod } }
+            ]
+        }
+    })
+
+    return userRecaps
+}
+
+export async function adminGetUserItem(userId?: number) {
+    const recapPeriod = setRecapPeriod()
+
     const userItems = await prisma.userItem.findMany({
-        where: { userId: currentUserId },
+        where: {
+            userId: userId,
+            AND: [
+                { startTime: { gte: recapPeriod.startPeriod } },
+                { startTime: { lte: recapPeriod.finishedPeriod } }
+            ]
+        },
         include: {
             item: {
                 select: {
@@ -60,4 +87,10 @@ export async function adminDeleteItem(item: AdminDeleteItem) {
     revalidatePath('/admin')
 
     return deletedItem
+}
+
+export async function generatePrivateKey() {
+    const privateKey = await fs.readFile('../../../../private-key.pem', 'utf-8')
+
+    return privateKey
 }

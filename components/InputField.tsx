@@ -4,7 +4,7 @@ import { HiIdentification } from "react-icons/hi2";
 type InputFieldProps = {
     id: string
     name: string
-    type: 'text' | 'password' | 'number' | 'datetime-local'
+    type: 'text' | 'password' | 'number' | 'date' | 'time'
     placeholder?: string
     onChange: React.ChangeEventHandler<HTMLInputElement>
     onBlur: React.ChangeEventHandler<HTMLInputElement>

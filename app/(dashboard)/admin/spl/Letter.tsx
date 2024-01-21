@@ -1,6 +1,7 @@
 import { Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer'
 
 import overtimeMap from '@/constants/overtimeMap'
+import setRecapPeriod from '@/constants/recapPeriod'
 import { type UserItem } from '@/types/customs'
 
 Font.register({
@@ -9,7 +10,7 @@ Font.register({
 
 const styles = StyleSheet.create({
     document: {
-        fontFamily: 'Open Sans'
+        fontFamily: 'Open Sans',
     },
     page: {
         flexDirection: 'column',
@@ -102,20 +103,30 @@ const styles = StyleSheet.create({
     }
 })
 
+const recapPeriod = setRecapPeriod()
+const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
+const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
+const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
+const recapYear = recapStartYear + recapFinishedYear
+
 type LetterProps = {
     userItems: UserItem[]
 }
 
 const Letter = ({ userItems }: LetterProps) => {
     return (
-        <Document style={styles.document}>
+        <Document style={styles.document} title='Surat Perintah Lembur' author='PT. YUM' subject={userItems[0].user.name} >
             <Page size="A4" style={styles.page}>
                 <View style={styles.title}>
                     <Image src="/logo_yum.png" style={{ width: 1047 / 10, height: 1080 / 10 }} />
                     <View>
                         <Text>PT. YEPEKA USAHA MANDIRI</Text>
-                        <Text>SURAT PERINTAH LEMBUR 2023-2024</Text>
-                        <Text>PERIODE 11 Desember 2023 - 10 Januari 2024</Text>
+                        <Text>
+                            SURAT PERINTAH LEMBUR {recapYear}
+                        </Text>
+                        <Text>
+                            PERIODE {recapPeriod.startPeriod.toLocaleDateString('en-GB')} - {recapPeriod.finishedPeriod.toLocaleDateString('en-GB')}
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.profile}>
