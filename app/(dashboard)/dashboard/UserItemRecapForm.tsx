@@ -34,7 +34,7 @@ const UserItemRecapForm = ({ userItems }: UserItemRecapFormProps) => {
     return <Button
         type="button"
         title="Submit"
-        tooltip="Submit working items for approvement"
+        tooltip="Submit working items for approval"
         handleClick={submitUserItems} />
 }
 

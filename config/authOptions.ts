@@ -6,6 +6,9 @@ import prisma from "@/prisma/client";
 
 export const authOptions: AuthOptions = {
     adapter: PrismaAdapter(prisma),
+    pages: {
+        signIn: '/'
+    },
     session: {
         strategy: 'jwt'
     },

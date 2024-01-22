@@ -1,8 +1,11 @@
 import { z } from "zod"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { HiIdentification } from "react-icons/hi2"
+import { RiLockPasswordFill } from "react-icons/ri"
 
 import InputField from "@/components/InputField"
 import Button from "@/components/Button"
@@ -13,16 +16,23 @@ type UserLogin = z.infer<typeof userLoginSchema>
 
 const LoginForm = () => {
     const router = useRouter()
+    const [loginError, setLoginError] = useState('')
 
     const login = async (data: UserLogin) => {
         try {
-            await signIn('credentials', {
+            const res = await signIn('credentials', {
                 npk: data.npk,
                 password: data.password,
                 redirect: false
             })
 
-            router.push('/dashboard')
+            if (res?.error && res.status === 401) {
+                setLoginError('NPK or Password invalid. Please try again.')
+                setTimeout(() => {
+                    setLoginError('')
+                }, 2000)
+            }
+            if (res?.ok) router.refresh()
         } catch (error) {
             console.error(error)
         }
@@ -33,11 +43,26 @@ const LoginForm = () => {
     })
 
     return (
-        <form className="flex flex-col gap-1" onSubmit={handleSubmit(login)} noValidate>
-            <InputField id="login-npk" type="text" placeholder="085xxxxxxx" useLabel {...register('npk')} />
-            <ErrorMessage>{errors.npk?.message}</ErrorMessage>
-            <InputField id="login-password" type="password" useLabel {...register('password')} />
-            <ErrorMessage>{errors.password?.message}</ErrorMessage>
+        <form className="flex flex-col gap-2" onSubmit={handleSubmit(login)} noValidate>
+            <div className="space-y-1">
+                <InputField
+                    id="npk"
+                    type="text"
+                    placeholder="123456"
+                    useLabel
+                    icon={<HiIdentification size={14} />}
+                    {...register('npk')} />
+                <ErrorMessage>{errors.npk?.message}</ErrorMessage>
+                <InputField
+                    id="password"
+                    type="password"
+                    placeholder="******"
+                    useLabel
+                    icon={<RiLockPasswordFill size={14} />}
+                    {...register('password')} />
+                <ErrorMessage>{errors.password?.message}</ErrorMessage>
+                <ErrorMessage>{loginError}</ErrorMessage>
+            </div>
             <Button type="submit" title="Login" tooltip="Log In" />
         </form>
     )

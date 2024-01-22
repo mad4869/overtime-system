@@ -4,7 +4,7 @@ const ErrorMessage = ({ children }: PropsWithChildren) => {
     if (!children) return null
 
     return (
-        <p>{children}</p>
+        <p className="text-xs text-rose-600">{children}</p>
     )
 }
 

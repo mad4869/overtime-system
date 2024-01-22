@@ -1,6 +1,7 @@
 'use client'
 
 import Link from "next/link"
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDashboard, MdAdminPanelSettings } from "react-icons/md";
@@ -12,12 +13,12 @@ const Menu = () => {
         { title: 'Admin', url: '/admin', icon: MdAdminPanelSettings },
     ]
 
+    const currentUrl = usePathname()
     const [activeNav, setActiveNav] = useState('/')
 
     useEffect(() => {
-        const currentUrl = window.location.pathname
         setActiveNav(currentUrl)
-    }, [])
+    }, [currentUrl])
 
     return (
         <ul className="flex flex-col w-full gap-4 text-sm text-white/50">

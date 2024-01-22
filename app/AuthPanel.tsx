@@ -1,30 +1,41 @@
 'use client'
 
 import { useState } from 'react'
+import { AnimatePresence } from 'framer-motion'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
+import Switch from '@/components/Switch'
 
 const AuthPanel = () => {
     const [activeForm, setActiveForm] = useState<'login' | 'register'>('login')
 
     return (
         <div className="flex-1 w-1/2">
-            <div className="flex items-center justify-between mb-2 text-xs">
-                <span
-                    className="px-2 py-1 rounded shadow-inner text-slate-600 bg-slate-300 max-w-fit cursor-pointer"
-                    onClick={() => setActiveForm('login')}>
-                    Login
-                </span>
-                <p className="text-slate-400">
-                    belum punya akun?
-                    <span onClick={() => setActiveForm('register')} className='cursor-pointer'>
-                        Register
+            <AnimatePresence initial={false} mode='wait'>
+                {activeForm === 'login' && <Switch key='login-form'><LoginForm /></Switch>}
+                {activeForm === 'register' && <Switch key='register-form'><RegisterForm /></Switch>}
+            </AnimatePresence>
+            {activeForm === 'login' &&
+                <p className='mt-4 text-xs text-right text-primary'>
+                    Belum memiliki akun?
+                    <span
+                        className='font-medium transition-colors cursor-pointer text-secondary hover:text-secondary-800'
+                        onClick={() => setActiveForm('register')} title='Register your account'>
+                        &nbsp;Register
                     </span>
                 </p>
-            </div>
-            {activeForm === 'login' && <LoginForm />}
-            {activeForm === 'register' && <RegisterForm />}
+            }
+            {activeForm === 'register' &&
+                <p className='mt-4 text-xs text-right text-primary hover:text-primary-800'>
+                    Sudah memiliki akun?
+                    <span
+                        className='font-medium transition-colors cursor-pointer text-secondary hover:text-secondary-800'
+                        onClick={() => setActiveForm('login')} title='Login and enter the site'>
+                        &nbsp;Login
+                    </span>
+                </p>
+            }
         </div>
     )
 }

@@ -4,7 +4,7 @@ import { MouseEventHandler } from "react"
 
 type ButtonOptions = {
     type: 'fill' | 'outline'
-    color: 'primary' | 'secondary' | 'accent' | 'secondary-accent' | 'dark'
+    color: 'primary' | 'secondary'
     size: 'sm' | 'md' | 'lg'
     isFull: boolean
 }
@@ -32,11 +32,8 @@ const Button = ({ type, title, tooltip, options, handleClick, disabled }: Button
     }
 
     const colors = {
-        'primary': 'bg-blue-700 border-blue-700 text-white hover:bg-blue-900 hover:text-blue-400',
-        'secondary': 'bg-secondary border-secondary-700 text-secondary-700 hover:bg-secondary-900',
-        'accent': 'bg-accent border-accent-700 text-accent-700 hover:bg-accent-900',
-        'secondary-accent': 'bg-secondary-accent-700 border-secondary-accent text-secondary-accent-700 hover:bg-secondary-accent-900',
-        'dark': 'bg-dark border-dark-700 text-dark-700 hover:bg-dark-900'
+        'primary': 'bg-primary border-primary text-white hover:bg-primary-900 hover:text-primary-400',
+        'secondary': 'bg-secondary border-secondary text-white hover:bg-secondary-900',
     }
 
     const sizes = {
@@ -53,7 +50,7 @@ const Button = ({ type, title, tooltip, options, handleClick, disabled }: Button
                 ${colors[options?.color || defaultOptions.color]}
                 ${sizes[options?.size || defaultOptions.size]}
                 ${options?.isFull ? 'w-full' : ''}
-                min-w-fit
+                min-w-fit transition-colors
                 disabled:bg-slate-400 disabled:text-slate-200 disabled:cursor-not-allowed
             `}
             title={tooltip}

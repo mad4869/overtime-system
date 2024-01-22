@@ -24,7 +24,7 @@ export async function userRegister(user: UserRegister) {
         if (existingUser) {
             return {
                 success: false,
-                message: 'User already exists.'
+                message: 'User already exists. Please use another NPK.'
             }
         }
 
@@ -48,10 +48,9 @@ export async function userRegister(user: UserRegister) {
             newUserWoPassword = rest
         }
 
-        revalidatePath('/')
-
         return {
             success: true,
+            message: 'User successfully registrated. Please login to access the site.',
             data: newUserWoPassword
         }
     } catch (error) {
