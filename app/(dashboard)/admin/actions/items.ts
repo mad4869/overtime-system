@@ -1,16 +1,11 @@
 'use server'
 
 import fs from 'fs/promises'
-import prisma from "@/prisma/client";
-import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import prisma from "@/prisma/client"
+import { z } from "zod"
+import { revalidatePath } from "next/cache"
 
 import setRecapPeriod from "@/constants/recapPeriod";
-import { adminAddItemSchema, adminDeleteItemSchema, adminUpdateItemSchema } from "@/schemas/validationSchemas";
-
-export type AdminAddItem = z.infer<typeof adminAddItemSchema>
-export type AdminUpdateItem = z.infer<typeof adminUpdateItemSchema>
-export type AdminDeleteItem = z.infer<typeof adminDeleteItemSchema>
 
 export async function adminGetUserItemsRecaps() {
     const recapPeriod = setRecapPeriod()
@@ -25,11 +20,7 @@ export async function adminGetUserItemsRecaps() {
         include: {
             userItems: {
                 select: {
-                    item: {
-                        select: {
-                            title: true
-                        }
-                    },
+                    item: true,
                     user: {
                         select: {
                             name: true,
@@ -51,11 +42,6 @@ export async function adminGetUserItemsRecap(recapId: number) {
         include: {
             userItems: {
                 select: {
-                    item: {
-                        select: {
-                            title: true
-                        }
-                    },
                     user: {
                         select: {
                             name: true,
@@ -64,7 +50,7 @@ export async function adminGetUserItemsRecap(recapId: number) {
                         }
                     },
                     userId: true,
-                    itemId: true,
+                    item: true,
                     startTime: true,
                     finishedTime: true
                 }
@@ -100,11 +86,6 @@ export async function adminGetUserItem(userId?: number) {
             ]
         },
         include: {
-            item: {
-                select: {
-                    title: true,
-                }
-            },
             user: {
                 select: {
                     name: true,
@@ -116,37 +97,6 @@ export async function adminGetUserItem(userId?: number) {
     })
 
     return userItems
-}
-
-export async function adminAddItem(item: AdminAddItem) {
-    const newItem = await prisma.item.create({
-        data: { title: item.title }
-    })
-
-    revalidatePath('/admin')
-
-    return newItem
-}
-
-export async function adminUpdateItem(item: AdminUpdateItem) {
-    const updatedItem = await prisma.item.update({
-        where: { id: item.id },
-        data: { title: item.title }
-    })
-
-    revalidatePath('/admin')
-
-    return updatedItem
-}
-
-export async function adminDeleteItem(item: AdminDeleteItem) {
-    const deletedItem = await prisma.item.delete({
-        where: { id: item.id }
-    })
-
-    revalidatePath('/admin')
-
-    return deletedItem
 }
 
 export async function generatePrivateKey() {

@@ -1,16 +1,13 @@
 // import ExportRecap from "./ExportRecap"
 import UserItemList from "./UserItemList"
-import VPApproveForm from "./VPApproveForm";
+import VPApproveSubmit from "./VPApproveSubmit";
 import setRecapPeriod from "@/constants/recapPeriod"
 
 type RecapListProps = {
     userItemsRecap: ({
         userItems: {
-            item: {
-                title: string;
-            };
             userId: number;
-            itemId: number;
+            item: string;
             startTime: Date;
             finishedTime: Date;
             user: {
@@ -47,7 +44,7 @@ const RecapList = ({ userItemsRecap }: RecapListProps) => {
             </div>
             <UserItemList userItems={userItemsRecap?.userItems} />
             {/* <ExportRecap recapId={userItemsRecap?.id} userItems={userItemsRecap?.userItems} /> */}
-            <VPApproveForm recapId={userItemsRecap?.id as number} isApproved={isApproved as boolean} />
+            <VPApproveSubmit recapId={userItemsRecap?.id as number} isApproved={isApproved as boolean} />
         </>
     )
 }

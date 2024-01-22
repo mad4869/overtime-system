@@ -26,28 +26,20 @@ model User {
 }
 
 enum UserRole {
+  SUPER_ADMIN
   ADMIN
   USER
-}
-
-model Item {
-  id        Int        @id @default(autoincrement())
-  title     String     @db.Text
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  users     UserItem[]
 }
 
 model UserItem {
   id           Int      @id @default(autoincrement())
   userId       Int
-  itemId       Int
+  item         String   @db.Text
   startTime    DateTime
   finishedTime DateTime
   createdAt    DateTime @default(now())
 
   user            User           @relation(fields: [userId], references: [id])
-  item            Item           @relation(fields: [itemId], references: [id])
   UserItemRecap   UserItemRecap? @relation(fields: [userItemRecapId], references: [id])
   userItemRecapId Int?
 }

@@ -111,11 +111,8 @@ const recapYear = recapStartYear + recapFinishedYear
 type LetterProps = {
     userItemsRecap: ({
         userItems: {
-            item: {
-                title: string;
-            };
             userId: number;
-            itemId: number;
+            item: string
             startTime: Date;
             finishedTime: Date;
             user: {
@@ -209,7 +206,7 @@ const Letter = ({ userItemsRecap, signature }: LetterProps) => {
                         {userItemsRecap?.userItems.map((userItem, index) => {
                             const userItemDuration = (userItem.finishedTime.getHours()) - (userItem.startTime.getHours())
                             return (
-                                <View key={userItem.itemId} style={{ ...styles.tableHeader, borderTop: 1 }}>
+                                <View key={userItem.item} style={{ ...styles.tableHeader, borderTop: 1 }}>
                                     <View style={{ ...styles.center, ...styles.no }}>
                                         <Text>{index + 1}</Text>
                                     </View>
@@ -238,7 +235,7 @@ const Letter = ({ userItemsRecap, signature }: LetterProps) => {
                                         <Text>{overtimeMap.get(userItemDuration)} jam lembur</Text>
                                     </View>
                                     <View style={{ ...styles.center, ...styles.item }}>
-                                        <Text>{userItem.item.title}</Text>
+                                        <Text>{userItem.item}</Text>
                                     </View>
                                     <View style={{ ...styles.center, ...styles.sign }} />
                                 </View>

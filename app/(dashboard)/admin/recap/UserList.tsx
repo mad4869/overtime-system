@@ -8,9 +8,7 @@ type UserListProps = {
             npk: string;
             unit: string;
         };
-        item: {
-            title: string;
-        };
+        item: string
     }[]
     isApproved: boolean
 }

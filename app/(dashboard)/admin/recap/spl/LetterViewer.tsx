@@ -9,11 +9,8 @@ import Letter from "./Letter";
 type LetterViewerProps = {
     userItemsRecap: ({
         userItems: {
-            item: {
-                title: string;
-            };
             userId: number;
-            itemId: number;
+            item: string
             startTime: Date;
             finishedTime: Date;
             user: {

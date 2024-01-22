@@ -1,24 +1,11 @@
 import { z } from "zod";
 
-export const adminAddItemSchema = z.object({
-    title: z.string().min(1, 'Title is required')
-})
-
-export const adminUpdateItemSchema = z.object({
-    id: z.coerce.number(),
-    title: z.string().min(1, 'Title is required')
-})
-
-export const adminDeleteItemSchema = z.object({
-    id: z.coerce.number()
-})
-
 export const userAddItemSchema = z.object({
-    itemId: z.coerce.number(),
+    item: z.string(),
     date: z.coerce.date(),
     startTime: z.string(),
     finishedTime: z.string()
-});
+})
 
 export const userLoginSchema = z.object({
     npk: z.string().min(1, 'NPK is required.').max(255),

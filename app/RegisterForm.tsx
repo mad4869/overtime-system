@@ -37,7 +37,7 @@ const RegisterForm = () => {
             setRegisterSuccess(res.message)
             setTimeout(() => {
                 setRegisterSuccess('')
-            }, 4000)
+            }, 2000)
         }
     }
 

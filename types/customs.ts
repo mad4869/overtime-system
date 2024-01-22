@@ -1,24 +1,15 @@
-export type Item = {
-    id: number;
-    title: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
-
-export type UserItem = {
-    id: number
-    userId: number
-    itemId: number
-    startTime: Date
-    finishedTime: Date
-    createdAt: Date
-} & {
+export type UserItem = ({
     user: {
-        name: string
-        npk: string
-        unit: string
-    }
-    item: {
-        title: string;
-    }
-}
+        name: string;
+        npk: string;
+        unit: string;
+    };
+} & {
+    id: number;
+    userId: number;
+    item: string;
+    startTime: Date;
+    finishedTime: Date;
+    createdAt: Date;
+    userItemRecapId: number | null;
+})

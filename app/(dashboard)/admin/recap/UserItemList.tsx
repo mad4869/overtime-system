@@ -2,11 +2,8 @@ import { type UserItem } from "@/types/customs"
 
 type UserItemListProps = {
     userItems: {
-        item: {
-            title: string;
-        };
         userId: number;
-        itemId: number;
+        item: string
         startTime: Date;
         finishedTime: Date;
         user: {
@@ -33,9 +30,9 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
                     const userItemDuration = (userItem.finishedTime.getHours()) - (userItem.startTime.getHours())
 
                     return (
-                        <tr key={userItem.itemId}>
+                        <tr key={userItem.item}>
                             <td>{userItem.startTime.toDateString()}</td>
-                            <td>{userItem.item.title}</td>
+                            <td>{userItem.item}</td>
                             <td>
                                 {userItem.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {userItem.finishedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </td>

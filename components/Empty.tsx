@@ -1,7 +1,9 @@
 const Empty = () => {
     return (
-        <div className="flex items-center justify-center h-24 border border-dashed border-rose-600 text-white">
-            <h6>You haven&apos;t submitted any working items</h6>
+        <div className="flex items-center justify-center">
+            <p className="bg-secondary/70 text-white rounded-full px-4 py-1">
+                You haven&apos;t submitted any working items for this period
+            </p>
         </div>
     )
 }

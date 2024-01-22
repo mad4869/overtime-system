@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import Button from '@/components/Button'
@@ -8,26 +10,34 @@ import InputField from "@/components/InputField"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 import { userAddItem, type UserAddItem } from './actions/userItems'
+import SuccessMessage from "@/components/SuccessMessage"
+import ErrorMessage from "@/components/ErrorMessage"
 
-type Item = {
-    id: number;
-    title: string;
-    createdAt: Date;
-    updatedAt: Date;
-}
 type UserItemFormProps = {
-    items: Item[]
     currentUserId: number
 }
 
-const UserItemForm = ({ items, currentUserId }: UserItemFormProps) => {
-    const { register, handleSubmit } = useForm<UserAddItem>({
+const UserItemForm = ({ currentUserId }: UserItemFormProps) => {
+    const [addItemSuccess, setAddItemSuccess] = useState('')
+    const [addItemError, setAddItemError] = useState('')
+
+    const { register, handleSubmit, formState: { errors } } = useForm<UserAddItem>({
         resolver: zodResolver(userAddItemSchema)
     })
 
     const submitUserItem = async (data: UserAddItem) => {
         const res = await userAddItem(data, currentUserId)
-        console.log(res)
+        if (res.success) {
+            setAddItemSuccess(`${res.message} The item: ${res.data?.item}`)
+            setTimeout(() => {
+                setAddItemSuccess('')
+            }, 2000)
+        } else {
+            setAddItemError(res.message)
+            setTimeout(() => {
+                setAddItemError('')
+            }, 2000)
+        }
     }
 
     const recapPeriod = setRecapPeriod()
@@ -43,28 +53,36 @@ const UserItemForm = ({ items, currentUserId }: UserItemFormProps) => {
                 </p>
             </div>
             <div className="flex flex-col gap-2">
-                <select id="item-id" {...register('itemId')} className="w-full">
-                    {items.map((item) => (
-                        <option key={item.id} value={item.id}>{item.title}</option>
-                    ))}
-                </select>
+                <InputField
+                    id="item"
+                    type="text"
+                    useLabel
+                    {...register('item')} />
+                <ErrorMessage>{errors.item?.message}</ErrorMessage>
                 <InputField
                     id="date"
                     type="date"
                     useLabel
                     {...register('date')} />
+                <ErrorMessage>{errors.date?.message}</ErrorMessage>
                 <div className="flex items-center w-full gap-2">
                     <InputField
                         id='start-time'
                         type="time"
                         useLabel
                         {...register('startTime')} />
+                    <ErrorMessage>{errors.startTime?.message}</ErrorMessage>
                     <InputField
                         id="finished-time"
                         type="time"
                         useLabel
                         {...register('finishedTime')} />
+                    <ErrorMessage>{errors.finishedTime?.message}</ErrorMessage>
                 </div>
+                <ErrorMessage>{addItemError}</ErrorMessage>
+                <AnimatePresence>
+                    {addItemSuccess && <SuccessMessage>{addItemSuccess}</SuccessMessage>}
+                </AnimatePresence>
                 <Button type='submit' title='Submit' tooltip='Submit working item' options={{
                     size: 'sm',
                     type: 'fill',

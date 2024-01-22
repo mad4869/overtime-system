@@ -3,12 +3,12 @@
 import Button from "@/components/Button"
 import { vpApproveUserItemsRecap } from "../actions/items"
 
-type VPApproveFormProps = {
+type VPApproveSUbmitProps = {
     recapId: number
     isApproved: boolean
 }
 
-const VPApproveForm = ({ recapId, isApproved }: VPApproveFormProps) => {
+const VPApproveSUbmit = ({ recapId, isApproved }: VPApproveSUbmitProps) => {
     const approveRecap = async () => {
         const res = await vpApproveUserItemsRecap(recapId)
         console.log(res)
@@ -22,4 +22,4 @@ const VPApproveForm = ({ recapId, isApproved }: VPApproveFormProps) => {
         disabled={isApproved} />
 }
 
-export default VPApproveForm
+export default VPApproveSUbmit

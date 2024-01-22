@@ -1,13 +1,15 @@
 import Link from "next/link"
-import prisma from "@/prisma/client"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
 
+import Empty from "@/components/Empty"
 import UserItemForm from "./UserItemForm"
 import UserItemList from "./UserItemList"
-import UserItemRecapForm from "./UserItemRecapForm"
+import UserItemRecapSubmit from "./UserItemRecapSubmit"
 import setRecapPeriod from "@/constants/recapPeriod"
+import { UserItem } from "@/types/customs"
 import { authOptions } from "@/config/authOptions"
+import { userGetItemsValid } from "./actions/userItems"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
 
@@ -17,46 +19,32 @@ export default async function Dashboard() {
 
     const recapPeriod = setRecapPeriod()
 
-    const items = await prisma.item.findMany()
-    const userItems = await prisma.userItem.findMany({
-        where: {
-            userId: currentUser?.id,
-            AND: [
-                { startTime: { gte: recapPeriod.startPeriod } },
-                { startTime: { lte: recapPeriod.finishedPeriod } }
-            ]
-        },
-        include: {
-            item: {
-                select: {
-                    title: true,
-                }
-            },
-            user: {
-                select: {
-                    name: true,
-                    npk: true,
-                    unit: true
-                }
-            }
-        }
-    })
+    const { data } = await userGetItemsValid(currentUser?.id as number, recapPeriod)
 
     return (
         <>
-            <h6 className="text-2xl font-medium">Dashboard</h6>
-            <UserItemForm items={items} currentUserId={currentUser?.id as number} />
-            <Accordion title="Working Items List">
-                <UserItemList userItems={userItems} />
-                <span className="flex items-center justify-end mt-4">
-                    <UserItemRecapForm userItems={userItems} />
-                </span>
-            </Accordion>
-            <div className="flex items-center justify-end">
-                <Link href="/dashboard/history" title="Show history" className="text-blue-400 hover:text-blue-600">
+            <div className="flex justify-between items-center">
+                <h6 className="text-2xl font-medium">Dashboard</h6>
+                <Link
+                    href="/dashboard/history"
+                    title="Show recap history"
+                    className="text-primary-400 hover:text-primary">
                     History
                 </Link>
             </div>
+            <UserItemForm currentUserId={currentUser?.id as number} />
+            <Accordion title="Working Items List">
+                {
+                    (data as UserItem[]).length > 0 &&
+                    <>
+                        <UserItemList userItems={data} />
+                        <span className="flex items-center justify-end mt-4">
+                            <UserItemRecapSubmit userItems={data} />
+                        </span>
+                    </>
+                }
+                {(data as UserItem[]).length === 0 && <Empty />}
+            </Accordion>
         </>
     )
 }

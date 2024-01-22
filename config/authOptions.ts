@@ -44,6 +44,7 @@ export const authOptions: AuthOptions = {
                         id: existingUser.id,
                         name: existingUser.name,
                         npk: existingUser.npk,
+                        role: existingUser.role,
                         position: existingUser.position,
                         unit: existingUser.unit,
                         department: existingUser.department,
@@ -61,6 +62,7 @@ export const authOptions: AuthOptions = {
             if (user) {
                 token.id = user.id
                 token.npk = user.npk
+                token.role = user.role
                 token.position = user.position
                 token.unit = user.unit
                 token.department = user.department
@@ -76,6 +78,7 @@ export const authOptions: AuthOptions = {
                     ...session.user,
                     id: token.id,
                     npk: token.npk,
+                    role: token.role,
                     position: token.position,
                     unit: token.unit,
                     department: token.department,
