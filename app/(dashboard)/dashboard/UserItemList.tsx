@@ -1,6 +1,7 @@
-import { MdEditSquare, MdDelete } from "react-icons/md";
+import Link from "next/link"
+import { MdEditSquare, MdDelete } from "react-icons/md"
+
 import { type UserItem } from "@/types/customs"
-import { userDeleteItem } from "./actions/userItems";
 
 type UserItemListProps = {
     userItems: UserItem[] | undefined,
@@ -9,10 +10,6 @@ type UserItemListProps = {
 
 const UserItemList = ({ userItems, isRecap }: UserItemListProps) => {
     if (!userItems) return null
-
-    // const deleteItem = async (userItemId: number) => {
-    //     await userDeleteItem(userItemId)
-    // }
 
     return (
         <table className="w-full text-center border-separate table-auto text-neutral-500">
@@ -40,16 +37,20 @@ const UserItemList = ({ userItems, isRecap }: UserItemListProps) => {
                             {!isRecap && (
                                 <>
                                     <td>
-                                        <MdEditSquare
-                                            className="text-secondary cursor-pointer"
-                                            title="Edit working item" />
+                                        <Link href="">
+                                            <MdEditSquare
+                                                className="text-secondary-400 cursor-pointer hover:text-secondary"
+                                                title="Edit working item" />
+                                        </Link>
                                     </td>
-                                    {/* <td>
-                                        <MdDelete
-                                            className="text-rose-600 cursor-pointer"
-                                            title="Delete working item"
-                                            onClick={deleteItem(userItem.id)} />
-                                    </td> */}
+                                    <td>
+                                        <Link href="">
+                                            <MdDelete
+                                                className="text-rose-400 cursor-pointer hover:text-rose-600"
+                                                title="Delete working item"
+                                            />
+                                        </Link>
+                                    </td>
                                 </>
                             )}
                         </tr>

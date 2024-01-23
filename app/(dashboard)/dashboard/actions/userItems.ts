@@ -83,6 +83,43 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
     }
 }
 
+export async function userUpdateItem(item: UserAddItem, userItemId: number) {
+    const startDate = new Date(item.tanggal)
+    const finishedDate = new Date(item.tanggal)
+
+    const startTime = item.mulai.split(':')
+    const finishedTime = item.selesai.split(':')
+
+    startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
+    finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
+
+    try {
+        const updatedUserItem = await prisma.userItem.update({
+            where: { id: userItemId },
+            data: {
+                item: item.item,
+                startTime: startDate,
+                finishedTime: finishedDate
+            }
+        })
+
+        revalidatePath('/dashboard')
+
+        return {
+            success: true,
+            message: 'Item successfully updated.',
+            data: updatedUserItem
+        }
+    } catch (error) {
+        console.error('Error occured during creating data deletion:', error)
+
+        return {
+            success: false,
+            message: 'Internal server error.'
+        }
+    }
+}
+
 export async function userDeleteItem(userItemId: number) {
     try {
         const deletedItem = await prisma.userItem.delete({

@@ -3,10 +3,9 @@
 import prisma from "@/prisma/client";
 import { z } from "zod";
 import { hash } from 'bcrypt'
-import { revalidatePath } from "next/cache";
 import { userRegisterSchema } from "@/schemas/validationSchemas";
 
-type UserRegister = z.infer<typeof userRegisterSchema>
+export type UserRegister = z.infer<typeof userRegisterSchema>
 type UserRegisterWoPassword = Omit<UserRegister, 'password'>
 
 export async function userRegister(user: UserRegister) {

@@ -13,9 +13,7 @@ import Button from "@/components/Button"
 import ErrorMessage from "@/components/ErrorMessage"
 import SuccessMessage from "@/components/SuccessMessage"
 import { userRegisterSchema } from "@/schemas/validationSchemas"
-import { userRegister } from "./actions/auth"
-
-type UserRegister = z.infer<typeof userRegisterSchema>
+import { userRegister, type UserRegister } from "./actions/auth"
 
 const RegisterForm = () => {
     const [registerError, setRegisterError] = useState('')

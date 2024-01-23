@@ -1,3 +1,5 @@
+'use server'
+
 import prisma from "@/prisma/client"
 import { revalidatePath } from "next/cache"
 import { type UserItem, type FilterApproval } from "@/types/customs"
