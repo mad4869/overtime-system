@@ -48,7 +48,7 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
     return (
         <form
             onSubmit={handleSubmit(submitUserItem)}
-            className="flex flex-col gap-8 items-center bg-primary-100 shadow-inner rounded py-4 px-48 text-sm">
+            className="flex flex-col items-center gap-8 px-48 py-4 text-sm rounded shadow-inner bg-primary-100 shadow-primary/50">
             <div className="flex flex-col items-center">
                 <h6 className="text-lg font-medium">Working Item Form</h6>
                 <p className="text-xs text-primary-400">

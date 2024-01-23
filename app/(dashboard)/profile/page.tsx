@@ -1,45 +1,44 @@
 import Link from "next/link";
-import { User, getServerSession } from "next-auth"
-import { FaCircleUser } from "react-icons/fa6";
-import { RiShieldUserFill } from "react-icons/ri";
-import { ImUserTie } from "react-icons/im";
-import { MdEditSquare } from "react-icons/md"
+import { getServerSession } from "next-auth"
 
+import Button from "@/components/Button";
 import ProfileList from "./ProfileList"
+import UpdateProfileForm from "./UpdateProfileForm";
+import { PageProps } from "@/types/customs";
 import { authOptions } from "@/config/authOptions"
+import { userGetProfile } from "./actions/user";
 
-export default async function Profile() {
+export default async function Profile({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
 
+    const { data } = await userGetProfile(currentUser?.id as number)
+
+    const updateProfile = Boolean(searchParams.updateProfile)
+
     return (
         <section className="py-4">
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                    {currentUser?.role === 'USER' && <FaCircleUser size={64} />}
-                    {currentUser?.role === 'ADMIN' && <RiShieldUserFill size={64} />}
-                    {currentUser?.role === 'SUPER_ADMIN' && <ImUserTie size={64} />}
-                    <div>
-                        <h6 className="text-2xl font-bold">{currentUser?.name}</h6>
-                        <h6 className="text-xl">NPK {currentUser?.npk}</h6>
-                        <h6 className="text-xl">{currentUser?.email}</h6>
-                    </div>
-                </div>
-                <MdEditSquare size={24} />
-            </div>
-            <ProfileList user={currentUser as User} />
-            <div className="flex flex-col mt-20 w-fit">
+            {!updateProfile ? <ProfileList user={data} /> : <UpdateProfileForm user={data} />}
+            <div className="mt-16 space-x-2 w-fit">
                 <Link
-                    href={`?change-password=${currentUser?.id}`}
-                    title="Change your password"
-                    className="text-sm text-secondary-400 hover:text-secondary">
-                    Change Password
+                    href={`?changePassword=${currentUser?.id}`}
+                    title="Change your password">
+                    <Button type="button" title="Change Password" tooltip="Change your password" options={{
+                        size: 'sm',
+                        type: 'outline',
+                        color: 'secondary',
+                        isFull: false
+                    }} />
                 </Link>
                 <Link
-                    href={`?delete-account=${currentUser?.id}`}
-                    title="Delete your account"
-                    className="text-sm text-rose-400 hover:text-red-600">
-                    Delete Account
+                    href={`?deleteAccount=${currentUser?.id}`}
+                    title="Delete your account">
+                    <Button type="button" title="Delete Account" options={{
+                        size: 'sm',
+                        type: 'outline',
+                        color: 'error',
+                        isFull: false
+                    }} />
                 </Link>
             </div>
         </section>

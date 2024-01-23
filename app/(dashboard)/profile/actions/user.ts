@@ -2,11 +2,39 @@
 
 import prisma from "@/prisma/client";
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { userRegisterSchema } from "@/schemas/validationSchemas";
 
 type UserRegister = z.infer<typeof userRegisterSchema>
-export type UserUpdate = Omit<Partial<UserRegister>, 'password'>
+type UserUpdate = Omit<Partial<UserRegister>, 'password'>
+
+export async function userGetProfile(userId: number) {
+    try {
+        const userProfile = await prisma.user.findUnique({
+            where: { id: userId }
+        })
+
+        if (!userProfile) return {
+            success: false,
+            message: 'User not found.'
+        }
+
+        const { password, ...rest } = userProfile
+
+        return {
+            success: true,
+            message: 'User profile successfully fetched.',
+            data: rest
+        }
+    } catch (error) {
+        console.error('Error during data fetching:', error);
+
+        return {
+            success: false,
+            message: 'Internal server error'
+        }
+    }
+}
 
 export async function userUpdateProfile(user: UserUpdate, userId: number) {
     try {
@@ -22,22 +50,25 @@ export async function userUpdateProfile(user: UserUpdate, userId: number) {
         const updatedProfile = await prisma.user.update({
             where: { id: userId },
             data: {
-                name: user.name || targetedProfile.name,
-                npk: user.npk || targetedProfile.npk,
-                email: user.email || targetedProfile.email,
-                position: user.position || targetedProfile.position,
-                unit: user.unit || targetedProfile.unit,
-                department: user.department || targetedProfile.department,
-                company: user.company || targetedProfile.company
+                name: user.name,
+                npk: user.npk,
+                email: user.email,
+                position: user.position,
+                unit: user.unit,
+                department: user.department,
+                company: user.company
             }
         })
 
+        const { password, role, ...rest } = updatedProfile
+
         revalidatePath('/profile')
+        revalidateTag('user')
 
         return {
             success: true,
             message: 'User profile successfully updated.',
-            data: updatedProfile
+            data: rest
         }
     } catch (error) {
         console.error('Error during user registration:', error);
