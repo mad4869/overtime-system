@@ -2,16 +2,16 @@ import Link from "next/link"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
 
-import Empty from "@/components/Empty"
 import UserItemForm from "./UserItemForm"
-import UserItemList from "./UserItemList"
-import UserItemRecapSubmit from "./UserItemRecapSubmit"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { UserItem } from "@/types/customs"
 import { authOptions } from "@/config/authOptions"
 import { userGetItemsValid } from "./actions/userItems"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
+const Empty = dynamic(() => import("@/components/Empty"))
+const UserItemList = dynamic(() => import('./UserItemList'))
+const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
 
 export default async function Dashboard() {
     const session = await getServerSession(authOptions)
@@ -37,11 +37,11 @@ export default async function Dashboard() {
                 {
                     (data as UserItem[]).length > 0 &&
                     <>
-                        <UserItemList userItems={data} />
+                        <UserItemList userItems={data} isRecap={false} />
                         <UserItemRecapSubmit userItems={data} />
                     </>
                 }
-                {(data as UserItem[]).length === 0 &&
+                {(!data || data.length === 0) &&
                     <Empty message="You haven't submitted any working items for this period" />
                 }
             </Accordion>

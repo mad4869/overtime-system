@@ -4,7 +4,7 @@ import { MouseEventHandler } from "react"
 
 type ButtonOptions = {
     type: 'fill' | 'outline'
-    color: 'primary' | 'secondary'
+    color: 'primary' | 'secondary' | 'error'
     size: 'sm' | 'md' | 'lg'
     isFull: boolean
 }
@@ -32,8 +32,9 @@ const Button = ({ type, title, tooltip, options, handleClick, disabled }: Button
     }
 
     const colors = {
-        'primary': 'bg-primary border-primary text-white hover:bg-primary-900 hover:text-primary-400',
-        'secondary': 'bg-secondary border-secondary text-white hover:bg-secondary-900',
+        primary: 'bg-primary border-primary text-white hover:bg-primary-900 hover:text-primary-400',
+        secondary: 'bg-secondary border-secondary text-white hover:bg-secondary-900',
+        error: 'bg-rose-600 border-rose-600 text-white hover: bg-rose-900 hover:text-rose-400'
     }
 
     const sizes = {

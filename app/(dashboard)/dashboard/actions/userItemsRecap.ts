@@ -1,4 +1,5 @@
 import prisma from "@/prisma/client"
+import { revalidatePath } from "next/cache"
 import { type UserItem, type FilterApproval } from "@/types/customs"
 
 export async function userGetItemRecaps(
@@ -70,6 +71,8 @@ export async function userAddItemRecap(userItems: UserItem[]) {
             }
         })
 
+        revalidatePath('/dashboard')
+
         return {
             success: true,
             message: 'Items recap successfully submitted.',
@@ -77,6 +80,29 @@ export async function userAddItemRecap(userItems: UserItem[]) {
         }
     } catch (error) {
         console.error('Error occured during creating data submission:', error)
+
+        return {
+            success: false,
+            message: 'Internal server error.'
+        }
+    }
+}
+
+export async function userDeleteItemRecap(recapId: number) {
+    try {
+        const deletedUserItemRecap = await prisma.userItemRecap.delete({
+            where: { id: recapId }
+        })
+
+        revalidatePath('/dashboard')
+
+        return {
+            success: true,
+            message: 'Items recap successfully deleted.',
+            data: deletedUserItemRecap
+        }
+    } catch (error) {
+        console.error('Error occured during creating data deletion:', error)
 
         return {
             success: false,

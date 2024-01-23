@@ -1,15 +1,17 @@
 'use client'
 
 import dynamic from "next/dynamic";
+import { AnimatePresence, motion } from "framer-motion";
 import { IoFilterSharp } from "react-icons/io5";
 import { useEffect, useRef, useState } from "react";
 
 import Empty from "@/components/Empty"
 import FilterModal from "./FilterModal";
-import UserItemList from "../UserItemList"
 import { type UserItemRecap } from "@/types/customs"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
+const UserItemList = dynamic(() => import('../UserItemList'))
+const UserItemRecapDelete = dynamic(() => import('./UserItemRecapDelete'), { ssr: false })
 
 type HistoryListProps = {
     recap: UserItemRecap[] | undefined
@@ -51,11 +53,24 @@ const HistoryList = ({ recap }: HistoryListProps) => {
                     key={index}
                     title={`Recap submitted on ${recap.createdAt.toLocaleDateString('en-GB')}`}
                     recap={{ isRecap: true, isRecapApproved: recap.isApprovedByVP && recap.isApprovedByAVP }}>
-                    <UserItemList userItems={recap.userItems} />
+                    <UserItemList userItems={recap.userItems} isRecap />
+                    <UserItemRecapDelete recap={recap} />
                 </Accordion>
             ))}
             {(!recap || recap.length === 0) && <Empty message="There is no history yet" />}
-            {isFiltered && <div ref={modalRef}><FilterModal /></div>}
+            <AnimatePresence>
+                {isFiltered && (
+                    <motion.div
+                        ref={modalRef}
+                        key="filter-modal"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}>
+                        <FilterModal />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     )
 }

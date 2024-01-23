@@ -82,3 +82,26 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
         }
     }
 }
+
+export async function userDeleteItem(userItemId: number) {
+    try {
+        const deletedItem = await prisma.userItem.delete({
+            where: { id: userItemId }
+        })
+
+        revalidatePath('/dashboard')
+
+        return {
+            success: true,
+            message: 'Item successfully deleted.',
+            data: deletedItem
+        }
+    } catch (error) {
+        console.error('Error occured during creating data deletion:', error)
+
+        return {
+            success: false,
+            message: 'Internal server error.'
+        }
+    }
+}

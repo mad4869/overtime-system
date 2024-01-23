@@ -1,11 +1,18 @@
+import { MdEditSquare, MdDelete } from "react-icons/md";
 import { type UserItem } from "@/types/customs"
+import { userDeleteItem } from "./actions/userItems";
 
 type UserItemListProps = {
-    userItems: UserItem[] | undefined
+    userItems: UserItem[] | undefined,
+    isRecap: boolean
 }
 
-const UserItemList = ({ userItems }: UserItemListProps) => {
+const UserItemList = ({ userItems, isRecap }: UserItemListProps) => {
     if (!userItems) return null
+
+    // const deleteItem = async (userItemId: number) => {
+    //     await userDeleteItem(userItemId)
+    // }
 
     return (
         <table className="w-full text-center border-separate table-auto text-neutral-500">
@@ -30,6 +37,21 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
                                 {userItem.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {userItem.finishedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </td>
                             <td>{userItemDurationHour} Hours</td>
+                            {!isRecap && (
+                                <>
+                                    <td>
+                                        <MdEditSquare
+                                            className="text-secondary cursor-pointer"
+                                            title="Edit working item" />
+                                    </td>
+                                    {/* <td>
+                                        <MdDelete
+                                            className="text-rose-600 cursor-pointer"
+                                            title="Delete working item"
+                                            onClick={deleteItem(userItem.id)} />
+                                    </td> */}
+                                </>
+                            )}
                         </tr>
                     )
                 })}

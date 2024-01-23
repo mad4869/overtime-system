@@ -14,22 +14,22 @@ type UserItemRecapSubmitProps = {
 }
 
 const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
-    const [addItemRecapSuccess, setaddItemsRecapSuccess] = useState('')
-    const [addItemRecapError, setaddItemRecapError] = useState('')
+    const [addItemRecapSuccess, setAddItemsRecapSuccess] = useState('')
+    const [addItemRecapError, setAddItemRecapError] = useState('')
 
     if (!userItems) return null
 
-    const submitUserItems = async () => {
+    const submitItemRecap = async () => {
         const res = await userAddItemRecap(userItems)
         if (res.success) {
-            setaddItemsRecapSuccess(`${res.message} ${res.data?.count} items submitted for approval.`)
+            setAddItemsRecapSuccess(`${res.message} ${res.data?.count} items submitted for approval.`)
             setTimeout(() => {
-                setaddItemsRecapSuccess('')
+                setAddItemsRecapSuccess('')
             }, 2000)
         } else {
-            setaddItemRecapError(res.message)
+            setAddItemRecapError(res.message)
             setTimeout(() => {
-                setaddItemRecapError('')
+                setAddItemRecapError('')
             }, 2000)
         }
     }
@@ -44,7 +44,7 @@ const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
                 type="button"
                 title="Submit"
                 tooltip="Submit working items for approval"
-                handleClick={submitUserItems} />
+                handleClick={submitItemRecap} />
         </div>
     )
 }
