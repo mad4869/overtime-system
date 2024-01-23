@@ -1,10 +1,9 @@
 import MainList from "./MainList"
 import RecapList from "./RecapList"
+import { type PageProps } from "@/types/customs";
 import { adminGetUserItemsRecap } from "../actions/items"
 
-type pageProps = { searchParams: { [key: string]: string | string[] | undefined } }
-
-export default async function Recap({ searchParams }: pageProps) {
+export default async function Recap({ searchParams }: PageProps) {
     if (!searchParams || !searchParams.recapId) return <MainList />
 
     const recapIdParam = searchParams.recapId

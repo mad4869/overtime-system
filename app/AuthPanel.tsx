@@ -13,8 +13,8 @@ const AuthPanel = () => {
     return (
         <div className="flex-1 w-1/2">
             <AnimatePresence initial={false} mode='wait'>
-                {activeForm === 'login' && <Switch key='login-form'><LoginForm /></Switch>}
-                {activeForm === 'register' && <Switch key='register-form'><RegisterForm /></Switch>}
+                {activeForm === 'login' && <Switch id='login-form'><LoginForm /></Switch>}
+                {activeForm === 'register' && <Switch id='register-form'><RegisterForm /></Switch>}
             </AnimatePresence>
             {activeForm === 'login' &&
                 <p className='mt-4 text-xs text-right text-primary'>

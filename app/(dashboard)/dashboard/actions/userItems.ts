@@ -4,7 +4,6 @@ import prisma from "@/prisma/client"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
-import { type UserItem } from "@/types/customs"
 
 export type UserAddItem = z.infer<typeof userAddItemSchema>
 
@@ -26,12 +25,15 @@ export async function userGetItemsValid(currentUserId: number, recapPeriod: { st
                         unit: true
                     }
                 }
+            },
+            orderBy: {
+                startTime: 'asc'
             }
         })
 
         return {
             success: true,
-            message: 'Items successfully fetched',
+            message: 'Items successfully fetched.',
             data: userItems
         }
     } catch (error) {
@@ -45,11 +47,11 @@ export async function userGetItemsValid(currentUserId: number, recapPeriod: { st
 }
 
 export async function userAddItem(item: UserAddItem, currentUserId: number) {
-    const startDate = new Date(item.date)
-    const finishedDate = new Date(item.date)
+    const startDate = new Date(item.tanggal)
+    const finishedDate = new Date(item.tanggal)
 
-    const startTime = item.startTime.split(':')
-    const finishedTime = item.finishedTime.split(':')
+    const startTime = item.mulai.split(':')
+    const finishedTime = item.selesai.split(':')
 
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
@@ -70,38 +72,6 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
             success: true,
             message: 'Item successfully submitted.',
             data: newUserItem
-        }
-    } catch (error) {
-        console.error('Error occured during creating data submission:', error)
-
-        return {
-            success: false,
-            message: 'Internal server error.'
-        }
-    }
-}
-
-export async function userAddItemRecap(userItems: UserItem[]) {
-    const userItemIds = userItems.map((userItem) => userItem.id)
-
-    try {
-        const newUserItemRecap = await prisma.userItemRecap.create({
-            data: {}
-        })
-
-        const updatedUserItems = await prisma.userItem.updateMany({
-            where: {
-                id: { in: userItemIds }
-            },
-            data: {
-                userItemRecapId: newUserItemRecap.id
-            }
-        })
-
-        return {
-            success: true,
-            message: 'Items recap successfully submitted.',
-            data: updatedUserItems
         }
     } catch (error) {
         console.error('Error occured during creating data submission:', error)

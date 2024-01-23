@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Oswald } from "next/font/google";
 import { getServerSession } from "next-auth";
 import { FaCircleUser, FaDoorOpen } from "react-icons/fa6";
+import { RiShieldUserFill } from "react-icons/ri";
+import { ImUserTie } from "react-icons/im";
 
 import Logo from "./Logo"
 import Menu from "./Menu";
@@ -20,10 +22,12 @@ const Navbar = async () => {
                 <Logo size="sm" />
                 <h1 className={`text-2xl font-bold text-amber-400 ${oswald.className}`}>OMS</h1>
             </Link>
-            <Menu />
+            <Menu currentUserRole={currentUser?.role} />
             <div className="w-full">
                 <div className="flex items-center gap-2 pb-2 text-xs text-white border-b border-white/30">
-                    <FaCircleUser size={20} />
+                    {currentUser?.role === 'USER' && <FaCircleUser size={20} />}
+                    {currentUser?.role === 'ADMIN' && <RiShieldUserFill size={20} />}
+                    {currentUser?.role === 'SUPER_ADMIN' && <ImUserTie size={20} />}
                     <div>
                         <p className="font-bold">{currentUser?.name}</p>
                         <p>NPK {currentUser?.npk}</p>

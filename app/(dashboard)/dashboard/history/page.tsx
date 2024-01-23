@@ -1,64 +1,27 @@
-import prisma from "@/prisma/client"
 import { getServerSession } from "next-auth"
-
-import setRecapPeriod from "@/constants/recapPeriod"
 import { authOptions } from "@/config/authOptions"
-import Accordion from "@/components/Accordion"
-import UserItemList from "../UserItemList"
+import { userGetItemRecaps } from "../actions/userItemsRecap"
 
-export default async function History() {
+import HistoryList from "./HistoryList"
+import { PageProps } from "@/types/customs"
+
+export default async function History({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
 
-    const recapPeriod = setRecapPeriod()
+    const fromDate = searchParams.from ? new Date(searchParams.from as string) : undefined
+    const untilDate = searchParams.until ? new Date(searchParams.until as string) : undefined
+    const approved = Boolean(searchParams.approved)
+    const notApproved = Boolean(searchParams.notApproved)
+    const setFilterByApproval = () => {
+        if ((approved && notApproved) || (!approved && !notApproved)) return undefined
+        if (approved && !notApproved) return [{ isApprovedByAVP: true }, { isApprovedByVP: true }]
+        if (!approved && notApproved) return [{ isApprovedByAVP: false }, { isApprovedByVP: false }]
+    }
 
-    const userItems = await prisma.userItem.findMany({
-        where: {
-            userId: currentUser?.id,
-            AND: [
-                { startTime: { lt: recapPeriod.startPeriod } }
-            ]
-        },
-        include: {
-            item: {
-                select: {
-                    title: true,
-                }
-            },
-            user: {
-                select: {
-                    name: true,
-                    npk: true,
-                    unit: true
-                }
-            }
-        },
-        orderBy: [{ startTime: 'desc' }]
-    })
-
-    type UserItems = typeof userItems
-
-    const userItemsGroupByDate: UserItems[] = userItems.reduce((accumulator, currentItem) => {
-        const itemDate = new Date(currentItem.startTime)
-        const lastArray = accumulator[accumulator.length - 1]
-
-        if (!lastArray || Math.abs(itemDate.getTime() - lastArray[0].startTime.getTime()) > 30 * 24 * 60 * 60 * 1000) {
-            accumulator.push([currentItem])
-        } else {
-            lastArray.push(currentItem)
-        }
-
-        return accumulator
-    }, [] as UserItems[])
-
-    return (
-        <>
-            <h6 className="text-2xl font-medium">History</h6>
-            {userItemsGroupByDate.map((userItems, index) => (
-                <Accordion key={index} title="Working Items List">
-                    <UserItemList userItems={userItems} />
-                </Accordion>
-            ))}
-        </>
+    const { data } = await userGetItemRecaps(
+        currentUser?.id as number, fromDate, untilDate, setFilterByApproval()
     )
+
+    return <HistoryList recap={data} />
 }

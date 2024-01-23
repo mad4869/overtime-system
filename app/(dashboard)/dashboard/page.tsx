@@ -38,12 +38,12 @@ export default async function Dashboard() {
                     (data as UserItem[]).length > 0 &&
                     <>
                         <UserItemList userItems={data} />
-                        <span className="flex items-center justify-end mt-4">
-                            <UserItemRecapSubmit userItems={data} />
-                        </span>
+                        <UserItemRecapSubmit userItems={data} />
                     </>
                 }
-                {(data as UserItem[]).length === 0 && <Empty />}
+                {(data as UserItem[]).length === 0 &&
+                    <Empty message="You haven't submitted any working items for this period" />
+                }
             </Accordion>
         </>
     )

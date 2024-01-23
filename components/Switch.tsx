@@ -2,13 +2,13 @@ import { PropsWithChildren } from 'react'
 import { motion } from 'framer-motion'
 
 type SwitchProps = PropsWithChildren & {
-    key: string
+    id: string
 }
 
-const Switch = ({ children, key }: SwitchProps) => {
+const Switch = ({ children, id }: SwitchProps) => {
     return (
         <motion.div
-            key={key}
+            key={id}
             initial={{ opacity: 0, x: 100 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}

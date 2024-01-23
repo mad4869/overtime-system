@@ -1,3 +1,5 @@
+export type PageProps = { searchParams: { [key: string]: string | string[] | undefined } }
+
 export type UserItem = ({
     user: {
         name: string;
@@ -12,4 +14,20 @@ export type UserItem = ({
     finishedTime: Date;
     createdAt: Date;
     userItemRecapId: number | null;
+})
+
+export type UserItemRecap = {
+    id: number;
+    isApprovedByVP: boolean;
+    isApprovedByAVP: boolean;
+    createdAt: Date;
+    userItems: UserItem[]
+}
+
+export type FilterApproval = ({
+    isApprovedByAVP: boolean;
+    isApprovedByVP?: undefined;
+} | {
+    isApprovedByVP: boolean;
+    isApprovedByAVP?: undefined;
 })

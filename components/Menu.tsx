@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { MdDashboard, MdAdminPanelSettings } from "react-icons/md";
 
-const Menu = () => {
+type MenuProps = {
+    currentUserRole: 'USER' | 'ADMIN' | 'SUPER_ADMIN' | undefined
+}
+
+const Menu = ({ currentUserRole }: MenuProps) => {
     const menus = [
         { title: 'Dashboard', url: '/dashboard', icon: MdDashboard },
         { title: 'Profile', url: '/profile', icon: FaUserEdit },
@@ -22,17 +26,21 @@ const Menu = () => {
 
     return (
         <ul className="flex flex-col w-full gap-4 text-sm text-white/50">
-            {menus.map(menu => (
-                <li
-                    key={menu.url}
-                    className={
-                        `flex items-center gap-2 ${activeNav.startsWith(menu.url) ? 'text-white' : ''} hover:text-white`
-                    }
-                    title={menu.title}>
-                    <menu.icon />
-                    <Link href={menu.url} onClick={() => setActiveNav(menu.url)}>{menu.title}</Link>
-                </li>
-            ))}
+            {menus.map(menu => {
+                if (menu.url === '/admin' && currentUserRole === 'USER') return null
+
+                return (
+                    <li
+                        key={menu.url}
+                        className={
+                            `flex items-center gap-2 ${activeNav.startsWith(menu.url) ? 'text-white' : ''} hover:text-white`
+                        }
+                        title={menu.title}>
+                        <menu.icon />
+                        <Link href={menu.url} onClick={() => setActiveNav(menu.url)}>{menu.title}</Link>
+                    </li>
+                )
+            })}
         </ul>
     )
 }

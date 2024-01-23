@@ -5,7 +5,7 @@ type ProfileListProps = {
 }
 
 const ProfileList = ({ user }: ProfileListProps) => {
-    const { id, email, image, ...rest } = user
+    const { id, email, image, role, ...rest } = user
     type Rest = typeof rest
 
     return (

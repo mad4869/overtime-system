@@ -29,7 +29,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
             {useLabel &&
                 <label
                     htmlFor={id}
-                    className="flex items-center gap-1 px-2 py-1 rounded-l w-28 bg-secondary text-secondary-900">
+                    className="flex items-center gap-1 px-2 py-1 rounded-l w-28 bg-secondary text-white">
                     {icon}
                     <span>{name.toUpperCase()}</span>
                 </label>

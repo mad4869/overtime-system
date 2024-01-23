@@ -1,9 +1,8 @@
 import LetterViewer from "./LetterViewer";
+import { type PageProps } from "@/types/customs";
 import { adminGetUserItemsRecap } from "../../actions/items";
 
-type pageProps = { searchParams: { [key: string]: string | string[] | undefined } }
-
-export default async function SPL({ searchParams }: pageProps) {
+export default async function SPL({ searchParams }: PageProps) {
     if (!searchParams || !searchParams.recapId) return <p>Error...</p>
 
     const recapIdParam = searchParams.recapId

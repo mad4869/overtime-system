@@ -1,10 +1,16 @@
 import Link from "next/link"
+import { getServerSession } from "next-auth"
 import { MdAdminPanelSettings } from "react-icons/md"
 import { HiMiniDocumentCheck } from "react-icons/hi2"
+import { authOptions } from "@/config/authOptions"
 
-// import Barcode from "./Barcode"
+import Forbidden from "./Forbidden"
 
 export default async function Admin() {
+    const session = await getServerSession(authOptions)
+    const currentUser = session?.user
+    if (currentUser?.role === 'USER') return <Forbidden />
+
     return (
         <>
             <h6 className="text-2xl font-medium">Admin</h6>
@@ -18,7 +24,6 @@ export default async function Admin() {
                     <Link href="/admin/recap">Go to User Recap</Link>
                 </div>
             </div>
-            {/* <Barcode /> */}
         </>
     )
 }

@@ -2,9 +2,16 @@
 
 import { PropsWithChildren, useEffect } from "react"
 
-type AccordionProps = PropsWithChildren & { title: string }
+type Recap = {
+    isRecap: boolean
+    isRecapApproved: boolean
+}
+type AccordionProps = PropsWithChildren & {
+    title: string
+    recap?: Recap
+}
 
-const Accordion = ({ title, children }: AccordionProps) => {
+const Accordion = ({ title, recap = { isRecap: false, isRecapApproved: false }, children }: AccordionProps) => {
     useEffect(() => {
         const init = async () => {
             const { Collapse, initTE } = await import('tw-elements')
@@ -28,6 +35,11 @@ const Accordion = ({ title, children }: AccordionProps) => {
                         aria-expanded="false"
                         aria-controls="collapseOne">
                         {title}
+                        {recap.isRecap &&
+                            <span className={`${recap.isRecapApproved ? 'bg-emerald-400' : 'bg-neutral-400'} text-white px-2 py-px rounded-full text-xs ml-2`}>
+                                {recap.isRecapApproved ? 'Approved' : 'Not Approved'}
+                            </span>
+                        }
                         <span
                             className="ml-auto h-5 w-5 shrink-0 rotate-[-180deg] fill-[#336dec] transition-transform duration-200 ease-in-out group-[[data-te-collapse-collapsed]]:rotate-0 group-[[data-te-collapse-collapsed]]:fill-[#212529] motion-reduce:transition-none dark:fill-blue-300 dark:group-[[data-te-collapse-collapsed]]:fill-white">
                             <svg

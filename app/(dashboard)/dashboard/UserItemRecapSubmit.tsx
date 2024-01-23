@@ -7,7 +7,7 @@ import Button from "@/components/Button"
 import ErrorMessage from "@/components/ErrorMessage";
 import SuccessMessage from "@/components/SuccessMessage";
 import { type UserItem } from "@/types/customs";
-import { userAddItemRecap } from "./actions/userItems";
+import { userAddItemRecap } from "./actions/userItemsRecap";
 
 type UserItemRecapSubmitProps = {
     userItems: UserItem[] | undefined
@@ -35,7 +35,7 @@ const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
     }
 
     return (
-        <div>
+        <div className="flex items-center justify-end gap-4 mt-4">
             <AnimatePresence>
                 {addItemRecapSuccess && <SuccessMessage>{addItemRecapSuccess}</SuccessMessage>}
             </AnimatePresence>

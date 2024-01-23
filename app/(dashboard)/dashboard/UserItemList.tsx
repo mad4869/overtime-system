@@ -19,7 +19,8 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
             </thead>
             <tbody>
                 {userItems.map((userItem) => {
-                    const userItemDuration = (userItem.finishedTime.getHours()) - (userItem.startTime.getHours())
+                    const userItemDuration = (userItem.finishedTime.getTime()) - (userItem.startTime.getTime())
+                    const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 
                     return (
                         <tr key={userItem.id}>
@@ -28,7 +29,7 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
                             <td>
                                 {userItem.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {userItem.finishedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </td>
-                            <td>{userItemDuration} Hours</td>
+                            <td>{userItemDurationHour} Hours</td>
                         </tr>
                     )
                 })}
