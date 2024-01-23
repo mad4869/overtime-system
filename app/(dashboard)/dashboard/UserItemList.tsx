@@ -1,7 +1,8 @@
 import Link from "next/link"
-import { MdEditSquare, MdDelete } from "react-icons/md"
+import { MdEditSquare } from "react-icons/md"
 
 import { type UserItem } from "@/types/customs"
+import UserItemDelete from "./UserItemDelete"
 
 type UserItemListProps = {
     userItems: UserItem[] | undefined,
@@ -37,19 +38,14 @@ const UserItemList = ({ userItems, isRecap }: UserItemListProps) => {
                             {!isRecap && (
                                 <>
                                     <td>
-                                        <Link href="">
+                                        <Link href={`?updateItem=${userItem.id}`}>
                                             <MdEditSquare
-                                                className="text-secondary-400 cursor-pointer hover:text-secondary"
+                                                className="cursor-pointer text-secondary-400 hover:text-secondary"
                                                 title="Edit working item" />
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link href="">
-                                            <MdDelete
-                                                className="text-rose-400 cursor-pointer hover:text-rose-600"
-                                                title="Delete working item"
-                                            />
-                                        </Link>
+                                        <UserItemDelete userItemId={userItem.id} />
                                     </td>
                                 </>
                             )}

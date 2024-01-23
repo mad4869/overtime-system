@@ -2,18 +2,19 @@ import Link from "next/link"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
 
-import UserItemForm from "./UserItemForm"
+import UserItemSubmitForm from "./UserItemSubmitForm"
 import setRecapPeriod from "@/constants/recapPeriod"
-import { UserItem } from "@/types/customs"
+import { PageProps, UserItem } from "@/types/customs"
 import { authOptions } from "@/config/authOptions"
-import { userGetItemsValid } from "./actions/userItems"
+import { userGetItem, userGetItemsValid } from "./actions/userItems"
+import UserItemUpdateForm from "./UserItemUpdateForm"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
 const Empty = dynamic(() => import("@/components/Empty"))
 const UserItemList = dynamic(() => import('./UserItemList'))
 const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
 
-export default async function Dashboard() {
+export default async function Dashboard({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
 
@@ -21,9 +22,12 @@ export default async function Dashboard() {
 
     const { data } = await userGetItemsValid(currentUser?.id as number, recapPeriod)
 
+    const updatedItemId = searchParams.updateItem ? parseInt(searchParams.updateItem as string) : undefined
+    const res = await userGetItem(updatedItemId)
+
     return (
         <>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
                 <h6 className="text-2xl font-medium">Dashboard</h6>
                 <Link
                     href="/dashboard/history"
@@ -32,7 +36,7 @@ export default async function Dashboard() {
                     History
                 </Link>
             </div>
-            <UserItemForm currentUserId={currentUser?.id as number} />
+            <UserItemSubmitForm currentUserId={currentUser?.id as number} />
             <Accordion title="Working Items List">
                 {
                     (data as UserItem[]).length > 0 &&
@@ -45,6 +49,7 @@ export default async function Dashboard() {
                     <Empty message="You haven't submitted any working items for this period" />
                 }
             </Accordion>
+            {updatedItemId && <UserItemUpdateForm userItem={res?.data} />}
         </>
     )
 }

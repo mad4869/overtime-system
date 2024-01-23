@@ -46,6 +46,43 @@ export async function userGetItemsValid(currentUserId: number, recapPeriod: { st
     }
 }
 
+export async function userGetItem(userItemId: number | undefined) {
+    if (!userItemId) return null
+
+    try {
+        const userItem = await prisma.userItem.findUnique({
+            where: { id: userItemId },
+            include: {
+                user: {
+                    select: {
+                        name: true,
+                        npk: true,
+                        unit: true
+                    }
+                }
+            }
+        })
+
+        if (!userItem) return {
+            success: false,
+            message: 'Item not found.'
+        }
+
+        return {
+            success: true,
+            message: 'Item successfully fetched.',
+            data: userItem
+        }
+    } catch (error) {
+        console.error('Error occured during data fetching:', error)
+
+        return {
+            success: false,
+            message: 'Internal server error.'
+        }
+    }
+}
+
 export async function userAddItem(item: UserAddItem, currentUserId: number) {
     const startDate = new Date(item.tanggal)
     const finishedDate = new Date(item.tanggal)
@@ -57,7 +94,7 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
     try {
-        const newUserItem = await prisma.userItem.create({
+        const newItem = await prisma.userItem.create({
             data: {
                 userId: currentUserId,
                 item: item.item,
@@ -71,7 +108,7 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
         return {
             success: true,
             message: 'Item successfully submitted.',
-            data: newUserItem
+            data: newItem
         }
     } catch (error) {
         console.error('Error occured during creating data submission:', error)
@@ -94,7 +131,16 @@ export async function userUpdateItem(item: UserAddItem, userItemId: number) {
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
     try {
-        const updatedUserItem = await prisma.userItem.update({
+        const targetedItem = await prisma.userItem.findUnique({
+            where: { id: userItemId }
+        })
+
+        if (targetedItem?.userItemRecapId) return {
+            success: false,
+            message: 'Item already submitted. Please remove the submission before updating this item.'
+        }
+
+        const updatedItem = await prisma.userItem.update({
             where: { id: userItemId },
             data: {
                 item: item.item,
@@ -108,7 +154,7 @@ export async function userUpdateItem(item: UserAddItem, userItemId: number) {
         return {
             success: true,
             message: 'Item successfully updated.',
-            data: updatedUserItem
+            data: updatedItem
         }
     } catch (error) {
         console.error('Error occured during creating data deletion:', error)
@@ -122,6 +168,15 @@ export async function userUpdateItem(item: UserAddItem, userItemId: number) {
 
 export async function userDeleteItem(userItemId: number) {
     try {
+        const targetedItem = await prisma.userItem.findUnique({
+            where: { id: userItemId }
+        })
+
+        if (targetedItem?.userItemRecapId) return {
+            success: false,
+            message: 'Item already submitted. Please remove the submission before deleting this item.'
+        }
+
         const deletedItem = await prisma.userItem.delete({
             where: { id: userItemId }
         })

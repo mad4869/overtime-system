@@ -9,21 +9,21 @@ import { FaCalendarAlt, FaClock } from "react-icons/fa"
 
 import Button from '@/components/Button'
 import InputField from "@/components/InputField"
+import ErrorMessage from "@/components/ErrorMessage"
+import SuccessMessage from "@/components/SuccessMessage"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 import { userAddItem, type UserAddItem } from './actions/userItems'
-import SuccessMessage from "@/components/SuccessMessage"
-import ErrorMessage from "@/components/ErrorMessage"
 
-type UserItemFormProps = {
+type UserItemSubmitFormProps = {
     currentUserId: number
 }
 
-const UserItemForm = ({ currentUserId }: UserItemFormProps) => {
+const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
     const [addItemSuccess, setAddItemSuccess] = useState('')
     const [addItemError, setAddItemError] = useState('')
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<UserAddItem>({
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserAddItem>({
         resolver: zodResolver(userAddItemSchema)
     })
 
@@ -99,7 +99,7 @@ const UserItemForm = ({ currentUserId }: UserItemFormProps) => {
                 <AnimatePresence>
                     {addItemSuccess && <SuccessMessage>{addItemSuccess}</SuccessMessage>}
                 </AnimatePresence>
-                <Button type='submit' title='Submit' tooltip='Submit working item' options={{
+                <Button type='submit' title='Submit' tooltip='Submit working item' disabled={isSubmitting} options={{
                     size: 'sm',
                     type: 'fill',
                     color: 'primary',
@@ -110,4 +110,4 @@ const UserItemForm = ({ currentUserId }: UserItemFormProps) => {
     )
 }
 
-export default UserItemForm
+export default UserItemSubmitForm

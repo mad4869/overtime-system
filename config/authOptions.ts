@@ -44,6 +44,7 @@ export const authOptions: AuthOptions = {
                         id: existingUser.id,
                         name: existingUser.name,
                         npk: existingUser.npk,
+                        email: existingUser.email,
                         role: existingUser.role,
                         position: existingUser.position,
                         unit: existingUser.unit,

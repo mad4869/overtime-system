@@ -4,7 +4,7 @@ import { type IconType } from "react-icons";
 type InputFieldProps = {
     id: string
     name: string
-    type: 'text' | 'password' | 'number' | 'date' | 'time'
+    type: 'text' | 'password' | 'number' | 'date' | 'time' | 'email'
     placeholder?: string
     onChange: React.ChangeEventHandler<HTMLInputElement>
     onBlur: React.ChangeEventHandler<HTMLInputElement>

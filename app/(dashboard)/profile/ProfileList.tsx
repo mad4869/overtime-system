@@ -5,15 +5,15 @@ type ProfileListProps = {
 }
 
 const ProfileList = ({ user }: ProfileListProps) => {
-    const { id, email, image, role, ...rest } = user
+    const { id, image, role, name, npk, email, ...rest } = user
     type Rest = typeof rest
 
     return (
         <div>
             {Object.keys(rest).map((key) => (
-                <div key={key} className="p-2 flex items-center gap-4">
-                    <span className="bg-neutral-200 p-2 rounded w-32 text-center">{key.toUpperCase()}</span>
-                    <span className="text-lg font-bold">{rest[key as keyof Rest]}</span>
+                <div key={key} className="flex items-center gap-4 p-2">
+                    <span className="w-32 p-2 text-center text-white rounded bg-primary">{key.toUpperCase()}</span>
+                    <span className="text-lg">{rest[key as keyof Rest]}</span>
                 </div>
             ))}
         </div>

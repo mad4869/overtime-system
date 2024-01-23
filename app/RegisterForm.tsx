@@ -3,7 +3,7 @@ import { useState } from "react"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AnimatePresence } from "framer-motion";
-import { MdShield } from "react-icons/md";
+import { MdShield, MdEmail } from "react-icons/md";
 import { HiIdentification } from "react-icons/hi2"
 import { RiLockPasswordFill } from "react-icons/ri"
 import { FaUser, FaWrench, FaUsers, FaBuilding } from "react-icons/fa";
@@ -19,7 +19,7 @@ const RegisterForm = () => {
     const [registerError, setRegisterError] = useState('')
     const [registerSuccess, setRegisterSuccess] = useState('')
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<UserRegister>({
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserRegister>({
         resolver: zodResolver(userRegisterSchema)
     })
 
@@ -59,6 +59,14 @@ const RegisterForm = () => {
                     useLabel
                     icon={<HiIdentification size={14} />}
                     {...register('npk')} />
+                <ErrorMessage>{errors.npk?.message}</ErrorMessage>
+                <InputField
+                    id="email"
+                    type="email"
+                    placeholder="jokowi@email.com"
+                    useLabel
+                    icon={<MdEmail size={14} />}
+                    {...register('email')} />
                 <ErrorMessage>{errors.npk?.message}</ErrorMessage>
                 <InputField
                     id="password"
@@ -105,7 +113,7 @@ const RegisterForm = () => {
                     {registerSuccess && <SuccessMessage>{registerSuccess}</SuccessMessage>}
                 </AnimatePresence>
             </div>
-            <Button type="submit" title="Register" tooltip="Register" />
+            <Button type="submit" title="Register" tooltip="Register" disabled={isSubmitting} />
         </form>
     )
 }

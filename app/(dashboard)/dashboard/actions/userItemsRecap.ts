@@ -92,11 +92,18 @@ export async function userAddItemRecap(userItems: UserItem[]) {
 
 export async function userDeleteItemRecap(recapId: number) {
     try {
-        const deletedUserItemRecap = await prisma.userItemRecap.delete({
+        const targetedRecap = await prisma.userItemRecap.findUnique({
             where: { id: recapId }
         })
 
-        revalidatePath('/dashboard')
+        if (targetedRecap?.isApprovedByAVP && targetedRecap.isApprovedByVP) return {
+            success: false,
+            message: "This recap is already approved. Can't delete approved recap."
+        }
+
+        const deletedUserItemRecap = await prisma.userItemRecap.delete({
+            where: { id: recapId }
+        })
 
         return {
             success: true,

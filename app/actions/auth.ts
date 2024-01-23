@@ -10,7 +10,7 @@ type UserRegisterWoPassword = Omit<UserRegister, 'password'>
 
 export async function userRegister(user: UserRegister) {
     try {
-        if (!user.name || !user.npk || !user.password || !user.position || !user.unit || !user.company) {
+        if (!user.name || !user.npk || !user.email || !user.password || !user.position || !user.unit || !user.company) {
             return {
                 success: false,
                 message: 'Missing required fields.'
@@ -33,6 +33,7 @@ export async function userRegister(user: UserRegister) {
             data: {
                 name: user.name,
                 npk: user.npk,
+                email: user.email,
                 password: hashedPassword,
                 position: user.position,
                 unit: user.unit,

@@ -17,6 +17,7 @@ export const userLoginSchema = z.object({
 export const userRegisterSchema = z.object({
     name: z.string().min(1, 'Name is required.').trim(),
     npk: z.string().min(1, 'NPK is required.').trim(),
+    email: z.string().email('Email must be in a valid email format.'),
     password: z.string().min(6, 'Password requires min. 6 characters.').refine((password) => {
         const hasNumber = /[0-9]/.test(password)
         const hasLetter = /[a-zA-Z]/.test(password)

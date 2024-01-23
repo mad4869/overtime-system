@@ -38,7 +38,7 @@ const LoginForm = () => {
         }
     }
 
-    const { register, handleSubmit, formState: { errors } } = useForm<UserLogin>({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserLogin>({
         resolver: zodResolver(userLoginSchema)
     })
 
@@ -63,7 +63,7 @@ const LoginForm = () => {
                 <ErrorMessage>{errors.password?.message}</ErrorMessage>
                 <ErrorMessage>{loginError}</ErrorMessage>
             </div>
-            <Button type="submit" title="Login" tooltip="Log In" />
+            <Button type="submit" title="Login" tooltip="Log In" disabled={isSubmitting} />
         </form>
     )
 }

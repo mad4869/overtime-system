@@ -17,7 +17,7 @@ const useExportRecap = (userItems: UserItem[]) => {
                 [], { hour12: false, hour: '2-digit', minute: '2-digit' }
             ),
             'Waktu Lembur': overtimeMap.get(userItemDuration),
-            'Pekerjaan': userItem.item.title
+            'Pekerjaan': userItem.item
         }
     })
 
