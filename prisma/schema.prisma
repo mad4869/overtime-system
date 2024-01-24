@@ -40,7 +40,7 @@ model UserItem {
   finishedTime DateTime
   createdAt    DateTime @default(now())
 
-  user            User           @relation(fields: [userId], references: [id])
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   UserItemRecap   UserItemRecap? @relation(fields: [userItemRecapId], references: [id])
   userItemRecapId Int?
 }
