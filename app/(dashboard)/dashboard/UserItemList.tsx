@@ -10,10 +10,10 @@ type UserItemListProps = {
 }
 
 const UserItemList = ({ userItems, isRecap }: UserItemListProps) => {
-    if (!userItems) return null
+    if (!userItems || userItems.length === 0) return null
 
     return (
-        <table className="w-full text-center border-separate table-auto text-neutral-500">
+        <table className="w-full text-center border-separate table-auto text-primary-500">
             <thead>
                 <tr>
                     <th>Date</th>

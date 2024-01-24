@@ -26,7 +26,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
     const res = await userGetItem(updatedItemId)
 
     return (
-        <section className="relative">
+        <section className="relative space-y-4">
             <div className="flex items-center justify-between">
                 <h6 className="text-2xl font-medium">Dashboard</h6>
                 <Link
