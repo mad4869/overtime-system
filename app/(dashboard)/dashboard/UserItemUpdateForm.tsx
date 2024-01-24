@@ -54,7 +54,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
     return (
         <form
             onSubmit={handleSubmit(updateUserItem)}
-            className="absolute z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-40 right-24 bg-secondary/30 backdrop-blur shadow-secondary/70">
+            className="absolute z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 right-0 bg-secondary/30 backdrop-blur shadow-secondary/70">
             <div className="flex flex-col gap-2">
                 <div>
                     <InputField

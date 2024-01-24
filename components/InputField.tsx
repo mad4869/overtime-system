@@ -40,7 +40,7 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
                 type={type}
                 ref={ref}
                 className={
-                    `flex-1 min-w-0 px-1 text-primary bg-white/70 focus:outline-none transition-colors focus:bg-white placeholder:text-primary-400
+                    `flex-1 min-w-0 p-1 text-primary bg-white/70 focus:outline-none transition-colors focus:bg-white placeholder:text-primary-400
                     ${useLabel ? 'rounded-r' : 'rounded'}`
                 }
                 placeholder={placeholder}

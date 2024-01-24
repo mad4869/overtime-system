@@ -68,6 +68,7 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
             onSubmit={handleSubmit(updateProfile)}
             className="p-4 space-y-4 rounded-lg shadow-inner bg-primary-100 shadow-primary/50">
             <div>
+                <h6 className="text-lg font-medium pl-2">Update Profile</h6>
                 {Object.keys(rest).map((key) => (
                     <div key={key} className="flex items-center gap-4 p-2">
                         <InputField
