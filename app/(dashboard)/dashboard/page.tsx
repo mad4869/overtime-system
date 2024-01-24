@@ -1,6 +1,7 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
+import { MdHistory } from "react-icons/md";
 
 import UserItemSubmitForm from "./UserItemSubmitForm"
 import setRecapPeriod from "@/constants/recapPeriod"
@@ -29,12 +30,14 @@ export default async function Dashboard({ searchParams }: PageProps) {
         <section className="relative space-y-4">
             <div className="flex items-center justify-between">
                 <h6 className="text-2xl font-medium">Dashboard</h6>
-                <Link
-                    href="/dashboard/history"
-                    title="Show recap history"
-                    className="text-primary-400 hover:text-primary">
-                    History
-                </Link>
+                <div className="flex items-center gap-1 text-primary-400 hover:text-primary">
+                    <MdHistory />
+                    <Link
+                        href="/dashboard/history"
+                        title="Show recap history">
+                        History
+                    </Link>
+                </div>
             </div>
             <UserItemSubmitForm currentUserId={currentUser?.id as number} />
             <Accordion title="Working Items List">

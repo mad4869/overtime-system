@@ -30,6 +30,8 @@ export type UserItem = ({
     userItemRecapId: number | null;
 })
 
+export type UserItemSimple = Omit<UserItem, 'id' | 'createdAt' | 'userItemRecapId'>
+
 export type UserItemRecap = {
     id: number;
     isApprovedByVP: boolean;
@@ -37,6 +39,8 @@ export type UserItemRecap = {
     createdAt: Date;
     userItems: UserItem[]
 }
+
+export type UserItemRecapSimple = Omit<UserItemRecap, 'userItems'> & { userItems: UserItemSimple[] }
 
 export type FilterApproval = ({
     isApprovedByAVP: boolean;

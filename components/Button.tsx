@@ -1,6 +1,7 @@
 'use client'
 
-import { MouseEventHandler } from "react"
+import { type IconType } from "react-icons"
+import { type MouseEventHandler, type ReactElement } from "react"
 
 type ButtonOptions = {
     type: 'fill' | 'outline'
@@ -16,9 +17,10 @@ type ButtonProps = {
     options?: ButtonOptions
     handleClick?: MouseEventHandler<HTMLButtonElement>
     disabled?: boolean
+    icon?: ReactElement<IconType>
 }
 
-const Button = ({ type, title, tooltip, options, handleClick, disabled }: ButtonProps) => {
+const Button = ({ type, title, tooltip, options, handleClick, disabled, icon }: ButtonProps) => {
     const defaultOptions: ButtonOptions = {
         type: 'fill',
         color: 'primary',
@@ -51,12 +53,13 @@ const Button = ({ type, title, tooltip, options, handleClick, disabled }: Button
                 ${colors[options?.color || defaultOptions.color]}
                 ${sizes[options?.size || defaultOptions.size]}
                 ${options?.isFull ? 'w-full' : ''}
-                min-w-fit transition-colors
+                min-w-fit transition-colors flex justify-center items-center gap-2
                 disabled:bg-slate-400 disabled:text-slate-200 disabled:cursor-not-allowed
             `}
             title={tooltip}
             disabled={disabled}
             onClick={handleClick}>
+            {icon}
             {title}
         </button>
     )

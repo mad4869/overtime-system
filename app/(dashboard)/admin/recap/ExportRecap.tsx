@@ -1,35 +1,63 @@
 'use client'
 
-import Link from "next/link"
+import { PDFDownloadLink } from "@react-pdf/renderer"
+import { IoMdAlert } from "react-icons/io";
+import { FaRegFilePdf } from "react-icons/fa6";
+
 import Button from "@/components/Button"
-import useExportRecap from "@/hooks/useExportRecap"
+import RecapLetterPage from "./RecapLetterPage"
+import RecapLetterDocument from "./RecapLetterDocument"
+import useClient from "@/hooks/useClient";
+import setRecapPeriod from "@/constants/recapPeriod";
+import useExportToExcel from "@/hooks/useExportToExcel"
+import { type UserItemRecapSimple } from "@/types/customs"
 
 type ExportRecapProps = {
-    recapId: number | undefined
-    userItems: {
-        item: {
-            title: string;
-        };
-        userId: number;
-        itemId: number;
-        startTime: Date;
-        finishedTime: Date;
-        user: {
-            name: string;
-            npk: string;
-            unit: string;
-        };
-    }[] | undefined
+    userItemRecaps: UserItemRecapSimple[] | undefined
 }
 
-const ExportRecap = ({ recapId, userItems }: ExportRecapProps) => {
+const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
+    const Doc = () => (
+        <RecapLetterDocument>
+            {userItemRecaps?.map((userItemRecap) => (
+                <RecapLetterPage key={userItemRecap.id} userItemsRecap={userItemRecap} />
+            ))}
+        </RecapLetterDocument>
+    )
+
+    const isClient = useClient()
+    const exportToExcel = useExportToExcel(userItemRecaps)
+
+    const recapPeriod = setRecapPeriod()
+
+    if (!userItemRecaps) return null
+
     return (
-        <div className="flex items-center justify-center gap-4">
-            {/* <Link href={`/admin/spl?recapId=${recapId}`} className="px-2 py-1 text-white rounded bg-rose-700">
-                Cetak SPL
-            </Link>
-            <Button type="button" title="Convert to Excel" tooltip="Export Recap into an Excel file" handleClick={useExportRecap(userItems)} /> */}
-        </div>
+        <>
+            {isClient &&
+                <div className="flex items-center justify-center gap-4">
+                    <PDFDownloadLink document={<Doc />} fileName={`Recap_Tanggal_${recapPeriod.startPeriod.toLocaleDateString('id-ID')}_${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}`}>
+                        {({ blob, url, loading, error }) =>
+                            loading ?
+                                <div className="px-4 py-1 text-xs rounded-full bg-primary-300 text-primary">
+                                    Loading Document...
+                                </div> : error ?
+                                    <Button
+                                        type="button"
+                                        title="Document Error"
+                                        tooltip="Error occured during document rendering process"
+                                        disabled
+                                        icon={<IoMdAlert />} /> :
+                                    <Button
+                                        type="button"
+                                        title="Export to PDF"
+                                        tooltip="Export recap document into a PDF file"
+                                        icon={<FaRegFilePdf />} />
+                        }
+                    </PDFDownloadLink>
+                </div>
+            }
+        </>
     )
 }
 

@@ -21,10 +21,10 @@ export default async function Profile({ searchParams }: PageProps) {
     const deleteAccount = Boolean(searchParams.deleteAccount)
 
     return (
-        <section className="py-4 relative">
+        <section className="relative py-4">
             {!updateProfile ? <ProfileList user={data} /> : <UpdateProfileForm user={data} />}
             {!updateProfile &&
-                <div className="mt-16 space-x-2 w-fit">
+                <div className="flex items-center gap-2 mt-36">
                     <Link
                         href='?changePassword=true'
                         title="Change your password">

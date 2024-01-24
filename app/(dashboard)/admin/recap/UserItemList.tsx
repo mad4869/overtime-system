@@ -1,23 +1,14 @@
-import { type UserItem } from "@/types/customs"
+import { type UserItemSimple } from "@/types/customs"
 
 type UserItemListProps = {
-    userItems: {
-        userId: number;
-        item: string
-        startTime: Date;
-        finishedTime: Date;
-        user: {
-            name: string;
-            npk: string;
-            unit: string;
-        };
-    }[] | undefined
+    userItems: UserItemSimple[] | undefined
 }
 
 const UserItemList = ({ userItems }: UserItemListProps) => {
     return (
-        <table className="w-full text-center text-white border-separate table-auto">
-            <thead className="text-white bg-amber-700">
+        <table
+            className="w-full pb-8 text-center border-b border-separate table-auto text-primary-500 border-primary-300/50">
+            <thead>
                 <tr>
                     <th>Date</th>
                     <th>Working Item</th>
@@ -25,9 +16,10 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
                     <th>Duration</th>
                 </tr>
             </thead>
-            <tbody className="bg-amber-700/70">
+            <tbody>
                 {userItems?.map((userItem) => {
-                    const userItemDuration = (userItem.finishedTime.getHours()) - (userItem.startTime.getHours())
+                    const userItemDuration = (userItem.finishedTime.getTime()) - (userItem.startTime.getTime())
+                    const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 
                     return (
                         <tr key={userItem.item}>
@@ -36,7 +28,7 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
                             <td>
                                 {userItem.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {userItem.finishedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </td>
-                            <td>{userItemDuration} Hours</td>
+                            <td>{userItemDurationHour} Hours</td>
                         </tr>
                     )
                 })}

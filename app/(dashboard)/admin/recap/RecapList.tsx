@@ -1,50 +1,31 @@
-// import ExportRecap from "./ExportRecap"
-import UserItemList from "./UserItemList"
-import VPApproveSubmit from "./VPApproveSubmit";
-import setRecapPeriod from "@/constants/recapPeriod"
+import RecapCard from "./RecapCard";
+import ExportRecap from "./ExportRecap";
+import setRecapPeriod from "@/constants/recapPeriod";
+import { adminGetUserItemsRecaps } from "../actions/items";
 
-type RecapListProps = {
-    userItemsRecap: ({
-        userItems: {
-            userId: number;
-            item: string;
-            startTime: Date;
-            finishedTime: Date;
-            user: {
-                name: string;
-                npk: string;
-                unit: string;
-            };
-        }[];
-    } & {
-        id: number;
-        isApprovedByVP: boolean;
-        isApprovedByAVP: boolean;
-        createdAt: Date;
-    }) | undefined
-}
-
-const RecapList = ({ userItemsRecap }: RecapListProps) => {
+const RecapList = async () => {
     const recapPeriod = setRecapPeriod()
-    const isApproved = userItemsRecap?.isApprovedByAVP && userItemsRecap.isApprovedByVP
+    const { data } = await adminGetUserItemsRecaps()
+    if (!data) return null
 
     return (
         <>
-            <h6 className="text-slate-400">
-                Recap - {recapPeriod.startPeriod.toLocaleDateString('en-GB')} s.d. {recapPeriod.finishedPeriod.toLocaleDateString('en-GB')}
-            </h6>
             <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold">{userItemsRecap?.userItems[0].user.name}</h1>
-                    <h6 className="text-xl">NPK {userItemsRecap?.userItems[0].user.npk}</h6>
-                </div>
-                <div>
-                    <h6>Unit Kerja <strong>{userItemsRecap?.userItems[0].user.unit}</strong></h6>
-                </div>
+                <h6 className="text-2xl font-medium">Submitted Recaps</h6>
+                <p className="text-sm text-slate-400">
+                    Period {recapPeriod.startPeriod.toLocaleDateString('en-GB')}-{recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}
+                </p>
             </div>
-            <UserItemList userItems={userItemsRecap?.userItems} />
-            {/* <ExportRecap recapId={userItemsRecap?.id} userItems={userItemsRecap?.userItems} /> */}
-            <VPApproveSubmit recapId={userItemsRecap?.id as number} isApproved={isApproved as boolean} />
+            {data.map((userItemRecap, index) => (
+                <RecapCard
+                    key={userItemRecap.id}
+                    no={index + 1}
+                    recapId={userItemRecap.id}
+                    userItems={userItemRecap.userItems}
+                    isApproved={userItemRecap.isApprovedByAVP && userItemRecap.isApprovedByVP}
+                    date={userItemRecap.createdAt} />
+            ))}
+            <ExportRecap userItemRecaps={data} />
         </>
     )
 }

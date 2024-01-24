@@ -16,25 +16,28 @@ const ProfileList = ({ user }: ProfileListProps) => {
     type Rest = typeof rest
 
     return (
-        <div className="flex flex-col justify-center px-8 py-4 rounded shadow-md shadow-primary/50">
+        <div className="flex flex-col justify-center px-8 py-4 rounded-md shadow-md shadow-primary/50">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
-                    {user.role === 'USER' && <FaCircleUser size={64} />}
-                    {user.role === 'ADMIN' && <RiShieldUserFill size={64} />}
-                    {user.role === 'SUPER_ADMIN' && <ImUserTie size={64} />}
+                    {user.role === 'USER' && <FaCircleUser size={50} />}
+                    {user.role === 'ADMIN' && <RiShieldUserFill size={50} />}
+                    {user.role === 'SUPER_ADMIN' && <ImUserTie size={50} />}
                     <div>
                         <h6 className="text-2xl font-bold">{user?.name}</h6>
-                        <h6 className="text-xl">NPK {user?.npk}</h6>
-                        <h6 className="text-lg">{user?.email}</h6>
+                        <span className="flex items-center gap-2 text-primary-500">
+                            <h6>NPK {user?.npk}</h6>
+                            <span>|</span>
+                            <h6>{user?.email}</h6>
+                        </span>
                     </div>
                 </div>
                 <Link href={`?updateProfile=true`}><MdEditSquare size={24} /></Link>
             </div>
             <div>
                 {Object.keys(rest).map((key) => (
-                    <div key={key} className="flex items-center gap-4 p-2">
-                        <span className="w-32 p-2 text-center text-white rounded bg-primary">{key.toUpperCase()}</span>
-                        <span className="text-lg">{rest[key as keyof Rest]}</span>
+                    <div key={key} className="flex items-center gap-4 p-2 text-sm">
+                        <span className="w-32 p-1 text-center text-white rounded bg-primary">{key.toUpperCase()}</span>
+                        <span className="text-primary-500">{rest[key as keyof Rest]}</span>
                     </div>
                 ))}
             </div>

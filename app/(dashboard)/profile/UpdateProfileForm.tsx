@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
+import { FaClipboardList } from "react-icons/fa";
 
 import Button from "@/components/Button";
 import InputField from "@/components/InputField";
@@ -66,21 +67,26 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
     return (
         <form
             onSubmit={handleSubmit(updateProfile)}
-            className="p-4 space-y-4 rounded-lg shadow-inner bg-primary-100 shadow-primary/50">
-            <div>
-                <h6 className="text-lg font-medium pl-2">Update Profile</h6>
-                {Object.keys(rest).map((key) => (
-                    <div key={key} className="flex items-center gap-4 p-2">
-                        <InputField
-                            id={key}
-                            type="text"
-                            useLabel
-                            {...register(key as keyof Rest)} />
-                        <ErrorMessage>{errors[key as keyof Rest]?.message}</ErrorMessage>
-                    </div>
-                ))}
+            className="px-8 py-4 space-y-8 rounded-lg shadow-inner bg-primary-100 shadow-primary/50">
+            <div className="space-y-4">
+                <div className="flex items-center gap-2 text-lg text-primary-500">
+                    <FaClipboardList />
+                    <h6 className="font-medium">Update Profile</h6>
+                </div>
+                <div className="space-y-2">
+                    {Object.keys(rest).map((key) => (
+                        <div key={key} className="flex flex-col">
+                            <InputField
+                                id={key}
+                                type="text"
+                                useLabel
+                                {...register(key as keyof Rest)} />
+                            <ErrorMessage>{errors[key as keyof Rest]?.message}</ErrorMessage>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div className="flex items-center gap-4 pl-2">
+            <div className="flex items-center gap-4">
                 <Link href="/profile">
                     <Button type="button" title="Cancel" tooltip="Back to profile" options={{
                         size: 'sm',

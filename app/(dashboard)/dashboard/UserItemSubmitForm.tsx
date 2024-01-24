@@ -50,7 +50,7 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
             onSubmit={handleSubmit(submitUserItem)}
             className="flex flex-col items-center gap-8 px-48 py-4 text-sm rounded shadow-inner bg-primary-100 shadow-primary/50">
             <div className="flex flex-col items-center">
-                <h6 className="text-lg font-medium">Working Item Form</h6>
+                <h6 className="text-lg">Working Item Form</h6>
                 <p className="text-xs text-primary-400">
                     {recapPeriod.startPeriod.toLocaleDateString('en-GB')}-{recapPeriod.finishedPeriod.toLocaleDateString('en-GB')}
                 </p>

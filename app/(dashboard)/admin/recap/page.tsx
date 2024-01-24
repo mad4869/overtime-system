@@ -1,15 +1,20 @@
-import MainList from "./MainList"
+import { getServerSession } from "next-auth";
+
 import RecapList from "./RecapList"
-import { type PageProps } from "@/types/customs";
+import RecapDetail from "./RecapDetail"
+import { authOptions } from "@/config/authOptions";
 import { adminGetUserItemsRecap } from "../actions/items"
+import { type PageProps } from "@/types/customs";
 
 export default async function Recap({ searchParams }: PageProps) {
-    if (!searchParams || !searchParams.recapId) return <MainList />
+    if (!searchParams.recapId) return <RecapList />
 
-    const recapIdParam = searchParams.recapId
-    const recapId = parseInt(recapIdParam as string)
+    const session = await getServerSession(authOptions)
+    const currentUser = session?.user
+
+    const recapId = typeof searchParams.recapId === 'string' ? parseInt(searchParams.recapId) : undefined
 
     const { data } = await adminGetUserItemsRecap(recapId)
 
-    return <RecapList userItemsRecap={data} />
+    return <RecapDetail currentUser={currentUser} userItemsRecap={data} />
 }
