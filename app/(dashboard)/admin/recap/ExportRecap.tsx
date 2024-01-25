@@ -5,9 +5,8 @@ import { IoMdAlert } from "react-icons/io";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { SiMicrosoftexcel } from "react-icons/si";
 
+import RecapLetters from "./RecapLetters";
 import Button from "@/components/Button"
-import RecapLetterPage from "./RecapLetterPage"
-import RecapLetterDocument from "./RecapLetterDocument"
 import useClient from "@/hooks/useClient";
 import setRecapPeriod from "@/constants/recapPeriod";
 import useExportToExcel from "@/hooks/useExportToExcel"
@@ -18,14 +17,6 @@ type ExportRecapProps = {
 }
 
 const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
-    const Doc = () => (
-        <RecapLetterDocument>
-            {userItemRecaps?.map((userItemRecap) => (
-                <RecapLetterPage key={userItemRecap.id} userItemsRecap={userItemRecap} />
-            ))}
-        </RecapLetterDocument>
-    )
-
     const isClient = useClient()
     const exportToExcel = useExportToExcel(userItemRecaps)
 
@@ -37,7 +28,9 @@ const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
         <>
             {isClient &&
                 <div className="flex items-center justify-center gap-4">
-                    <PDFDownloadLink document={<Doc />} fileName={`Recap_Tanggal_${recapPeriod.startPeriod.toLocaleDateString('id-ID')}_${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}`}>
+                    <PDFDownloadLink
+                        document={<RecapLetters recaps={userItemRecaps} />}
+                        fileName={`Recap_Tanggal_${recapPeriod.startPeriod.toLocaleDateString('id-ID')}_${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}`}>
                         {({ blob, url, loading, error }) =>
                             loading ?
                                 <div className="px-4 py-1 text-xs rounded-full bg-primary-300 text-primary">
