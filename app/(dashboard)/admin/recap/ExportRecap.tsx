@@ -3,6 +3,7 @@
 import { PDFDownloadLink } from "@react-pdf/renderer"
 import { IoMdAlert } from "react-icons/io";
 import { FaRegFilePdf } from "react-icons/fa6";
+import { SiMicrosoftexcel } from "react-icons/si";
 
 import Button from "@/components/Button"
 import RecapLetterPage from "./RecapLetterPage"
@@ -13,7 +14,7 @@ import useExportToExcel from "@/hooks/useExportToExcel"
 import { type UserItemRecapSimple } from "@/types/customs"
 
 type ExportRecapProps = {
-    userItemRecaps: UserItemRecapSimple[] | undefined
+    userItemRecaps: UserItemRecapSimple[]
 }
 
 const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
@@ -55,6 +56,13 @@ const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
                                         icon={<FaRegFilePdf />} />
                         }
                     </PDFDownloadLink>
+                    <Button
+                        type="button"
+                        title="Export to Excel"
+                        tooltip="Export recap document into an XLSX file"
+                        icon={<SiMicrosoftexcel />}
+                        options={{ size: 'sm', color: 'secondary', type: 'fill', isFull: false }}
+                        handleClick={exportToExcel} />
                 </div>
             }
         </>

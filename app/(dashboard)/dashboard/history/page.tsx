@@ -3,7 +3,8 @@ import { authOptions } from "@/config/authOptions"
 import { userGetItemRecaps } from "../actions/userItemsRecap"
 
 import HistoryList from "./HistoryList"
-import { PageProps } from "@/types/customs"
+import ErrorMessage from "@/components/ErrorMessage"
+import { type PageProps } from "@/types/customs"
 
 export default async function History({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
@@ -19,9 +20,10 @@ export default async function History({ searchParams }: PageProps) {
         if (!approved && notApproved) return [{ isApprovedByAVP: false }, { isApprovedByVP: false }]
     }
 
-    const { data } = await userGetItemRecaps(
+    const res = await userGetItemRecaps(
         currentUser?.id as number, fromDate, untilDate, setFilterByApproval()
     )
+    if (!res.data) return <ErrorMessage>{res.message}</ErrorMessage>
 
-    return <HistoryList recap={data} />
+    return <HistoryList recap={res.data} />
 }

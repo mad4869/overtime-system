@@ -13,20 +13,26 @@ export default async function Admin() {
     if (currentUser?.role === 'USER') return <Forbidden />
 
     return (
-        <section className="flex items-center justify-center w-full gap-4 text-white h-[calc(100%-4rem)]">
+        <section className="flex items-center justify-center w-full gap-4 text-white/70 h-[calc(100%-4rem)]">
             <Link
                 href="/admin/panel"
                 title="Go to Admin Panel"
-                className="flex flex-col items-center p-16 shadow-inner bg-primary rounded-xl shadow-primary-900">
-                <MdAdminPanelSettings size={100} />
-                <h6 className="text-3xl font-bold">Admin Panel</h6>
+                className="flex flex-col items-center gap-4 p-16 shadow-inner bg-primary rounded-xl shadow-primary-900 group">
+                <span
+                    className="p-2 transition-colors duration-300 rounded-full bg-white/70 backdrop-blur text-primary group-hover:bg-white">
+                    <MdAdminPanelSettings size={50} />
+                </span>
+                <h6 className="text-3xl font-bold transition-colors duration-300 group-hover:text-white">Admin Panel</h6>
             </Link>
             <Link
                 href="/admin/recap"
                 title="Go to User Recap"
-                className="flex flex-col items-center p-16 shadow-inner bg-secondary rounded-xl shadow-secondary-900">
-                <HiMiniDocumentCheck size={100} />
-                <h6 className="text-3xl font-bold">User Recap</h6>
+                className="flex flex-col items-center gap-4 p-16 shadow-inner group bg-secondary rounded-xl shadow-secondary-900">
+                <span
+                    className="p-2 transition-colors duration-300 rounded-full bg-white/70 backdrop-blur text-secondary group-hover:bg-white">
+                    <HiMiniDocumentCheck size={50} />
+                </span>
+                <h6 className="text-3xl font-bold transition-colors duration-300 group-hover:text-white">User Recap</h6>
             </Link>
         </section>
     )

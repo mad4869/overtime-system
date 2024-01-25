@@ -1,20 +1,23 @@
-import { getServerSession } from "next-auth";
+import RecapList from "./RecapList";
+import ErrorMessage from "@/components/ErrorMessage";
+import setRecapPeriod from "@/constants/recapPeriod";
+import { adminGetUserItemsRecaps } from "../actions/items";
 
-import RecapList from "./RecapList"
-import RecapDetail from "./RecapDetail"
-import { authOptions } from "@/config/authOptions";
-import { adminGetUserItemsRecap } from "../actions/items"
-import { type PageProps } from "@/types/customs";
+export default async function Recap() {
+    const recapPeriod = setRecapPeriod()
 
-export default async function Recap({ searchParams }: PageProps) {
-    if (!searchParams.recapId) return <RecapList />
+    const res = await adminGetUserItemsRecaps()
+    if (!res.data) return <ErrorMessage>{res.message}</ErrorMessage>
 
-    const session = await getServerSession(authOptions)
-    const currentUser = session?.user
-
-    const recapId = typeof searchParams.recapId === 'string' ? parseInt(searchParams.recapId) : undefined
-
-    const { data } = await adminGetUserItemsRecap(recapId)
-
-    return <RecapDetail currentUser={currentUser} userItemsRecap={data} />
+    return (
+        <>
+            <div className="flex items-center justify-between">
+                <h6 className="text-2xl font-medium">Submitted Recaps</h6>
+                <p className="text-sm text-slate-400">
+                    Period {recapPeriod.startPeriod.toLocaleDateString('en-GB')}-{recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}
+                </p>
+            </div>
+            <RecapList userItemRecaps={res.data} />
+        </>
+    )
 }

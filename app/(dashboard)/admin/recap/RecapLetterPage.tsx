@@ -106,7 +106,10 @@ const recapYear = recapStartYear + recapFinishedYear
 
 type RecapLetterPageProps = {
     userItemsRecap: UserItemRecapSimple
-    signature?: string
+    signature?: {
+        avpSignature: string
+        vpSignature: string
+    }
 }
 
 const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) => {
@@ -223,7 +226,9 @@ const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) =>
                         <Text>Menyetujui</Text>
                     </View>
                     <View style={styles.footerProfile}>
-                        {signature && <Image src={signature} style={{ width: 60, height: 60 }} />}
+                        {signature && signature.vpSignature &&
+                            <Image src={signature.vpSignature} style={{ width: 60, height: 60 }} />
+                        }
                         <Text style={styles.footerProfileName}>Mohammad Samsul</Text>
                         <Text>VP O & M 1</Text>
                     </View>
@@ -233,7 +238,9 @@ const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) =>
                         <Text>Diperintah</Text>
                     </View>
                     <View style={styles.footerProfile}>
-                        {signature && <Image src={signature} style={{ width: 60, height: 60 }} />}
+                        {signature && signature.avpSignature &&
+                            <Image src={signature.avpSignature} style={{ width: 60, height: 60 }} />
+                        }
                         <Text style={styles.footerProfileName}>Bramastra Wisnu Putra</Text>
                         <Text>AVP Mekanik P6</Text>
                     </View>

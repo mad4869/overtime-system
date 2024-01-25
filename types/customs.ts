@@ -27,16 +27,18 @@ export type UserItem = ({
     startTime: Date;
     finishedTime: Date;
     createdAt: Date;
+    updatedAt: Date;
     userItemRecapId: number | null;
 })
 
-export type UserItemSimple = Omit<UserItem, 'id' | 'createdAt' | 'userItemRecapId'>
+export type UserItemSimple = Omit<UserItem, 'id' | 'createdAt' | 'updatedAt' | 'userItemRecapId'>
 
 export type UserItemRecap = {
     id: number;
     isApprovedByVP: boolean;
     isApprovedByAVP: boolean;
     createdAt: Date;
+    updatedAt: Date;
     userItems: UserItem[]
 }
 

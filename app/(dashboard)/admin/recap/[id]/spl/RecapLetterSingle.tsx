@@ -1,10 +1,13 @@
-import RecapLetterPage from '../RecapLetterPage'
-import RecapLetterDocument from '../RecapLetterDocument'
+import RecapLetterPage from '../../RecapLetterPage'
+import RecapLetterDocument from '../../RecapLetterDocument'
 import { type UserItemRecapSimple } from '@/types/customs'
 
 type RecapLetterSingleProps = {
     userItemsRecap: UserItemRecapSimple
-    signature: string
+    signature: {
+        avpSignature: string
+        vpSignature: string
+    }
 }
 
 const RecapLetterSingle = ({ userItemsRecap, signature }: RecapLetterSingleProps) => {

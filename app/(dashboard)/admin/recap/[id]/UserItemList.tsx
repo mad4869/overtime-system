@@ -1,7 +1,7 @@
 import { type UserItemSimple } from "@/types/customs"
 
 type UserItemListProps = {
-    userItems: UserItemSimple[] | undefined
+    userItems: UserItemSimple[]
 }
 
 const UserItemList = ({ userItems }: UserItemListProps) => {
@@ -17,7 +17,7 @@ const UserItemList = ({ userItems }: UserItemListProps) => {
                 </tr>
             </thead>
             <tbody>
-                {userItems?.map((userItem) => {
+                {userItems.map((userItem) => {
                     const userItemDuration = (userItem.finishedTime.getTime()) - (userItem.startTime.getTime())
                     const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 

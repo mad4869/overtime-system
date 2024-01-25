@@ -14,7 +14,7 @@ const UserItemList = dynamic(() => import('../UserItemList'))
 const UserItemRecapDelete = dynamic(() => import('./UserItemRecapDelete'), { ssr: false })
 
 type HistoryListProps = {
-    recap: UserItemRecap[] | undefined
+    recap: UserItemRecap[]
 }
 
 const HistoryList = ({ recap }: HistoryListProps) => {
@@ -48,7 +48,7 @@ const HistoryList = ({ recap }: HistoryListProps) => {
                         onClick={() => setIsFiltered(prev => !prev)} />
                 </span>
             </div>
-            {recap?.map((recap, index) => (
+            {recap.map((recap, index) => (
                 <Accordion
                     key={index}
                     title={`Recap submitted on ${recap.createdAt.toLocaleDateString('en-GB')}`}
@@ -57,7 +57,7 @@ const HistoryList = ({ recap }: HistoryListProps) => {
                     <UserItemRecapDelete recap={recap} />
                 </Accordion>
             ))}
-            {(!recap || recap.length === 0) && <Empty message="There is no history yet" />}
+            {(recap.length === 0) && <Empty message="There is no history yet" />}
             <AnimatePresence>
                 {isFiltered && (
                     <motion.div

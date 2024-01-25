@@ -1,6 +1,5 @@
 'use server'
 
-import fs from 'fs/promises'
 import prisma from "@/prisma/client"
 import { revalidatePath } from "next/cache"
 
@@ -171,10 +170,4 @@ export async function adminGetUserItem(userId?: number) {
     })
 
     return userItems
-}
-
-export async function generatePrivateKey() {
-    const privateKey = await fs.readFile('../../../../private-key.pem', 'utf-8')
-
-    return privateKey
 }

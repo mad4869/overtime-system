@@ -39,6 +39,7 @@ model UserItem {
   startTime    DateTime
   finishedTime DateTime
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   user            User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   UserItemRecap   UserItemRecap? @relation(fields: [userItemRecapId], references: [id])
@@ -51,4 +52,5 @@ model UserItemRecap {
   isApprovedByVP  Boolean    @default(false)
   isApprovedByAVP Boolean    @default(false)
   createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
 }

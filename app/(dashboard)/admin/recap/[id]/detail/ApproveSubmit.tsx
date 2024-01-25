@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Button from "@/components/Button"
 import ErrorMessage from "@/components/ErrorMessage";
 import SuccessMessage from "@/components/SuccessMessage";
-import { approveUserItemsRecap } from "../actions/items"
+import { approveUserItemsRecap } from "../../../actions/items"
 
 type ApproveSubmitProps = {
     recapId: number

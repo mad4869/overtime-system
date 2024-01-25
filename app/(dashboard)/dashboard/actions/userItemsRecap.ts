@@ -26,6 +26,7 @@ export async function userGetItemRecaps(
                         startTime: true,
                         finishedTime: true,
                         createdAt: true,
+                        updatedAt: true,
                         userItemRecapId: true,
                         user: {
                             select: {
@@ -47,7 +48,50 @@ export async function userGetItemRecaps(
             data: itemRecaps
         }
     } catch (error) {
-        console.error('Error occured during creating data submission:', error)
+        console.error('Error occured during creating data fetching:', error)
+
+        return {
+            success: false,
+            message: 'Internal server error.'
+        }
+    }
+}
+
+export async function userGetItemRecap(recapId: number) {
+    try {
+        const itemRecap = await prisma.userItemRecap.findUnique({
+            where: { id: recapId },
+            include: {
+                userItems: {
+                    select: {
+                        user: {
+                            select: {
+                                name: true,
+                                npk: true,
+                                unit: true
+                            }
+                        },
+                        userId: true,
+                        item: true,
+                        startTime: true,
+                        finishedTime: true
+                    }
+                }
+            }
+        })
+
+        if (!itemRecap) return {
+            success: false,
+            message: 'Recap not found.'
+        }
+
+        return {
+            success: true,
+            message: 'Recap successfully fetched.',
+            data: itemRecap
+        }
+    } catch (error) {
+        console.error('Error occured during creating data fetching:', error)
 
         return {
             success: false,

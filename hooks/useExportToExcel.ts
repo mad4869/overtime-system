@@ -2,56 +2,65 @@ import { useCallback } from "react"
 import { utils, writeFileXLSX } from 'xlsx'
 
 import overtimeMap from "@/constants/overtimeMap";
-import { UserItemRecapSimple, type UserItem } from "@/types/customs";
+import setRecapPeriod from "@/constants/recapPeriod";
+import { UserItemRecapSimple } from "@/types/customs";
 
-const useExportRecap = (userItemRecaps: UserItemRecapSimple[] | undefined) => {
-    // const recap = userItemRecaps.map((userItemRecap, index) => {
-    //     const userItemDuration = (userItemRecap.finishedTime.getHours()) - (userItemRecap.startTime.getHours())
-    //     return {
-    //         'No': index + 1,
-    //         'Tanggal': userItemRecap.startTime.toDateString(),
-    //         'Jam Mulai': userItemRecap.startTime.toLocaleTimeString(
-    //             [], { hour12: false, hour: '2-digit', minute: '2-digit' }
-    //         ),
-    //         'Jam Selesai': userItemRecap.finishedTime.toLocaleTimeString(
-    //             [], { hour12: false, hour: '2-digit', minute: '2-digit' }
-    //         ),
-    //         'Waktu Lembur': overtimeMap.get(userItemRecapDuration),
-    //         'Pekerjaan': userItemRecap.item
-    //     }
-    // })
+const useExportRecap = (userItemRecaps: UserItemRecapSimple[]) => {
+    const recapPeriod = setRecapPeriod()
 
     const exportFile = useCallback(() => {
-        //     const titleSheet = utils.aoa_to_sheet([
-        //         ['Name', userItems[0].user.name],
-        //         ['NPK', userItems[0].user.npk],
-        //         ['', '']
-        //     ])
-        //     const recapSheet = utils.json_to_sheet(recap)
+        const wb = utils.book_new()
 
-        //     const titleData = utils.sheet_to_json(titleSheet, { header: 1 })
-        //     const recapData = utils.sheet_to_json(recapSheet, { header: 1 })
+        for (const [index, recap] of userItemRecaps.entries()) {
+            const userItems = recap.userItems.map((userItem) => {
+                const userItemDuration = (userItem.finishedTime.getTime()) - (userItem.startTime.getTime())
+                const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 
-        //     const combinedData = [...titleData, ...recapData]
-        //     const ws = utils.json_to_sheet(combinedData, { skipHeader: true })
+                return {
+                    'Hari': userItem.startTime.toLocaleString('id-ID'),
+                    'Tanggal': userItem.startTime.toLocaleDateString('id-ID'),
+                    'Mulai': userItem.startTime.toLocaleTimeString('id-ID'),
+                    'Selesai': userItem.finishedTime.toLocaleTimeString('id-ID'),
+                    'Jumlah Lembur': overtimeMap.get(userItemDurationHour),
+                    'Uraian Pekerjaan': userItem.item
+                }
+            })
 
-        //     const COL_WIDTH = 150
+            const overtimeTotal = userItems.reduce((acc, currentItem) => {
+                return acc + currentItem["Jumlah Lembur"]
+            }, 0)
 
-        //     if (!ws["!cols"]) ws["!cols"] = []
+            userItems[userItems.length] = {
+                Hari: '',
+                Tanggal: '',
+                Mulai: '',
+                Selesai: '',
+                "Jumlah Lembur": overtimeTotal,
+                "Uraian Pekerjaan": ''
+            }
 
-        //     const COL_INDEX_1 = utils.decode_col("B")
-        //     if (!ws["!cols"][COL_INDEX_1]) ws["!cols"][COL_INDEX_1] = { wch: 8 }
-        //     ws["!cols"][COL_INDEX_1].wpx = COL_WIDTH
+            const recapTable = [{
+                'No.': index + 1,
+                'Nama': recap.userItems[0].user.name,
+                'NPK': recap.userItems[0].user.npk,
+                'Unit': recap.userItems[0].user.unit,
+            }]
 
-        //     const COL_INDEX_5 = utils.decode_col("F")
-        //     if (!ws["!cols"][COL_INDEX_5]) ws["!cols"][COL_INDEX_5] = { wch: 8 }
-        //     ws["!cols"][COL_INDEX_5].wpx = COL_WIDTH
+            const fullTable = [...recapTable, ...userItems]
 
-        //     const wb = utils.book_new();
-        //     utils.book_append_sheet(wb, ws, `Recap - ${userItems[0].user.name}`)
+            const ws = utils.json_to_sheet(fullTable)
 
-        //     writeFileXLSX(wb, 'Recap.xlsx', { compression: true })
-    }, [])
+            utils.book_append_sheet(
+                wb, ws, recap.userItems[0].user.name
+            )
+        }
+
+        writeFileXLSX(
+            wb,
+            `Recap ${recapPeriod.startPeriod.toLocaleDateString('id-ID')} - ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}.xlsx`,
+            { compression: true }
+        )
+    }, [userItemRecaps, recapPeriod.startPeriod, recapPeriod.finishedPeriod])
 
     return exportFile
 }
