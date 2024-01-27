@@ -1,6 +1,6 @@
 
 import ErrorMessage from "@/components/ErrorMessage"
-import { userGetItemRecap } from "@/app/(dashboard)/dashboard/actions/userItemsRecap"
+import { userGetItemRecap } from "@/app/(dashboard)/dashboard/actions/userItemRecaps"
 import { type PageProps } from "@/types/customs"
 import SignatureVerification from "./SignatureVerification"
 

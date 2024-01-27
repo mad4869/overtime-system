@@ -31,7 +31,7 @@ export type UserItem = ({
     userItemRecapId: number | null;
 })
 
-export type UserItemSimple = Omit<UserItem, 'id' | 'createdAt' | 'updatedAt' | 'userItemRecapId'>
+export type UserItemSimple = Omit<UserItem, 'createdAt' | 'updatedAt' | 'userItemRecapId'>
 
 export type UserItemRecap = {
     id: number;

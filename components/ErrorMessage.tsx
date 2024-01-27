@@ -1,10 +1,21 @@
 import { PropsWithChildren } from "react"
+import { IoMdAlert } from "react-icons/io";
 
-const ErrorMessage = ({ children }: PropsWithChildren) => {
+type ErrorMessageProps = PropsWithChildren & {
+    useIcon?: boolean
+}
+
+const ErrorMessage = ({ children, useIcon = false }: ErrorMessageProps) => {
     if (!children) return null
 
     return (
-        <p className="text-xs text-rose-600">{children}</p>
+        <span className={`
+            text-xs text-rose-600
+            ${useIcon && 'flex items-center gap-2 px-4 py-1 bg-rose-400/50 rounded-full'}
+        `}>
+            {useIcon && <IoMdAlert />}
+            {children}
+        </span>
     )
 }
 

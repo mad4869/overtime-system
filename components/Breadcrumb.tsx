@@ -1,9 +1,9 @@
 'use client'
 
 import Link from "next/link"
-import { MdHome } from "react-icons/md";
 import { Fragment } from 'react'
 import { usePathname } from "next/navigation"
+import { MdHome } from "react-icons/md";
 
 const Breadcrumb = () => {
     const url = usePathname()
@@ -11,11 +11,11 @@ const Breadcrumb = () => {
 
     return (
         <nav
-            className="w-full rounded-md flex items-center gap-2 bg-neutral-200/75 backdrop-blur overflow-hidden sticky top-0">
-            <div className="bg-neutral-400 p-1">
+            className="sticky top-0 flex items-center w-full gap-2 overflow-hidden rounded-md bg-neutral-200/75 backdrop-blur">
+            <div className="p-1 bg-neutral-400">
                 <Link href={`/${menus[0]}`}><MdHome size={20} className="text-neutral-600" /></Link>
             </div>
-            <ol className="list-reset flex text-xs">
+            <ol className="flex text-xs list-reset">
                 {menus.map((menu, index) => {
                     const menuTitleCase = menu.charAt(0).toUpperCase() + menu.slice(1)
                     const isLastMenu = index === (menus.length - 1)
@@ -25,7 +25,7 @@ const Breadcrumb = () => {
                         <Fragment key={index}>
                             <li>
                                 <Link href={path}
-                                    className={`${isLastMenu ? 'text-slate-500' : 'text-slate-400'} transition duration-150 ease-in-out hover:text-slate-600 focus:text-slate-600 active:text-slate-700 dark:focus:text-slate-500 dark:active:text-slate-600`}>
+                                    className={`${isLastMenu ? 'text-slate-700' : 'text-slate-400'} transition duration-150 ease-in-out hover:text-slate-700`}>
                                     {menuTitleCase}
                                 </Link>
                             </li>

@@ -11,7 +11,7 @@ type UserUpdate = Omit<Partial<UserRegister>, 'password'>
 export type UserChangePassword = z.infer<typeof userChangePasswordSchema>
 export type UserDeleteAccount = z.infer<typeof userDeleteAccountSchema>
 
-export async function userGetProfile(userId: number) {
+export async function getUserProfile(userId: number) {
     try {
         const userProfile = await prisma.user.findUnique({
             where: { id: userId }
@@ -19,14 +19,14 @@ export async function userGetProfile(userId: number) {
 
         if (!userProfile) return {
             success: false,
-            message: 'User not found.'
+            message: 'Profil user tidak ditemukan.'
         }
 
         const { password, ...rest } = userProfile
 
         return {
             success: true,
-            message: 'User profile successfully fetched.',
+            message: 'Profil user berhasil diperoleh.',
             data: rest
         }
     } catch (error) {
@@ -39,7 +39,7 @@ export async function userGetProfile(userId: number) {
     }
 }
 
-export async function userUpdateProfile(user: UserUpdate, userId: number) {
+export async function updateUserProfile(user: UserUpdate, userId: number) {
     try {
         const targetedProfile = await prisma.user.findUnique({
             where: { id: userId }
@@ -47,7 +47,7 @@ export async function userUpdateProfile(user: UserUpdate, userId: number) {
 
         if (!targetedProfile) return {
             success: false,
-            message: 'User not found.'
+            message: 'Profil user tidak ditemukan.'
         }
 
         const updatedProfile = await prisma.user.update({
@@ -69,7 +69,7 @@ export async function userUpdateProfile(user: UserUpdate, userId: number) {
 
         return {
             success: true,
-            message: 'User profile successfully updated.',
+            message: 'Profil user berhasil diupdate.',
             data: rest
         }
     } catch (error) {
@@ -82,11 +82,11 @@ export async function userUpdateProfile(user: UserUpdate, userId: number) {
     }
 }
 
-export async function userChangePassword(userId: number, passwords: UserChangePassword) {
-    const isPasswordChanged = passwords["new password"] !== passwords["old password"]
+export async function updateUserPassword(userId: number, passwords: UserChangePassword) {
+    const isPasswordChanged = passwords["password baru"] !== passwords["password lama"]
     if (!isPasswordChanged) return {
         success: false,
-        message: 'New password must be different than the old password.'
+        message: 'Password baru harus berbeda dengan password lama.'
     }
 
     try {
@@ -96,17 +96,17 @@ export async function userChangePassword(userId: number, passwords: UserChangePa
 
         if (!targetedProfile) return {
             success: false,
-            message: 'User not found.'
+            message: 'Profile user tidak ditemukan.'
         }
 
-        const passwordMatch = await compare(passwords["old password"], targetedProfile.password)
+        const passwordMatch = await compare(passwords["password lama"], targetedProfile.password)
 
         if (!passwordMatch) return {
             success: false,
-            message: 'Old password is incorrect.'
+            message: 'Password lama salah.'
         }
 
-        const newPassword = await hash(passwords["new password"], 10)
+        const newPassword = await hash(passwords["password baru"], 10)
 
         const updatedProfile = await prisma.user.update({
             where: { id: userId },
@@ -121,11 +121,11 @@ export async function userChangePassword(userId: number, passwords: UserChangePa
 
         return {
             success: true,
-            message: 'User profile successfully updated.',
+            message: 'Profil user berhasil diupdate.',
             data: rest
         }
     } catch (error) {
-        console.error('Error during user registration:', error);
+        console.error('Error during user update:', error);
 
         return {
             success: false,
@@ -134,7 +134,7 @@ export async function userChangePassword(userId: number, passwords: UserChangePa
     }
 }
 
-export async function userDeleteAccount(userId: number, data: UserDeleteAccount) {
+export async function deleteUserProfile(userId: number, data: UserDeleteAccount) {
     try {
         const targetedProfile = await prisma.user.findUnique({
             where: { id: userId }
@@ -142,14 +142,14 @@ export async function userDeleteAccount(userId: number, data: UserDeleteAccount)
 
         if (!targetedProfile) return {
             success: false,
-            message: 'User not found.'
+            message: 'Profile user tidak ditemukan.'
         }
 
         const passwordMatch = await compare(data.password, targetedProfile.password)
 
         if (!passwordMatch) return {
             success: false,
-            message: 'Password is incorrect.'
+            message: 'Password salah.'
         }
 
         await prisma.user.delete({
@@ -160,7 +160,7 @@ export async function userDeleteAccount(userId: number, data: UserDeleteAccount)
 
         return {
             success: true,
-            message: 'User profile successfully deleted.',
+            message: 'Profil user berhasil dihapus.',
         }
     } catch (error) {
         console.error('Error during user registration:', error);

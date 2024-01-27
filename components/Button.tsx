@@ -1,66 +1,63 @@
 'use client'
 
 import { type IconType } from "react-icons"
-import { type MouseEventHandler, type ReactElement } from "react"
+import { PropsWithChildren, type MouseEventHandler, type ReactElement } from "react"
 
 type ButtonOptions = {
-    type: 'fill' | 'outline'
-    color: 'primary' | 'secondary' | 'error'
-    size: 'sm' | 'md' | 'lg'
-    isFull: boolean
+    type?: 'fill' | 'outline'
+    color?: 'primary' | 'secondary' | 'error'
+    size?: 'sm' | 'md' | 'lg'
+    isFull?: boolean
 }
 
-type ButtonProps = {
-    type: 'button' | 'reset' | 'submit'
-    title: string
-    tooltip?: string
-    options?: ButtonOptions
-    handleClick?: MouseEventHandler<HTMLButtonElement>
-    disabled?: boolean
+type ButtonProps = PropsWithChildren & {
+    type?: 'button' | 'reset' | 'submit'
+    title?: string
     icon?: ReactElement<IconType>
+    disabled?: boolean
+    handleClick?: MouseEventHandler<HTMLButtonElement>
+    options?: ButtonOptions
 }
 
-const Button = ({ type, title, tooltip, options, handleClick, disabled, icon }: ButtonProps) => {
-    const defaultOptions: ButtonOptions = {
-        type: 'fill',
-        color: 'primary',
-        size: 'sm',
-        isFull: false
+const Button = ({ children, type = 'button', title, handleClick, disabled, icon, options = {
+    size: 'sm',
+    color: 'primary',
+    type: 'fill',
+    isFull: false
+} }: ButtonProps) => {
+    const setTypeColor = (type: ButtonOptions['type'], color: ButtonOptions['color']) => {
+        if (type === 'fill') {
+            if (color === 'primary') return 'border-none bg-primary text-white hover:bg-primary-900 hover:text-primary-200'
+            if (color === 'secondary') return 'border-none bg-secondary text-white hover:bg-secondary-900 hover:text-secondary-200'
+            return 'border-none bg-rose-600 text-white hover:bg-rose-900 hover:text-rose-200'
+        } else {
+            if (color === 'primary') return 'border border-solid bg-transparent border-primary text-primary hover:border-primary-900 hover:text-primary-900'
+            if (color === 'secondary') return 'border border-solid bg-transparent border-secondary text-secondary hover:border-secondary-900 hover:text-secondary-900'
+            return 'border border-solid bg-transparent border-rose-600 text-rose-600 hover:border-rose-900 hover:text-rose-900'
+        }
     }
 
-    const types = {
-        fill: 'border-none',
-        outline: 'border border-solid bg-transparent'
-    }
-
-    const colors = {
-        primary: 'bg-primary border-primary text-primary-400 hover:bg-primary-900 hover:text-primary-200',
-        secondary: 'bg-secondary border-secondary text-secondary-400 hover:bg-secondary-900',
-        error: 'bg-rose-600 border-rose-600 text-rose-400 hover: bg-rose-900 hover:text-rose-600'
-    }
-
-    const sizes = {
-        sm: 'text-xs px-4 py-2 rounded',
-        md: 'text-base px-6 py-4 rounded-lg',
-        lg: 'text-xl px-8 py-4 rounded-2xl'
+    const setSize = (size: ButtonOptions['size']) => {
+        if (size === 'sm') return 'text-xs px-4 py-2 rounded'
+        if (size === 'md') return 'text-base px-6 py-4 rounded-lg'
+        return 'text-xl px-8 py-4 rounded-2xl'
     }
 
     return (
         <button
             type={type}
             className={`
-                ${types[options?.type || defaultOptions.type]}
-                ${colors[options?.color || defaultOptions.color]}
-                ${sizes[options?.size || defaultOptions.size]}
-                ${options?.isFull ? 'w-full' : ''}
+                ${setTypeColor(options.type || 'fill', options.color || 'primary')}
+                ${setSize(options.size || 'sm')}
+                ${options.isFull ? 'w-full' : ''}
                 min-w-fit transition-colors flex justify-center items-center gap-2
                 disabled:bg-slate-400 disabled:text-slate-200 disabled:cursor-not-allowed
             `}
-            title={tooltip}
+            title={title}
             disabled={disabled}
             onClick={handleClick}>
             {icon}
-            {title}
+            {children}
         </button>
     )
 }

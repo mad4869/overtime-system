@@ -29,14 +29,21 @@ const FilterModal = () => {
         router.replace(`?${searchParams.toString()}`)
     }, [fromDate, untilDate, approved, notApproved, router])
 
+    const resetFilter = () => {
+        setFromDate('')
+        setUntilDate('')
+        setApproved(false)
+        setNotApproved(false)
+    }
+
     return (
         <div
-            className="absolute top-32 right-20 p-4 bg-white rounded-lg shadow-md shadow-primary/70 text-sm">
-            <div className="border-b border-secondary-200/70 pb-2">
-                <h6 className="text-secondary font-bold">By Date</h6>
+            className="absolute right-0 p-4 text-sm bg-white rounded-lg shadow-md top-8 shadow-primary/70 z-10">
+            <div className="pb-2 border-b border-secondary-200/70">
+                <h6 className="font-bold text-secondary">Tanggal</h6>
                 <div className="flex items-center gap-4 mt-1">
                     <div>
-                        <label htmlFor="from" className="font-medium">From:</label>
+                        <label htmlFor="from" className="font-medium">Dari:</label>
                         <input
                             id="from"
                             type="date"
@@ -44,7 +51,7 @@ const FilterModal = () => {
                             onChange={(e: ChangeEvent<HTMLInputElement>) => setFromDate(e.target.value)} />
                     </div>
                     <div>
-                        <label htmlFor="until" className="font-medium">Until:</label>
+                        <label htmlFor="until" className="font-medium">Sampai:</label>
                         <input
                             id="until"
                             type="date"
@@ -53,24 +60,32 @@ const FilterModal = () => {
                     </div>
                 </div>
             </div>
-            <div className="pt-2">
-                <h6 className="text-secondary font-bold">By Approval</h6>
-                <div className="space-x-4 mt-1">
+            <div className="pt-2 pb-2 border-b border-secondary-200/70">
+                <h6 className="font-bold text-secondary">Persetujuan</h6>
+                <div className="mt-1 space-x-4">
                     <span>
                         <input
                             type="checkbox"
                             checked={approved}
                             onChange={() => setApproved(!approved)} />
-                        &nbsp;Approved
+                        &nbsp;Disetujui
                     </span>
                     <span>
                         <input
                             type="checkbox"
                             checked={notApproved}
                             onChange={() => setNotApproved(!notApproved)} />
-                        &nbsp;Not Approved
+                        &nbsp;Belum Disetujui
                     </span>
                 </div>
+            </div>
+            <div className="pt-2">
+                <button
+                    title="Reset filter"
+                    className="text-xs text-secondary hover:underline"
+                    onClick={resetFilter}>
+                    Reset
+                </button>
             </div>
         </div>
     )

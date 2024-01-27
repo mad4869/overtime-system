@@ -7,10 +7,10 @@ import { FaUserEdit } from "react-icons/fa";
 import { MdDashboard, MdAdminPanelSettings } from "react-icons/md";
 
 type MenuProps = {
-    currentUserRole: 'USER' | 'ADMIN' | 'SUPER_ADMIN' | undefined
+    currentProfileRole: 'USER' | 'ADMIN' | 'SUPER_ADMIN' | undefined
 }
 
-const Menu = ({ currentUserRole }: MenuProps) => {
+const Menu = ({ currentProfileRole }: MenuProps) => {
     const menus = [
         { title: 'Dashboard', url: '/dashboard', icon: MdDashboard },
         { title: 'Profile', url: '/profile', icon: FaUserEdit },
@@ -27,7 +27,7 @@ const Menu = ({ currentUserRole }: MenuProps) => {
     return (
         <ul className="flex flex-col w-full gap-4 text-sm text-white/50">
             {menus.map(menu => {
-                if (menu.url === '/admin' && currentUserRole === 'USER') return null
+                if (menu.url === '/admin' && currentProfileRole === 'USER') return null
 
                 return (
                     <li

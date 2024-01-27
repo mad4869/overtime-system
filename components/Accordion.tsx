@@ -4,6 +4,7 @@ import { PropsWithChildren, useEffect } from "react"
 
 type Recap = {
     isRecap: boolean
+    indexRecap: number
     isRecapApproved: boolean
 }
 type AccordionProps = PropsWithChildren & {
@@ -11,7 +12,7 @@ type AccordionProps = PropsWithChildren & {
     recap?: Recap
 }
 
-const Accordion = ({ title, recap = { isRecap: false, isRecapApproved: false }, children }: AccordionProps) => {
+const Accordion = ({ title, recap = { isRecap: false, indexRecap: 0, isRecapApproved: false }, children }: AccordionProps) => {
     useEffect(() => {
         const init = async () => {
             const { Collapse, initTE } = await import('tw-elements')
@@ -24,20 +25,23 @@ const Accordion = ({ title, recap = { isRecap: false, isRecapApproved: false }, 
     return (
         <div id="accordion">
             <div
-                className="rounded-t-lg border border-primary-200 bg-white">
+                className="bg-white border rounded-t-lg border-primary-200">
                 <h2 className="mb-0" id="headingOne">
                     <button
                         className="group relative flex w-full items-center rounded-t-[15px] border-0 bg-white px-5 py-4 text-left text-base text-neutral-800 transition [overflow-anchor:none] hover:z-[2] focus:z-[3] focus:outline-none dark:bg-neutral-800 dark:text-white [&:not([data-te-collapse-collapsed])]:bg-white [&:not([data-te-collapse-collapsed])]:text-primary [&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(229,231,235)] dark:[&:not([data-te-collapse-collapsed])]:bg-neutral-800 dark:[&:not([data-te-collapse-collapsed])]:text-primary-400 dark:[&:not([data-te-collapse-collapsed])]:[box-shadow:inset_0_-1px_0_rgba(75,85,99)]"
                         type="button"
                         data-te-collapse-init
                         data-te-collapse-collapsed
-                        data-te-target="#collapseOne"
+                        data-te-target={`#collapsed${recap.indexRecap}`}
                         aria-expanded="false"
-                        aria-controls="collapseOne">
+                        aria-controls={`collapsed${recap.indexRecap}`}>
                         {title}
                         {recap.isRecap &&
-                            <span className={`${recap.isRecapApproved ? 'bg-emerald-400' : 'bg-neutral-400'} text-white px-2 py-px rounded-full text-xs ml-2`}>
-                                {recap.isRecapApproved ? 'Approved' : 'Not Approved'}
+                            <span className={`
+                                ${recap.isRecapApproved ? 'bg-emerald-400' : 'bg-neutral-400'} 
+                                text-white px-2 py-px rounded-full text-xs ml-2
+                            `}>
+                                {recap.isRecapApproved ? 'Disetujui' : 'Belum Disetujui'}
                             </span>
                         }
                         <span
@@ -48,7 +52,7 @@ const Accordion = ({ title, recap = { isRecap: false, isRecapApproved: false }, 
                                 viewBox="0 0 24 24"
                                 strokeWidth="1.5"
                                 stroke="currentColor"
-                                className="h-6 w-6">
+                                className="w-6 h-6">
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -58,7 +62,7 @@ const Accordion = ({ title, recap = { isRecap: false, isRecapApproved: false }, 
                     </button>
                 </h2>
                 <div
-                    id="collapseOne"
+                    id={`collapsed${recap.indexRecap}`}
                     className="!visible hidden"
                     data-te-collapse-item
                     aria-labelledby="headingOne"

@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
+import { useRouter } from "next/navigation"
 import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { IoIosSend } from "react-icons/io";
 import { FaScrewdriverWrench } from "react-icons/fa6"
 import { FaCalendarAlt, FaClock } from "react-icons/fa"
 
@@ -12,49 +14,82 @@ import InputField from "@/components/InputField"
 import ErrorMessage from "@/components/ErrorMessage"
 import SuccessMessage from "@/components/SuccessMessage"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
-import { userUpdateItem, type UserAddItem } from './actions/userItems'
+import { updateUserItem, type UserAddItem } from './actions/userItems'
 import { type UserItem } from "@/types/customs"
 
 type UserItemUpdateFormProps = {
-    userItem: UserItem | undefined
+    userItem: UserItem
 }
 
 const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
     const [updateItemSuccess, setUpdateItemSuccess] = useState('')
     const [updateItemError, setUpdateItemError] = useState('')
 
+    const startDateArr = userItem.startTime.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric' }).split('/')
+    const startDate = startDateArr[2] + '-' + startDateArr[1] + '-' + startDateArr[0]
+
+    const startHour = userItem.startTime.getHours() >= 10 ?
+        `${userItem.startTime.getHours()}` :
+        `0${userItem.startTime.getHours()}`
+    const startMinute = userItem.startTime.getMinutes() >= 10 ?
+        `${userItem.startTime.getMinutes()}` :
+        `0${userItem.startTime.getMinutes()}`
+    const finishedHour = userItem.finishedTime.getHours() >= 10 ?
+        `${userItem.finishedTime.getHours()}` :
+        `0${userItem.finishedTime.getHours()}`
+    const finishedMinute = userItem.finishedTime.getMinutes() >= 10 ?
+        `${userItem.startTime.getMinutes()}` :
+        `0${userItem.startTime.getMinutes()}`
+
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserAddItem>({
         resolver: zodResolver(userAddItemSchema),
-        // defaultValues: {
-        //     item: userItem?.item,
-        //     tanggal: userItem?.startTime,
-        //     mulai: userItem?.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        //     selesai: userItem?.finishedTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        // }
+        defaultValues: {
+            pekerjaan: userItem.item,
+            tanggal: startDate,
+            mulai: startHour + ':' + startMinute,
+            selesai: finishedHour + ':' + finishedMinute
+        }
     })
 
-    if (!userItem) return null
+    const modalRef = useRef<HTMLFormElement>(null)
+    const router = useRouter()
 
-    const updateUserItem = async (data: UserAddItem) => {
-        const res = await userUpdateItem(data, userItem.id)
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            if (!modalRef.current?.contains(e.target as Node)) {
+                router.replace('/dashboard')
+            }
+        }
+
+        window.addEventListener('mousedown', handleOutsideClick)
+
+        return () => {
+            window.removeEventListener('mousedown', handleOutsideClick)
+        }
+    }, [router])
+
+    const submitUpdate = async (data: UserAddItem) => {
+        const res = await updateUserItem(data, userItem.id)
         if (res.success) {
             reset()
             setUpdateItemSuccess(`${res.message} The item: ${res.data?.item}`)
             setTimeout(() => {
                 setUpdateItemSuccess('')
-            }, 2000)
+                router.replace('/dashboard')
+            }, 3000)
         } else {
             setUpdateItemError(res.message)
             setTimeout(() => {
                 setUpdateItemError('')
-            }, 2000)
+            }, 5000)
         }
     }
 
     return (
         <form
-            onSubmit={handleSubmit(updateUserItem)}
-            className="absolute z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 right-0 bg-secondary/30 backdrop-blur shadow-secondary/70">
+            ref={modalRef}
+            onSubmit={handleSubmit(submitUpdate)}
+            className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 bg-secondary/30 backdrop-blur shadow-secondary/70">
             <div className="flex flex-col gap-2">
                 <div>
                     <InputField
@@ -63,8 +98,8 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                         placeholder="Mengerjakan tugas lembur"
                         useLabel
                         icon={<FaScrewdriverWrench size={14} />}
-                        {...register('item')} />
-                    <ErrorMessage>{errors.item?.message}</ErrorMessage>
+                        {...register('pekerjaan')} />
+                    <ErrorMessage>{errors.pekerjaan?.message}</ErrorMessage>
                 </div>
                 <div>
                     <InputField
@@ -97,12 +132,14 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                 <AnimatePresence>
                     {updateItemSuccess && <SuccessMessage>{updateItemSuccess}</SuccessMessage>}
                 </AnimatePresence>
-                <Button type='submit' title='Submit' tooltip='Submit working item' disabled={isSubmitting} options={{
-                    size: 'sm',
-                    type: 'fill',
-                    color: 'primary',
-                    isFull: true
-                }} />
+                <Button
+                    type='submit'
+                    title='Update pekerjaan'
+                    icon={<IoIosSend />}
+                    disabled={isSubmitting}
+                    options={{ isFull: true }}>
+                    Update
+                </Button>
             </div>
         </form>
     )

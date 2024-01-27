@@ -4,8 +4,9 @@ import prisma from "@/prisma/client"
 import { revalidatePath } from "next/cache"
 import { type UserItem, type FilterApproval } from "@/types/customs"
 
-export async function userGetItemRecaps(
+export async function getUserItemRecaps(
     currentUserId: number,
+    filter: { cursor: number | undefined | null, limit: number },
     from?: Date,
     until?: Date,
     approval?: FilterApproval[],
@@ -38,14 +39,19 @@ export async function userGetItemRecaps(
                     }
                 }
             },
-            orderBy: { createdAt: 'desc' },
-            take: 5
+            take: filter.limit,
+            skip: filter.cursor ? 1 : undefined,
+            cursor: filter.cursor ? { id: filter.cursor } : undefined,
+            orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
         })
+
+        const lastRecap = itemRecaps[itemRecaps.length - 1]
+        const nextCursor = lastRecap ? lastRecap.id : null
 
         return {
             success: true,
-            message: 'Item recaps successfully fetched.',
-            data: itemRecaps
+            message: 'Daftar rekap pekerjaan berhasil diperoleh.',
+            data: { itemRecaps, nextCursor }
         }
     } catch (error) {
         console.error('Error occured during creating data fetching:', error)
@@ -57,7 +63,7 @@ export async function userGetItemRecaps(
     }
 }
 
-export async function userGetItemRecap(recapId: number) {
+export async function getUserItemRecap(recapId: number) {
     try {
         const itemRecap = await prisma.userItemRecap.findUnique({
             where: { id: recapId },
@@ -82,12 +88,12 @@ export async function userGetItemRecap(recapId: number) {
 
         if (!itemRecap) return {
             success: false,
-            message: 'Recap not found.'
+            message: 'Rekap pekerjaan tidak ditemukan.'
         }
 
         return {
             success: true,
-            message: 'Recap successfully fetched.',
+            message: 'Rekap pekerjaan berhasil diperoleh.',
             data: itemRecap
         }
     } catch (error) {
@@ -100,10 +106,20 @@ export async function userGetItemRecap(recapId: number) {
     }
 }
 
-export async function userAddItemRecap(userItems: UserItem[]) {
+export async function addUserItemRecap(userItems: UserItem[]) {
     const userItemIds = userItems.map((userItem) => userItem.id)
 
     try {
+        const targetedUserItems = await prisma.userItem.findMany({
+            where: { id: { in: userItemIds } }
+        })
+
+        const itemAlreadySubmitted = targetedUserItems.some((userItem) => userItem.userItemRecapId !== null)
+        if (itemAlreadySubmitted) return {
+            success: false,
+            message: 'Pekerjaan ini sudah disubmit di dalam rekap. Mohon hapus rekap sebelumnya sebelum melakukan submit rekap yang baru.'
+        }
+
         const newUserItemRecap = await prisma.userItemRecap.create({
             data: {}
         })
@@ -121,7 +137,7 @@ export async function userAddItemRecap(userItems: UserItem[]) {
 
         return {
             success: true,
-            message: 'Items recap successfully submitted.',
+            message: 'Pekerjaan berhasil disubmit sebagai rekap untuk disetujui.',
             data: updatedUserItems
         }
     } catch (error) {
@@ -134,24 +150,26 @@ export async function userAddItemRecap(userItems: UserItem[]) {
     }
 }
 
-export async function userDeleteItemRecap(recapId: number) {
+export async function deleteUserItemRecap(recapId: number) {
     try {
         const targetedRecap = await prisma.userItemRecap.findUnique({
             where: { id: recapId }
         })
 
-        if (targetedRecap?.isApprovedByAVP && targetedRecap.isApprovedByVP) return {
+        if (targetedRecap?.isApprovedByAVP || targetedRecap?.isApprovedByVP) return {
             success: false,
-            message: "This recap is already approved. Can't delete approved recap."
+            message: "Tidak bisa menghapus rekap karena rekap pekerjaan ini sudah disetujui atau dalam proses persetujuan. Silakan hubungi admin untuk proses lebih lanjut."
         }
 
         const deletedUserItemRecap = await prisma.userItemRecap.delete({
             where: { id: recapId }
         })
 
+        revalidatePath('/dashboard')
+
         return {
             success: true,
-            message: 'Items recap successfully deleted.',
+            message: 'Rekap pekerjaan berhasil dihapus.',
             data: deletedUserItemRecap
         }
     } catch (error) {

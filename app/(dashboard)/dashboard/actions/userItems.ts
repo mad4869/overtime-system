@@ -7,7 +7,7 @@ import { userAddItemSchema } from "@/schemas/validationSchemas"
 
 export type UserAddItem = z.infer<typeof userAddItemSchema>
 
-export async function userGetItemsValid(currentUserId: number, recapPeriod: { startPeriod: Date, finishedPeriod: Date }) {
+export async function getUserItemsValid(currentUserId: number, recapPeriod: { startPeriod: Date, finishedPeriod: Date }) {
     try {
         const userItems = await prisma.userItem.findMany({
             where: {
@@ -33,7 +33,7 @@ export async function userGetItemsValid(currentUserId: number, recapPeriod: { st
 
         return {
             success: true,
-            message: 'Items successfully fetched.',
+            message: 'Daftar pekerjaan berhasil diperoleh.',
             data: userItems
         }
     } catch (error) {
@@ -46,8 +46,11 @@ export async function userGetItemsValid(currentUserId: number, recapPeriod: { st
     }
 }
 
-export async function userGetItem(userItemId: number | undefined) {
-    if (!userItemId) return null
+export async function getUserItem(userItemId: number | undefined) {
+    if (!userItemId) return {
+        success: false,
+        message: 'Tidak ada ID pekerjaan.'
+    }
 
     try {
         const userItem = await prisma.userItem.findUnique({
@@ -65,12 +68,12 @@ export async function userGetItem(userItemId: number | undefined) {
 
         if (!userItem) return {
             success: false,
-            message: 'Item not found.'
+            message: 'Pekerjaan tidak ditemukan.'
         }
 
         return {
             success: true,
-            message: 'Item successfully fetched.',
+            message: 'Pekerjaan berhasil diperoleh.',
             data: userItem
         }
     } catch (error) {
@@ -83,7 +86,7 @@ export async function userGetItem(userItemId: number | undefined) {
     }
 }
 
-export async function userAddItem(item: UserAddItem, currentUserId: number) {
+export async function addUserItem(item: UserAddItem, currentUserId: number) {
     const startDate = new Date(item.tanggal)
     const finishedDate = new Date(item.tanggal)
 
@@ -97,7 +100,7 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
         const newItem = await prisma.userItem.create({
             data: {
                 userId: currentUserId,
-                item: item.item,
+                item: item.pekerjaan,
                 startTime: startDate,
                 finishedTime: finishedDate
             }
@@ -107,7 +110,7 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
 
         return {
             success: true,
-            message: 'Item successfully submitted.',
+            message: 'Pekerjaan berhasil disubmit.',
             data: newItem
         }
     } catch (error) {
@@ -120,7 +123,7 @@ export async function userAddItem(item: UserAddItem, currentUserId: number) {
     }
 }
 
-export async function userUpdateItem(item: UserAddItem, userItemId: number) {
+export async function updateUserItem(item: UserAddItem, userItemId: number) {
     const startDate = new Date(item.tanggal)
     const finishedDate = new Date(item.tanggal)
 
@@ -137,13 +140,13 @@ export async function userUpdateItem(item: UserAddItem, userItemId: number) {
 
         if (targetedItem?.userItemRecapId) return {
             success: false,
-            message: 'Item already submitted. Please remove the submission before updating this item.'
+            message: 'Pekerjaan ini sudah disubmit di dalam rekap. Mohon hapus rekap sebelum mengupdate pekerjaan ini.'
         }
 
         const updatedItem = await prisma.userItem.update({
             where: { id: userItemId },
             data: {
-                item: item.item,
+                item: item.pekerjaan,
                 startTime: startDate,
                 finishedTime: finishedDate
             }
@@ -153,11 +156,11 @@ export async function userUpdateItem(item: UserAddItem, userItemId: number) {
 
         return {
             success: true,
-            message: 'Item successfully updated.',
+            message: 'Pekerjaan berhasil diupdate.',
             data: updatedItem
         }
     } catch (error) {
-        console.error('Error occured during creating data deletion:', error)
+        console.error('Error occured during creating data update:', error)
 
         return {
             success: false,
@@ -166,7 +169,7 @@ export async function userUpdateItem(item: UserAddItem, userItemId: number) {
     }
 }
 
-export async function userDeleteItem(userItemId: number) {
+export async function deleteUserItem(userItemId: number) {
     try {
         const targetedItem = await prisma.userItem.findUnique({
             where: { id: userItemId }
@@ -174,7 +177,7 @@ export async function userDeleteItem(userItemId: number) {
 
         if (targetedItem?.userItemRecapId) return {
             success: false,
-            message: 'Item already submitted. Please remove the submission before deleting this item.'
+            message: 'Pekerjaan ini sudah disubmit di dalam rekap. Mohon hapus rekap sebelum menghapus pekerjaan ini.'
         }
 
         const deletedItem = await prisma.userItem.delete({
@@ -185,7 +188,7 @@ export async function userDeleteItem(userItemId: number) {
 
         return {
             success: true,
-            message: 'Item successfully deleted.',
+            message: 'Pekerjaan berhasil dihapus.',
             data: deletedItem
         }
     } catch (error) {

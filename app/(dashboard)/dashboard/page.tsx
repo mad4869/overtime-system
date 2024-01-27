@@ -1,58 +1,55 @@
-import Link from "next/link"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
-import { MdHistory } from "react-icons/md";
 
+import Heading from "./Heading"
+import DeleteSubmit from "./DeleteSubmit"
 import UserItemSubmitForm from "./UserItemSubmitForm"
-import setRecapPeriod from "@/constants/recapPeriod"
-import { PageProps, UserItem } from "@/types/customs"
-import { authOptions } from "@/config/authOptions"
-import { userGetItem, userGetItemsValid } from "./actions/userItems"
 import UserItemUpdateForm from "./UserItemUpdateForm"
+import setRecapPeriod from "@/constants/recapPeriod"
+import { PageProps } from "@/types/customs"
+import { authOptions } from "@/config/authOptions"
+import { getUserItem, getUserItemsValid } from "./actions/userItems"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
-const Empty = dynamic(() => import("@/components/Empty"))
-const UserItemList = dynamic(() => import('./UserItemList'))
 const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
+const UserItemList = dynamic(() => import('@/components/UserItemList'))
+const ErrorMessage = dynamic(() => import('@/components/ErrorMessage'))
+const Empty = dynamic(() => import("@/components/Empty"))
 
 export default async function Dashboard({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
 
+    if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
+
     const recapPeriod = setRecapPeriod()
 
-    const { data } = await userGetItemsValid(currentUser?.id as number, recapPeriod)
+    const { message: userItemsMessage, data: userItems } = await getUserItemsValid(currentUser.id, recapPeriod)
 
-    const updatedItemId = searchParams.updateItem ? parseInt(searchParams.updateItem as string) : undefined
-    const res = await userGetItem(updatedItemId)
+    const updatedItemId = typeof searchParams['update-item'] === 'string' ? parseInt(searchParams['update-item']) : undefined
+    const deletedItemId = typeof searchParams['delete-item'] === 'string' ? parseInt(searchParams['delete-item']) : undefined
+    const { message: userItemMessage, data: userItem } = await getUserItem(updatedItemId)
 
     return (
         <section className="relative space-y-4">
-            <div className="flex items-center justify-between">
-                <h6 className="text-2xl font-medium">Dashboard</h6>
-                <div className="flex items-center gap-1 text-primary-400 hover:text-primary">
-                    <MdHistory />
-                    <Link
-                        href="/dashboard/history"
-                        title="Show recap history">
-                        History
-                    </Link>
-                </div>
-            </div>
-            <UserItemSubmitForm currentUserId={currentUser?.id as number} />
-            <Accordion title="Working Items List">
+            <Heading />
+            <UserItemSubmitForm currentUserId={currentUser.id} />
+            <Accordion title="Daftar Pekerjaan">
                 {
-                    (data as UserItem[]).length > 0 &&
+                    userItems && userItems.length > 0 &&
                     <>
-                        <UserItemList userItems={data} isRecap={false} />
-                        <UserItemRecapSubmit userItems={data} />
+                        <UserItemList userItems={userItems} canMutate />
+                        <UserItemRecapSubmit userItems={userItems} />
                     </>
                 }
-                {(!data || data.length === 0) &&
-                    <Empty message="You haven't submitted any working items for this period" />
+                {userItems && userItems.length === 0 &&
+                    <Empty>Anda belum melakukan submit pekerjaan pada periode ini</Empty>
                 }
+                {!userItems && <ErrorMessage useIcon>{userItemsMessage}</ErrorMessage>}
             </Accordion>
-            {updatedItemId && <UserItemUpdateForm userItem={res?.data} />}
+            {updatedItemId && userItem && <UserItemUpdateForm userItem={userItem} />}
+            {updatedItemId && !userItem && <ErrorMessage>{userItemMessage}</ErrorMessage>}
+            {deletedItemId && <DeleteSubmit id={deletedItemId} type="user-item" />}
         </section>
     )
 }

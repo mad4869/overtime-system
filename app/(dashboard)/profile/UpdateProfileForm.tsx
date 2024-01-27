@@ -13,28 +13,28 @@ import Button from "@/components/Button";
 import InputField from "@/components/InputField";
 import ErrorMessage from "@/components/ErrorMessage";
 import SuccessMessage from "@/components/SuccessMessage";
-import { userUpdateProfile } from "./actions/user";
+import { updateUserProfile } from "./actions/user";
 import { userRegisterSchema } from "@/schemas/validationSchemas";
 import { type Profile } from "@/types/customs";
 
 type UpdateProfileFormProps = {
-    user: Profile | undefined
+    profile: Profile
 }
 
-const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
+const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
     const userUpdateProfileSchema = userRegisterSchema.omit({ password: true })
     type UserUpdateProfile = z.infer<typeof userUpdateProfileSchema>
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserUpdateProfile>({
         resolver: zodResolver(userUpdateProfileSchema),
         defaultValues: {
-            name: user?.name,
-            npk: user?.npk,
-            email: user?.email,
-            position: user?.position,
-            unit: user?.unit,
-            department: user?.department,
-            company: user?.company
+            name: profile.name,
+            npk: profile.npk,
+            email: profile.email,
+            position: profile.position,
+            unit: profile.unit,
+            department: profile.department,
+            company: profile.company
         }
     })
 
@@ -43,13 +43,11 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
 
     const router = useRouter()
 
-    if (!user) return null
-
-    const { id, role, createdAt, updatedAt, ...rest } = user
+    const { id, role, createdAt, updatedAt, ...rest } = profile
     type Rest = typeof rest
 
-    const updateProfile = async (data: UserUpdateProfile) => {
-        const res = await userUpdateProfile(data, user.id)
+    const submitUpdate = async (data: UserUpdateProfile) => {
+        const res = await updateUserProfile(data, profile.id)
         if (res.success) {
             setUpdateProfileSuccess(res.message)
             setTimeout(() => {
@@ -66,7 +64,7 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
 
     return (
         <form
-            onSubmit={handleSubmit(updateProfile)}
+            onSubmit={handleSubmit(submitUpdate)}
             className="px-8 py-4 space-y-8 rounded-lg shadow-inner bg-primary-100 shadow-primary/50">
             <div className="space-y-4">
                 <div className="flex items-center gap-2 text-lg text-primary-500">
@@ -88,14 +86,9 @@ const UpdateProfileForm = ({ user }: UpdateProfileFormProps) => {
             </div>
             <div className="flex items-center gap-4">
                 <Link href="/profile">
-                    <Button type="button" title="Cancel" tooltip="Back to profile" options={{
-                        size: 'sm',
-                        type: 'outline',
-                        color: 'primary',
-                        isFull: false
-                    }} />
+                    <Button title="Batalkan update" options={{ type: 'outline' }}>Cancel</Button>
                 </Link>
-                <Button type="submit" title="Submit" tooltip="Update your profile" disabled={isSubmitting} />
+                <Button type="submit" title="Update profile" disabled={isSubmitting}>Submit</Button>
                 <ErrorMessage>{updateProfileError}</ErrorMessage>
                 <AnimatePresence>
                     {updateProfileSuccess && <SuccessMessage>{updateProfileSuccess}</SuccessMessage>}

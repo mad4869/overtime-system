@@ -6,32 +6,30 @@ import { MdEditSquare } from "react-icons/md"
 import { type Profile } from "@/types/customs";
 
 type ProfileListProps = {
-    user: Profile | undefined
+    profile: Profile
 }
 
-const ProfileList = ({ user }: ProfileListProps) => {
-    if (!user) return null
-
-    const { id, role, name, npk, email, createdAt, updatedAt, ...rest } = user
+const ProfileList = ({ profile }: ProfileListProps) => {
+    const { id, role, name, npk, email, createdAt, updatedAt, ...rest } = profile
     type Rest = typeof rest
 
     return (
         <div className="flex flex-col justify-center px-8 py-4 rounded-md shadow-md shadow-primary/50">
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-4">
-                    {user.role === 'USER' && <FaCircleUser size={50} />}
-                    {user.role === 'ADMIN' && <RiShieldUserFill size={50} />}
-                    {user.role === 'SUPER_ADMIN' && <ImUserTie size={50} />}
+                    {profile.role === 'USER' && <FaCircleUser size={50} />}
+                    {profile.role === 'ADMIN' && <RiShieldUserFill size={50} />}
+                    {profile.role === 'SUPER_ADMIN' && <ImUserTie size={50} />}
                     <div>
-                        <h6 className="text-2xl font-bold">{user?.name}</h6>
+                        <h6 className="text-2xl font-bold">{profile.name}</h6>
                         <span className="flex items-center gap-2 text-primary-500">
-                            <h6>NPK {user?.npk}</h6>
+                            <h6>NPK {profile.npk}</h6>
                             <span>|</span>
-                            <h6>{user?.email}</h6>
+                            <h6>{profile.email}</h6>
                         </span>
                     </div>
                 </div>
-                <Link href={`?updateProfile=true`}><MdEditSquare size={24} /></Link>
+                <Link href={{ query: { 'update-profile': true } }}><MdEditSquare size={24} /></Link>
             </div>
             <div>
                 {Object.keys(rest).map((key) => (

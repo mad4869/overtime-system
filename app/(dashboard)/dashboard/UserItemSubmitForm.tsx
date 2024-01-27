@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { useState } from "react"
 import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { IoIosSend } from "react-icons/io";
 import { FaScrewdriverWrench } from "react-icons/fa6"
 import { FaCalendarAlt, FaClock } from "react-icons/fa"
 
@@ -13,7 +14,7 @@ import ErrorMessage from "@/components/ErrorMessage"
 import SuccessMessage from "@/components/SuccessMessage"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
-import { userAddItem, type UserAddItem } from './actions/userItems'
+import { addUserItem, type UserAddItem } from './actions/userItems'
 
 type UserItemSubmitFormProps = {
     currentUserId: number
@@ -28,18 +29,18 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
     })
 
     const submitUserItem = async (data: UserAddItem) => {
-        const res = await userAddItem(data, currentUserId)
+        const res = await addUserItem(data, currentUserId)
         if (res.success) {
             reset()
-            setAddItemSuccess(`${res.message} The item: ${res.data?.item}`)
+            setAddItemSuccess(`${res.message} Pekerjaan: ${res.data?.item}`)
             setTimeout(() => {
                 setAddItemSuccess('')
-            }, 2000)
+            }, 3000)
         } else {
             setAddItemError(res.message)
             setTimeout(() => {
                 setAddItemError('')
-            }, 2000)
+            }, 5000)
         }
     }
 
@@ -48,11 +49,21 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
     return (
         <form
             onSubmit={handleSubmit(submitUserItem)}
-            className="flex flex-col items-center gap-8 px-48 py-4 text-sm rounded shadow-inner bg-primary-100 shadow-primary/50">
+            className="flex flex-col items-center gap-8 py-4 text-sm rounded shadow-inner px-36 bg-primary-100 shadow-primary/50">
             <div className="flex flex-col items-center">
-                <h6 className="text-lg">Working Item Form</h6>
-                <p className="text-xs text-primary-400">
-                    {recapPeriod.startPeriod.toLocaleDateString('en-GB')}-{recapPeriod.finishedPeriod.toLocaleDateString('en-GB')}
+                <h6 className="text-lg">Formulir Pekerjaan Lembur</h6>
+                <p className="text-xs text-primary-500">
+                    Submit pekerjaan yang Anda lakukan pada periode&nbsp;
+                    <span className="underline">
+                        {recapPeriod.startPeriod.toLocaleDateString(
+                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+                        )}
+                        -
+                        {recapPeriod.finishedPeriod.toLocaleDateString(
+                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+                        )}
+                    </span>
+                    &nbsp;di sini.
                 </p>
             </div>
             <div className="flex flex-col gap-2">
@@ -63,8 +74,8 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                         placeholder="Mengerjakan tugas lembur"
                         useLabel
                         icon={<FaScrewdriverWrench size={14} />}
-                        {...register('item')} />
-                    <ErrorMessage>{errors.item?.message}</ErrorMessage>
+                        {...register('pekerjaan')} />
+                    <ErrorMessage>{errors.pekerjaan?.message}</ErrorMessage>
                 </div>
                 <div>
                     <InputField
@@ -75,7 +86,7 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                         {...register('tanggal')} />
                     <ErrorMessage>{errors.tanggal?.message}</ErrorMessage>
                 </div>
-                <div className="flex items-center w-full gap-2">
+                <div className="flex items-start w-full gap-2">
                     <div>
                         <InputField
                             id='start-time'
@@ -99,12 +110,14 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                 <AnimatePresence>
                     {addItemSuccess && <SuccessMessage>{addItemSuccess}</SuccessMessage>}
                 </AnimatePresence>
-                <Button type='submit' title='Submit' tooltip='Submit working item' disabled={isSubmitting} options={{
-                    size: 'sm',
-                    type: 'fill',
-                    color: 'primary',
-                    isFull: true
-                }} />
+                <Button
+                    type='submit'
+                    title='Submit pekerjaan'
+                    disabled={isSubmitting}
+                    icon={<IoIosSend />}
+                    options={{ isFull: true }}>
+                    Submit
+                </Button>
             </div>
         </form>
     )

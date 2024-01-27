@@ -1,13 +1,29 @@
 import { z } from "zod";
 
+import setRecapPeriod from "@/constants/recapPeriod";
+
 const timeFormatRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/
+const recapPeriod = setRecapPeriod()
 
 export const userAddItemSchema = z.object({
-    item: z.string().min(1, 'Item is required.').trim(),
-    tanggal: z.coerce.date(),
-    mulai: z.string().min(1, 'Start time is required.').regex(timeFormatRegex, 'Invalid time format'),
-    selesai: z.string().min(1, 'Finished time is required.').regex(timeFormatRegex, 'Invalid time format')
-})
+    pekerjaan: z.string().min(1, 'Pekerjaan tidak boleh kosong.').trim(),
+    tanggal: z.string().length(10, 'Tanggal tidak boleh kosong.').refine((date) => {
+        const tanggal = new Date(date)
+        return (
+            tanggal.getTime() >= recapPeriod.startPeriod.getTime() &&
+            tanggal.getTime() <= recapPeriod.finishedPeriod.getTime()
+        )
+    }, 'Tanggal pekerjaan harus berada di dalam periode yang telah ditentukan.'),
+    mulai: z.string().min(1, 'Waktu mulai tidak boleh kosong.').regex(timeFormatRegex, 'Format waktu salah.'),
+    selesai: z.string().min(1, 'Waktu selesai tidak boleh kosong.').regex(timeFormatRegex, 'Format waktu salah.')
+}).refine((schema) => {
+    const [mulaiHour, mulaiMinute] = schema.mulai.split(':').map(Number);
+    const [selesaiHour, selesaiMinute] = schema.selesai.split(':').map(Number);
+
+    if (mulaiHour !== selesaiHour) return selesaiHour > mulaiHour
+
+    return selesaiMinute > mulaiMinute
+}, { message: 'Waktu selesai harus setelah mulai.', path: ['selesai'] })
 
 export const userLoginSchema = z.object({
     npk: z.string().min(1, 'NPK is required.').max(255).trim(),
@@ -32,10 +48,10 @@ export const userRegisterSchema = z.object({
 })
 
 export const userChangePasswordSchema = z.object({
-    'old password': z.string().min(6, 'Password requires min. 6 characters.'),
-    'new password': z.string().min(6, 'Password requires min. 6 characters.').refine((password) => {
+    'password lama': z.string().min(6, 'Password minimal berisi 6 karakter.'),
+    'password baru': z.string().min(6, 'Password minimal berisi 6 karakter.').refine((password) => {
         const hasNumber = /[0-9]/.test(password)
         const hasLetter = /[a-zA-Z]/.test(password)
         return hasNumber && hasLetter
-    }, 'Password must contain both numbers and letters.')
+    }, 'Password harus memiliki huruf dan angka sekaligus.')
 })

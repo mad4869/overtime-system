@@ -2,49 +2,65 @@
 
 import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+import { GrDocumentUpload } from "react-icons/gr";
+import { IoMdAlert } from "react-icons/io";
 
 import Button from "@/components/Button"
 import ErrorMessage from "@/components/ErrorMessage";
 import SuccessMessage from "@/components/SuccessMessage";
+import { addUserItemRecap } from "./actions/userItemRecaps";
 import { type UserItem } from "@/types/customs";
-import { userAddItemRecap } from "./actions/userItemsRecap";
 
 type UserItemRecapSubmitProps = {
-    userItems: UserItem[] | undefined
+    userItems: UserItem[]
 }
 
 const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
     const [addItemRecapSuccess, setAddItemsRecapSuccess] = useState('')
     const [addItemRecapError, setAddItemRecapError] = useState('')
+    const [isSubmitting, setIsSubmitting] = useState(false)
 
-    if (!userItems) return null
+    const submitRecap = async () => {
+        setIsSubmitting(true)
 
-    const submitItemRecap = async () => {
-        const res = await userAddItemRecap(userItems)
+        const res = await addUserItemRecap(userItems)
+
+        setIsSubmitting(false)
+
         if (res.success) {
-            setAddItemsRecapSuccess(`${res.message} ${res.data?.count} items submitted for approval.`)
+            setAddItemsRecapSuccess(`${res.message} ${res.data?.count} pekerjaan disubmit.`)
             setTimeout(() => {
                 setAddItemsRecapSuccess('')
-            }, 2000)
+            }, 3000)
         } else {
             setAddItemRecapError(res.message)
             setTimeout(() => {
                 setAddItemRecapError('')
-            }, 2000)
+            }, 5000)
         }
     }
 
     return (
-        <div className="flex items-center justify-end gap-4 mt-4">
-            <AnimatePresence>
-                {addItemRecapSuccess && <SuccessMessage>{addItemRecapSuccess}</SuccessMessage>}
-            </AnimatePresence>
-            <ErrorMessage>{addItemRecapError}</ErrorMessage>
-            <Button
-                type="button"
-                title="Submit"
-                tooltip="Submit working items for approval"
-                handleClick={submitItemRecap} />
+        <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-between gap-4">
+                <span className="flex items-center gap-2 text-xs text-primary-500">
+                    <IoMdAlert />
+                    <p>Periksa kembali daftar pekerjaan Anda sebelum melakukan submit</p>
+                </span>
+                <Button
+                    title="Submit pekerjaan sebagai rekap untuk disetujui"
+                    icon={<GrDocumentUpload />}
+                    disabled={isSubmitting}
+                    handleClick={submitRecap}>
+                    Submit sebagai Rekap
+                </Button>
+            </div>
+            <div className="flex justify-center items-center">
+                <AnimatePresence>
+                    {addItemRecapSuccess && <SuccessMessage>{addItemRecapSuccess}</SuccessMessage>}
+                </AnimatePresence>
+                <ErrorMessage>{addItemRecapError}</ErrorMessage>
+            </div>
         </div>
     )
 }

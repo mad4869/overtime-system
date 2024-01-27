@@ -1,17 +1,10 @@
 import prisma from "@/prisma/client";
-import { getServerSession } from "next-auth"
-
 import Empty from "@/components/Empty";
 import Pagination from "@/components/Pagination";
 import UserItemRecapList from "./UserItemRecapList";
-import { authOptions } from "@/config/authOptions"
 import { type PageProps } from "@/types/customs";
 
 export default async function UserItemRecapPanel({ searchParams }: PageProps) {
-    const session = await getServerSession(authOptions)
-    const currentUser = session?.user
-    if (currentUser?.role !== 'SUPER_ADMIN') return null
-
     const userItemRecapsCount = await prisma.userItemRecap.count()
 
     const pageSize = 10
