@@ -138,7 +138,12 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
             where: { id: userItemId }
         })
 
-        if (targetedItem?.userItemRecapId) return {
+        if (!targetedItem) return {
+            success: false,
+            message: 'Item tidak ditemukan.'
+        }
+
+        if (targetedItem.userItemRecapId) return {
             success: false,
             message: 'Pekerjaan ini sudah disubmit di dalam rekap. Mohon hapus rekap sebelum mengupdate pekerjaan ini.'
         }
@@ -175,7 +180,12 @@ export async function deleteUserItem(userItemId: number) {
             where: { id: userItemId }
         })
 
-        if (targetedItem?.userItemRecapId) return {
+        if (!targetedItem) return {
+            success: false,
+            message: 'Item tidak ditemukan.'
+        }
+
+        if (targetedItem.userItemRecapId) return {
             success: false,
             message: 'Pekerjaan ini sudah disubmit di dalam rekap. Mohon hapus rekap sebelum menghapus pekerjaan ini.'
         }

@@ -6,14 +6,15 @@ import { hash } from 'bcrypt'
 import { userRegisterSchema } from "@/schemas/validationSchemas";
 
 export type UserRegister = z.infer<typeof userRegisterSchema>
-type UserRegisterWoPassword = Omit<UserRegister, 'password'>
 
 export async function userRegister(user: UserRegister) {
     try {
-        if (!user.name || !user.npk || !user.email || !user.password || !user.position || !user.unit || !user.company) {
+        if (
+            !user.name || !user.npk || !user.email || !user.password || !user.jabatan || !user.unit || user.departemen || !user.perusahaan
+        ) {
             return {
                 success: false,
-                message: 'Missing required fields.'
+                message: 'Data tidak lengkap.'
             }
         }
 
@@ -23,7 +24,7 @@ export async function userRegister(user: UserRegister) {
         if (existingUser) {
             return {
                 success: false,
-                message: 'User already exists. Please use another NPK.'
+                message: 'User dengan NPK ini sudah terdaftar. Silakan melakukan login.'
             }
         }
 
@@ -35,23 +36,19 @@ export async function userRegister(user: UserRegister) {
                 npk: user.npk,
                 email: user.email,
                 password: hashedPassword,
-                position: user.position,
+                position: user.jabatan,
                 unit: user.unit,
-                department: user.department,
-                company: user.company
+                department: user.departemen,
+                company: user.perusahaan
             }
         })
 
-        let newUserWoPassword: UserRegisterWoPassword | undefined
-        if (newUser) {
-            const { password, ...rest } = newUser
-            newUserWoPassword = rest
-        }
+        const { password, ...rest } = newUser
 
         return {
             success: true,
-            message: 'User successfully registrated. Please login to access the site.',
-            data: newUserWoPassword
+            message: 'User berhasil terdaftar. Silakan melakukan login.',
+            data: rest
         }
     } catch (error) {
         console.error('Error during user registration:', error);

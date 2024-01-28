@@ -1,13 +1,13 @@
 import RecapList from "./RecapList";
 import ErrorMessage from "@/components/ErrorMessage";
 import setRecapPeriod from "@/constants/recapPeriod";
-import { adminGetUserItemsRecaps } from "../actions/items";
+import { getUserItemRecaps } from "../actions/userItemRecaps";
 
 export default async function Recap() {
     const recapPeriod = setRecapPeriod()
 
-    const res = await adminGetUserItemsRecaps()
-    if (!res.data) return <ErrorMessage>{res.message}</ErrorMessage>
+    const res = await getUserItemRecaps()
+    if (!res.data) return <ErrorMessage useIcon>{res.message}</ErrorMessage>
 
     return (
         <>

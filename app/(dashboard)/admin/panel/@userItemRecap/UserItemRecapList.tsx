@@ -1,12 +1,14 @@
-import { UserItemRecap } from "@/types/customs"
+import Link from "next/link"
+import { MdEditSquare, MdDelete } from "react-icons/md"
+import { type UserItemRecap } from "@/types/customs"
 
 type UserItemRecapSimple = Omit<UserItemRecap, 'userItems'>
 type UserItemRecapListProps = {
-    userItemRecaps: UserItemRecapSimple[] | undefined
+    userItemRecaps: UserItemRecapSimple[]
 }
 
 const UserItemRecapList = ({ userItemRecaps }: UserItemRecapListProps) => {
-    if (!userItemRecaps || userItemRecaps.length === 0) return null
+    if (userItemRecaps.length === 0) return null
 
     const keys = Object.keys(userItemRecaps[0])
 
@@ -25,6 +27,22 @@ const UserItemRecapList = ({ userItemRecaps }: UserItemRecapListProps) => {
                         {keys.map((key, index) => (
                             <td key={index}>{`${userItemRecap[key as keyof UserItemRecapSimple]}`}</td>
                         ))}
+                        <td>
+                            <Link
+                                href={{ query: { 'update-user-item-recap': userItemRecap.id } }}
+                                title="Update rekap"
+                                scroll={false}>
+                                <MdEditSquare />
+                            </Link>
+                        </td>
+                        <td>
+                            <Link
+                                href={{ query: { 'delete-user-item-recap': userItemRecap.id } }}
+                                title="Hapus rekap"
+                                scroll={false}>
+                                <MdDelete />
+                            </Link>
+                        </td>
                     </tr>
                 ))}
             </tbody>

@@ -1,4 +1,5 @@
 import { useRouter } from "next/navigation";
+import { MdDelete } from "react-icons/md"
 
 import Button from "@/components/Button"
 import { type UserItemRecap } from "@/types/customs";
@@ -26,6 +27,7 @@ const UserItemRecapDelete = ({ recap }: UserItemRecapDeleteProps) => {
                 }
                 handleClick={showDeleteModal}
                 disabled={recapApproved}
+                icon={<MdDelete />}
                 options={{ color: 'error' }}>
                 Hapus
             </Button>

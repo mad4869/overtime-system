@@ -77,6 +77,7 @@ export async function getUserItemRecap(recapId: number) {
                                 unit: true
                             }
                         },
+                        id: true,
                         userId: true,
                         item: true,
                         startTime: true,

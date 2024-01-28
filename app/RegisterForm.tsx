@@ -1,4 +1,3 @@
-import { z } from "zod"
 import { useState } from "react"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -47,7 +46,7 @@ const RegisterForm = () => {
                 <InputField
                     id="name"
                     type="text"
-                    placeholder="Joko Widodo"
+                    placeholder="User"
                     useLabel
                     icon={<FaUser size={14} />}
                     {...register('name')} />
@@ -63,7 +62,7 @@ const RegisterForm = () => {
                 <InputField
                     id="email"
                     type="email"
-                    placeholder="jokowi@email.com"
+                    placeholder="user@email.com"
                     useLabel
                     icon={<MdEmail size={14} />}
                     {...register('email')} />
@@ -79,15 +78,13 @@ const RegisterForm = () => {
                 <InputField
                     id="position"
                     type="text"
-                    placeholder="Mekanik"
                     useLabel
                     icon={<FaWrench size={14} />}
-                    {...register('position')} />
-                <ErrorMessage>{errors.position?.message}</ErrorMessage>
+                    {...register('jabatan')} />
+                <ErrorMessage>{errors.jabatan?.message}</ErrorMessage>
                 <InputField
                     id="unit"
                     type="text"
-                    placeholder="BB"
                     useLabel
                     icon={<MdShield size={14} />}
                     {...register('unit')} />
@@ -95,25 +92,23 @@ const RegisterForm = () => {
                 <InputField
                     id="department"
                     type="text"
-                    placeholder="Maintenance"
                     useLabel
                     icon={<FaUsers size={12} />}
-                    {...register('department')} />
-                <ErrorMessage>{errors.department?.message}</ErrorMessage>
+                    {...register('departemen')} />
+                <ErrorMessage>{errors.departemen?.message}</ErrorMessage>
                 <InputField
                     id="company"
                     type="text"
-                    placeholder="PT. YUM"
                     useLabel
                     icon={<FaBuilding size={14} />}
-                    {...register('company')} />
-                <ErrorMessage>{errors.company?.message}</ErrorMessage>
+                    {...register('perusahaan')} />
+                <ErrorMessage>{errors.perusahaan?.message}</ErrorMessage>
                 <ErrorMessage>{registerError}</ErrorMessage>
                 <AnimatePresence>
                     {registerSuccess && <SuccessMessage>{registerSuccess}</SuccessMessage>}
                 </AnimatePresence>
             </div>
-            <Button type="submit" title="Register" tooltip="Register" disabled={isSubmitting} />
+            <Button type="submit" title="Register" disabled={isSubmitting}>Register</Button>
         </form>
     )
 }

@@ -13,10 +13,10 @@ export default async function History({ searchParams }: PageProps) {
 
     if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
 
-    const fromDate = searchParams.from ? new Date(searchParams.from as string) : undefined
-    const untilDate = searchParams.until ? new Date(searchParams.until as string) : undefined
+    const fromDate = typeof searchParams.from === 'string' ? new Date(searchParams.from) : undefined
+    const untilDate = typeof searchParams.until === 'string' ? new Date(searchParams.until) : undefined
     const approved = Boolean(searchParams.approved)
-    const notApproved = Boolean(searchParams.notApproved)
+    const notApproved = Boolean(searchParams['not-approved'])
     const setFilterByApproval = () => {
         if ((approved && notApproved) || (!approved && !notApproved)) return undefined
         if (approved && !notApproved) return [{ isApprovedByAVP: true }, { isApprovedByVP: true }]

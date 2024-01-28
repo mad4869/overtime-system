@@ -63,7 +63,7 @@ const LoginForm = () => {
                 <ErrorMessage>{errors.password?.message}</ErrorMessage>
                 <ErrorMessage>{loginError}</ErrorMessage>
             </div>
-            <Button type="submit" title="Login" tooltip="Log In" disabled={isSubmitting} />
+            <Button type="submit" title="Log In" disabled={isSubmitting}>Login</Button>
         </form>
     )
 }

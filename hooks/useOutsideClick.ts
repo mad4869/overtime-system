@@ -19,10 +19,16 @@ const useOutsideClick = (
             }
         }
 
+        const handleClick = () => {
+            setIsClickedOutside(false)
+        };
+
         window.addEventListener('mousedown', handleOutsideClick)
+        window.addEventListener("click", handleClick)
 
         return () => {
             window.removeEventListener('mousedown', handleOutsideClick)
+            window.removeEventListener("click", handleClick)
         }
     }, [modalRef, buttonRef])
 

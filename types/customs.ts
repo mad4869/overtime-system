@@ -1,3 +1,5 @@
+import { $Enums } from "@prisma/client";
+
 export type PageProps = { searchParams: { [key: string]: string | string[] | undefined } }
 
 export type Profile = {
@@ -5,7 +7,7 @@ export type Profile = {
     name: string;
     npk: string;
     email: string;
-    role: 'USER' | 'ADMIN' | 'SUPER_ADMIN'
+    role: $Enums.UserRole
     position: string;
     unit: string;
     department: string;

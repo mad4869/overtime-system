@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth"
+import { RiLockPasswordFill } from "react-icons/ri"
+import { MdDelete } from "react-icons/md";
+import { type Metadata } from "next";
 
 import Button from "@/components/Button";
 import ProfileList from "./ProfileList"
@@ -10,6 +13,10 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { PageProps } from "@/types/customs";
 import { authOptions } from "@/config/authOptions"
 import { getUserProfile } from "./actions/user";
+
+export const metadata: Metadata = {
+    title: 'Profile'
+}
 
 export default async function Profile({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
@@ -30,12 +37,18 @@ export default async function Profile({ searchParams }: PageProps) {
             {!updateProfile &&
                 <div className="flex items-center gap-2 mt-36">
                     <Link href={{ query: { 'change-password': true } }}>
-                        <Button title="Ubah password" options={{ type: 'outline', color: 'secondary' }}>
+                        <Button
+                            title="Ubah password"
+                            icon={<RiLockPasswordFill />}
+                            options={{ type: 'outline', color: 'secondary' }}>
                             Ubah Password
                         </Button>
                     </Link>
                     <Link href={{ query: { 'delete-account': true } }}>
-                        <Button title="Hapus akun" options={{ type: 'outline', color: 'error' }}>
+                        <Button
+                            title="Hapus akun"
+                            icon={<MdDelete />}
+                            options={{ type: 'outline', color: 'error' }}>
                             Hapus Akun
                         </Button>
                     </Link>

@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AnimatePresence } from "framer-motion"
 import { IoMdAlert } from "react-icons/io";
+import { MdDelete } from "react-icons/md"
 
 import Button from '@/components/Button'
 import InputField from "@/components/InputField"
@@ -68,11 +69,9 @@ const DeleteAccountSubmit = ({ userId }: DeleteAccountSubmitProps) => {
             className="absolute z-10 flex flex-col items-center gap-2 px-4 py-4 text-sm rounded shadow-md bottom-16 left-0 bg-rose-600/30 backdrop-blur shadow-rose-600/70">
             <div className="text-rose-900 bg-white/30 px-4 py-1 flex justify-center items-center gap-2">
                 <IoMdAlert />
-                <p>
-                    <strong>Akun yang telah dihapus tak dapat dikembalikan.</strong>
-                    &nbsp;Masukkan password untuk melanjutkan.
-                </p>
+                <strong>Akun yang telah dihapus tak dapat dikembalikan</strong>
             </div>
+            <p className="text-rose-600 text-xs">Masukkan password untuk melanjutkan</p>
             <div className="flex flex-col gap-2">
                 <InputField
                     id="password"
@@ -84,7 +83,12 @@ const DeleteAccountSubmit = ({ userId }: DeleteAccountSubmitProps) => {
                 <AnimatePresence>
                     {deleteAccountSuccess && <SuccessMessage>{deleteAccountSuccess}</SuccessMessage>}
                 </AnimatePresence>
-                <Button type='submit' title='Hapus akun' disabled={isSubmitting} options={{ color: 'error', isFull: true }}>
+                <Button
+                    type='submit'
+                    title='Hapus akun'
+                    disabled={isSubmitting}
+                    icon={<MdDelete />}
+                    options={{ color: 'error', isFull: true }}>
                     Hapus
                 </Button>
             </div>

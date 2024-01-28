@@ -1,11 +1,13 @@
+import Link from "next/link"
+import { MdEditSquare, MdDelete } from "react-icons/md"
 import { type Profile } from "@/types/customs"
 
 type UserListProps = {
-    users: Profile[] | undefined
+    users: Profile[]
 }
 
 const UserList = ({ users }: UserListProps) => {
-    if (!users || users.length === 0) return null
+    if (users.length === 0) return null
 
     const keys = Object.keys(users[0])
 
@@ -24,6 +26,16 @@ const UserList = ({ users }: UserListProps) => {
                         {keys.map((key, index) => (
                             <td key={index}>{`${user[key as keyof Profile]}`}</td>
                         ))}
+                        <td>
+                            <Link href={{ query: { 'update-user': user.id } }} title="Update user" scroll={false}>
+                                <MdEditSquare />
+                            </Link>
+                        </td>
+                        <td>
+                            <Link href={{ query: { 'delete-user': user.id } }} title="Hapus user" scroll={false}>
+                                <MdDelete />
+                            </Link>
+                        </td>
                     </tr>
                 ))}
             </tbody>

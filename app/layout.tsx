@@ -7,8 +7,11 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Overtime Management System',
-  description: 'A web app to manage overtime workloads',
+  title: {
+    default: 'Sistem Manajemen Lembur',
+    template: ''
+  },
+  description: 'Aplikasi web untuk mengatur data pekerjaan lembur karyawan',
 }
 
 export default function RootLayout({

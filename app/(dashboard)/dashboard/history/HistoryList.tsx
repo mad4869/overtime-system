@@ -36,12 +36,21 @@ const HistoryList = (
     const modalRef = useRef<HTMLDivElement>(null)
     const filterButtonRef = useRef<HTMLSpanElement>(null)
 
-    const [isClickedOutside, setClickedOutside] = useOutsideClick(modalRef, filterButtonRef)
+    const [showModal, setShowModal] = useState(false)
+    const [isClickedOutside] = useOutsideClick(modalRef, filterButtonRef)
+
+    useEffect(() => {
+        if (isClickedOutside) {
+            setShowModal(false)
+        }
+    }, [isClickedOutside])
 
     const bottomRef = useRef<HTMLDivElement>(null)
     const reachBottom = useInView(bottomRef)
 
     useEffect(() => {
+        setRecaps(initialRecaps)
+
         const loadMoreRecaps = async () => {
             const setFilterByApproval = () => {
                 if ((approved && notApproved) || (!approved && !notApproved)) return undefined
@@ -70,18 +79,18 @@ const HistoryList = (
         }
 
         if (reachBottom && cursor) loadMoreRecaps()
-    }, [currentUserId, cursor, fromDate, untilDate, approved, notApproved, reachBottom])
+    }, [currentUserId, initialRecaps, cursor, fromDate, untilDate, approved, notApproved, reachBottom])
 
     return (
         <>
             <div className="flex items-center justify-between">
                 <h6 className="text-2xl font-medium">Histori</h6>
-                <span ref={filterButtonRef}>
-                    <IoFilterSharp
-                        size={20}
-                        style={{ cursor: 'pointer' }}
-                        title="Filter list"
-                        onClick={() => setClickedOutside(!isClickedOutside)} />
+                <span
+                    ref={filterButtonRef}
+                    className="cursor-pointer"
+                    title="Filter list"
+                    onClick={() => setShowModal(prev => !prev)}>
+                    <IoFilterSharp size={20} />
                 </span>
             </div>
             {recaps.map((recap, index) => (
@@ -105,7 +114,7 @@ const HistoryList = (
             {isLoading && <LoadingIndicator />}
             <div ref={bottomRef} />
             <AnimatePresence>
-                {!isClickedOutside && (
+                {showModal && (
                     <motion.div
                         ref={modalRef}
                         key="filter-modal"

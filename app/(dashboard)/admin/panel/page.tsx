@@ -12,7 +12,7 @@ export default async function Panel() {
     return (
         <section className="flex justify-between items-center">
             <div className="flex items-center gap-2 px-4 py-px text-xs text-white rounded-full bg-secondary-800 w-fit">
-                <span>You are logged is as</span>
+                <span>Anda login sebagai</span>
                 <span className="flex items-center gap-px">
                     {currentUser?.role === 'ADMIN' && <RiShieldUserFill />}
                     {currentUser?.role === 'SUPER_ADMIN' && <ImUserTie />}

@@ -56,10 +56,10 @@ export async function updateUserProfile(user: UserUpdate, userId: number) {
                 name: user.name,
                 npk: user.npk,
                 email: user.email,
-                position: user.position,
+                position: user.jabatan,
                 unit: user.unit,
-                department: user.department,
-                company: user.company
+                department: user.departemen,
+                company: user.perusahaan
             }
         })
 
@@ -163,7 +163,7 @@ export async function deleteUserProfile(userId: number, data: UserDeleteAccount)
             message: 'Profil user berhasil dihapus.',
         }
     } catch (error) {
-        console.error('Error during user registration:', error);
+        console.error('Error during user deletion:', error);
 
         return {
             success: false,

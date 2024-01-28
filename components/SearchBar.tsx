@@ -1,40 +1,28 @@
 'use client'
 
-import { ChangeEvent, useEffect, useMemo, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ChangeEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { HiMiniMagnifyingGlass } from "react-icons/hi2";
 
 const SearchBar = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const currentParams = useMemo(() => [...searchParams.entries()], [searchParams])
-    const path = usePathname()
-    const [query, setQuery] = useState('')
 
-    useEffect(() => {
-        const search = () => {
-            const params = new URLSearchParams()
+    const handleSearch = (q: string) => {
+        const params = new URLSearchParams(searchParams)
 
-            for (const [key, value] of currentParams) {
+        if (q) {
+            for (const [key, _] of params) {
                 if (key !== 'query') {
-                    params.set(key, value);
+                    params.set(key, `${1}`);
                 }
             }
-
-            if (query) {
-                params.set('query', encodeURIComponent(query))
-            } else {
-                params.delete('query')
-            }
-
-            router.push(`${path}?${params.toString()}`)
+            params.set('query', q)
+        } else {
+            params.delete('query')
         }
 
-        search()
-    }, [query, router, path, currentParams])
-
-    const sendQuery = (e: ChangeEvent<HTMLInputElement>) => {
-        setQuery(() => e.target.value)
+        router.replace(`?${params.toString()}`)
     }
 
     return (
@@ -43,9 +31,9 @@ const SearchBar = () => {
                 type="text"
                 placeholder="Search..."
                 className="px-2 py-1 focus:outline-none placeholder:text-primary-200"
-                value={query}
-                onChange={sendQuery} />
-            <span className="p-2 text-white rounded cursor-pointer bg-primary" onClick={() => setQuery(query)}>
+                defaultValue={searchParams.get('query')?.toString()}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)} />
+            <span className="p-2 text-white rounded cursor-pointer bg-primary">
                 <HiMiniMagnifyingGlass />
             </span>
         </div>

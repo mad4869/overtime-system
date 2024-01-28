@@ -7,7 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import Button from "@/components/Button"
 import ErrorMessage from "@/components/ErrorMessage";
 import SuccessMessage from "@/components/SuccessMessage";
-import { approveUserItemsRecap } from "../../../actions/items"
+import { approveUserItemRecap } from "../../../actions/userItemRecaps"
 
 type ApproveSubmitProps = {
     recapId: number
@@ -20,7 +20,7 @@ const ApproveSubmit = ({ recapId, isApproved, by }: ApproveSubmitProps) => {
     const [approveSubmitError, setApproveSubmitError] = useState('')
 
     const approveRecap = async () => {
-        const res = await approveUserItemsRecap(recapId, by)
+        const res = await approveUserItemRecap(recapId, by)
         if (res.success) {
             setApproveSubmitSuccess(res.message)
             setTimeout(() => {
@@ -42,11 +42,12 @@ const ApproveSubmit = ({ recapId, isApproved, by }: ApproveSubmitProps) => {
             </AnimatePresence>
             <Button
                 type="button"
-                title="Approve"
-                tooltip="Approve the submitted items"
+                title="Approve the submitted items"
                 handleClick={approveRecap}
                 disabled={isApproved}
-                icon={<FaThumbsUp />} />
+                icon={<FaThumbsUp />}>
+                Approve
+            </Button>
         </div>
     )
 }

@@ -4,7 +4,7 @@ import UserItemList from "../UserItemList"
 import ApproveSubmit from "./ApproveSubmit";
 import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
-import { adminGetUserItemsRecap } from "@/app/(dashboard)/admin/actions/items"
+import { getUserItemRecap } from "../../../actions/userItemRecaps"
 
 export default async function Detail({ params }: { params: { id: string } }) {
     const session = await getServerSession(authOptions)
@@ -12,7 +12,7 @@ export default async function Detail({ params }: { params: { id: string } }) {
 
     const recapId = parseInt(params.id)
 
-    const res = await adminGetUserItemsRecap(recapId)
+    const res = await getUserItemRecap(recapId)
     if (!res.data) return <ErrorMessage>{res.message}</ErrorMessage>
 
     const isApprovedByVP = res.data.isApprovedByVP

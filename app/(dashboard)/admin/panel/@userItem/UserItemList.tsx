@@ -1,12 +1,14 @@
+import Link from "next/link"
+import { MdEditSquare, MdDelete } from "react-icons/md"
 import { type UserItem } from "@/types/customs"
 
 type UserItemSimple = Omit<UserItem, 'user'>
 type UserListProps = {
-    userItems: UserItemSimple[] | undefined
+    userItems: UserItemSimple[]
 }
 
 const UserList = ({ userItems }: UserListProps) => {
-    if (!userItems || userItems.length === 0) return null
+    if (userItems.length === 0) return null
 
     const keys = Object.keys(userItems[0])
 
@@ -25,6 +27,16 @@ const UserList = ({ userItems }: UserListProps) => {
                         {keys.map((key, index) => (
                             <td key={index}>{`${userItem[key as keyof UserItemSimple]}`}</td>
                         ))}
+                        <td>
+                            <Link href={{ query: { 'update-user-item': userItem.id } }} title="Update item" scroll={false}>
+                                <MdEditSquare />
+                            </Link>
+                        </td>
+                        <td>
+                            <Link href={{ query: { 'delete-user-item': userItem.id } }} title="Hapus item" scroll={false}>
+                                <MdDelete />
+                            </Link>
+                        </td>
                     </tr>
                 ))}
             </tbody>

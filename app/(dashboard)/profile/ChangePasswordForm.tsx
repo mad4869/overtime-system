@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AnimatePresence } from "framer-motion"
+import { IoIosSend } from "react-icons/io";
 import { RiLockPasswordFill } from "react-icons/ri"
 
 import Button from '@/components/Button'
@@ -69,7 +70,7 @@ const ChangePasswordForm = ({ userId }: ChangePasswordFormProps) => {
                         type="password"
                         placeholder="******"
                         useLabel
-                        icon={<RiLockPasswordFill size={14} className="text-secondary-900" />}
+                        icon={<RiLockPasswordFill className="text-secondary-900" />}
                         {...register('password lama')} />
                     <ErrorMessage>{errors["password lama"]?.message}</ErrorMessage>
                 </div>
@@ -79,7 +80,7 @@ const ChangePasswordForm = ({ userId }: ChangePasswordFormProps) => {
                         type="password"
                         placeholder="*******"
                         useLabel
-                        icon={<RiLockPasswordFill size={14} />}
+                        icon={<RiLockPasswordFill />}
                         {...register('password baru')} />
                     <ErrorMessage>{errors["password baru"]?.message}</ErrorMessage>
                 </div>
@@ -87,7 +88,12 @@ const ChangePasswordForm = ({ userId }: ChangePasswordFormProps) => {
                 <AnimatePresence>
                     {changePasswordSuccess && <SuccessMessage>{changePasswordSuccess}</SuccessMessage>}
                 </AnimatePresence>
-                <Button type='submit' title='Ganti password' disabled={isSubmitting} options={{ isFull: true }}>
+                <Button
+                    type='submit'
+                    title='Ganti password'
+                    disabled={isSubmitting}
+                    icon={<IoIosSend />}
+                    options={{ isFull: true }}>
                     Update
                 </Button>
             </div>

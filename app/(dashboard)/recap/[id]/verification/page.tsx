@@ -1,13 +1,13 @@
 
-import ErrorMessage from "@/components/ErrorMessage"
-import { userGetItemRecap } from "@/app/(dashboard)/dashboard/actions/userItemRecaps"
-import { type PageProps } from "@/types/customs"
 import SignatureVerification from "./SignatureVerification"
+import ErrorMessage from "@/components/ErrorMessage"
+import { getUserItemRecap } from "@/app/(dashboard)/dashboard/actions/userItemRecaps"
+import { type PageProps } from "@/types/customs"
 
 export default async function Verification({ params, searchParams }: { params: { id: string } } & PageProps) {
     const recapId = parseInt(params.id)
 
-    const res = await userGetItemRecap(recapId)
+    const res = await getUserItemRecap(recapId)
     if (!res.data) return <ErrorMessage>{res.message}</ErrorMessage>
 
     const signature = typeof searchParams.signature === 'string' ? searchParams.signature : undefined

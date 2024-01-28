@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
+import { type Metadata } from "next"
 
 import Heading from "./Heading"
 import DeleteSubmit from "./DeleteSubmit"
@@ -15,6 +16,10 @@ const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr
 const UserItemList = dynamic(() => import('@/components/UserItemList'))
 const ErrorMessage = dynamic(() => import('@/components/ErrorMessage'))
 const Empty = dynamic(() => import("@/components/Empty"))
+
+export const metadata: Metadata = {
+    title: 'Dashboard'
+}
 
 export default async function Dashboard({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)

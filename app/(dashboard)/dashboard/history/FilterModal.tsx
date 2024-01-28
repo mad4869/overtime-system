@@ -1,39 +1,21 @@
-import { useRouter, useSearchParams } from "next/navigation"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 const FilterModal = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const pathname = usePathname()
 
-    const [fromDate, setFromDate] = useState(searchParams.get('from') || '')
-    const [untilDate, setUntilDate] = useState(searchParams.get('until') || '')
-    const [approved, setApproved] = useState(Boolean(searchParams.get('approved')))
-    const [notApproved, setNotApproved] = useState(Boolean(searchParams.get('notApproved')))
+    const handleFilter = (type: string, q: string) => {
+        const params = new URLSearchParams(searchParams)
 
-    useEffect(() => {
-        const searchParams = new URLSearchParams()
-
-        if (fromDate) {
-            searchParams.set('from', fromDate);
-        }
-        if (untilDate) {
-            searchParams.set('until', untilDate);
-        }
-        if (approved) {
-            searchParams.set('approved', 'true');
-        }
-        if (notApproved) {
-            searchParams.set('notApproved', 'true');
+        if (q) {
+            params.set(type, q)
+        } else {
+            params.delete(type)
         }
 
-        router.replace(`?${searchParams.toString()}`)
-    }, [fromDate, untilDate, approved, notApproved, router])
-
-    const resetFilter = () => {
-        setFromDate('')
-        setUntilDate('')
-        setApproved(false)
-        setNotApproved(false)
+        router.push(`?${params.toString()}`, { scroll: false })
     }
 
     return (
@@ -47,16 +29,16 @@ const FilterModal = () => {
                         <input
                             id="from"
                             type="date"
-                            value={fromDate}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setFromDate(e.target.value)} />
+                            defaultValue={searchParams.get('from')?.toString()}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleFilter('from', e.target.value)} />
                     </div>
                     <div>
                         <label htmlFor="until" className="font-medium">Sampai:</label>
                         <input
                             id="until"
                             type="date"
-                            value={untilDate}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) => setUntilDate(e.target.value)} />
+                            defaultValue={searchParams.get('until')?.toString()}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => handleFilter('until', e.target.value)} />
                     </div>
                 </div>
             </div>
@@ -66,15 +48,21 @@ const FilterModal = () => {
                     <span>
                         <input
                             type="checkbox"
-                            checked={approved}
-                            onChange={() => setApproved(!approved)} />
+                            checked={searchParams.get("approved") === "true"}
+                            onChange={
+                                (e: ChangeEvent<HTMLInputElement>) => handleFilter(
+                                    "approved", e.target.checked ? "true" : ""
+                                )} />
                         &nbsp;Disetujui
                     </span>
                     <span>
                         <input
                             type="checkbox"
-                            checked={notApproved}
-                            onChange={() => setNotApproved(!notApproved)} />
+                            checked={searchParams.get("not-approved") === "true"}
+                            onChange={
+                                (e: ChangeEvent<HTMLInputElement>) => handleFilter(
+                                    "not-approved", e.target.checked ? "true" : ""
+                                )} />
                         &nbsp;Belum Disetujui
                     </span>
                 </div>
@@ -83,7 +71,7 @@ const FilterModal = () => {
                 <button
                     title="Reset filter"
                     className="text-xs text-secondary hover:underline"
-                    onClick={resetFilter}>
+                    onClick={() => router.replace(pathname)}>
                     Reset
                 </button>
             </div>
