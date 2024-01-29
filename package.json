@@ -15,6 +15,7 @@
     "@react-pdf/renderer": "^3.2.1",
     "bcrypt": "^5.1.1",
     "framer-motion": "^10.18.0",
+    "jsonwebtoken": "^9.0.2",
     "next": "14.0.4",
     "next-auth": "^4.24.5",
     "qrcode": "^1.5.3",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20",
     "@types/qrcode": "^1.5.5",
     "@types/react": "^18",

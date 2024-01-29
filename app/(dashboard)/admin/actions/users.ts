@@ -41,6 +41,32 @@ export async function getUserProfile(userId: number | undefined) {
     }
 }
 
+export async function getSuperAdminProfile() {
+    try {
+        const superAdmins = await prisma.user.findMany({
+            where: { role: 'SUPER_ADMIN' }
+        })
+
+        if (superAdmins.length === 0) return {
+            success: false,
+            message: 'Super admin tidak ditemukan.'
+        }
+
+        return {
+            success: true,
+            message: 'Super admin berhasil diperoleh.',
+            data: superAdmins
+        }
+    } catch (error) {
+        console.error('Error during data fetching:', error);
+
+        return {
+            success: false,
+            message: 'Internal server error'
+        }
+    }
+}
+
 export async function updateUserProfile(user: UserUpdate, userId: number) {
     try {
         const targetedProfile = await prisma.user.findUnique({

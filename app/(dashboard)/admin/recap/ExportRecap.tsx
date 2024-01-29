@@ -10,13 +10,15 @@ import Button from "@/components/Button"
 import useClient from "@/hooks/useClient";
 import setRecapPeriod from "@/constants/recapPeriod";
 import useExportToExcel from "@/hooks/useExportToExcel"
-import { type UserItemRecapSimple } from "@/types/customs"
+import { Profile, type UserItemRecapSimple } from "@/types/customs"
 
 type ExportRecapProps = {
     userItemRecaps: UserItemRecapSimple[]
+    avp: Profile
+    vp: Profile
 }
 
-const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
+const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     const isClient = useClient()
     const exportToExcel = useExportToExcel(userItemRecaps)
 
@@ -29,33 +31,33 @@ const ExportRecap = ({ userItemRecaps }: ExportRecapProps) => {
             {isClient &&
                 <div className="flex items-center justify-center gap-4">
                     <PDFDownloadLink
-                        document={<RecapLetters recaps={userItemRecaps} />}
+                        document={<RecapLetters recaps={userItemRecaps} avp={avp} vp={vp} />}
                         fileName={`Recap_Tanggal_${recapPeriod.startPeriod.toLocaleDateString('id-ID')}_${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}`}>
                         {({ blob, url, loading, error }) =>
                             loading ?
                                 <div className="px-4 py-1 text-xs rounded-full bg-primary-300 text-primary">
-                                    Loading Document...
+                                    Menunggu dokumen...
                                 </div> : error ?
                                     <Button
-                                        type="button"
-                                        title="Document Error"
-                                        tooltip="Error occured during document rendering process"
+                                        title="Error saat pemrosesan dokumen"
                                         disabled
-                                        icon={<IoMdAlert />} /> :
+                                        icon={<IoMdAlert />}>
+                                        Dokumen error
+                                    </Button> :
                                     <Button
-                                        type="button"
-                                        title="Export to PDF"
-                                        tooltip="Export recap document into a PDF file"
-                                        icon={<FaRegFilePdf />} />
+                                        title="Export rekap menjadi file PDF"
+                                        icon={<FaRegFilePdf />}>
+                                        Ubah ke PDF
+                                    </Button>
                         }
                     </PDFDownloadLink>
                     <Button
-                        type="button"
-                        title="Export to Excel"
-                        tooltip="Export recap document into an XLSX file"
+                        title="Export rekap menjadi file Excel"
                         icon={<SiMicrosoftexcel />}
-                        options={{ size: 'sm', color: 'secondary', type: 'fill', isFull: false }}
-                        handleClick={exportToExcel} />
+                        options={{ color: 'secondary' }}
+                        handleClick={exportToExcel}>
+                        Ubah ke Excel
+                    </Button>
                 </div>
             }
         </>

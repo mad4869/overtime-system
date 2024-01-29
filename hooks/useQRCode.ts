@@ -1,19 +1,19 @@
 import QRCode from 'qrcode'
 import { useEffect, useState } from "react";
 
-const useQRCode = (dataUrl: string, isApproved: boolean) => {
-    const [qrCodeData, setQrCodeData] = useState('')
+const useQRCode = (url: string, token: string, by: 'AVP' | 'VP', isApproved: boolean) => {
+    const [qrCodeUrl, setQrCodeUrl] = useState('')
 
     useEffect(() => {
         if (isApproved) {
-            QRCode.toDataURL(dataUrl, (err, url) => {
+            QRCode.toDataURL(`${url}?token=${token}&by=${by}`, (err, url) => {
                 if (err) throw err
-                setQrCodeData(url)
+                setQrCodeUrl(url)
             })
         }
-    }, [dataUrl, isApproved])
+    }, [url, token, by, isApproved])
 
-    return qrCodeData
+    return qrCodeUrl
 }
 
 export default useQRCode

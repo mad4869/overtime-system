@@ -8,12 +8,12 @@ export default async function Verification({ params, searchParams }: { params: {
     const recapId = parseInt(params.id)
 
     const res = await getUserItemRecap(recapId)
-    if (!res.data) return <ErrorMessage>{res.message}</ErrorMessage>
+    if (!res.data) return <ErrorMessage useIcon>{res.message}</ErrorMessage>
 
-    const signature = typeof searchParams.signature === 'string' ? searchParams.signature : undefined
+    const token = typeof searchParams.token === 'string' ? searchParams.token : undefined
     const by = (searchParams.by === 'AVP' || searchParams.by === 'VP') ? searchParams.by : undefined
 
-    if (!signature || !by) return <ErrorMessage>Signature is invalid.</ErrorMessage>
+    if (!token || !by) return <ErrorMessage useIcon>Signature is invalid</ErrorMessage>
 
-    return <SignatureVerification recap={res.data} signature={signature} by={by} />
+    return <SignatureVerification recap={res.data} token={token} by={by} />
 }
