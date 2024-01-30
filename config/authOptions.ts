@@ -23,15 +23,15 @@ export const authOptions: AuthOptions = {
             async authorize(credentials, req) {
                 try {
                     if (!credentials?.npk || !credentials.password) {
-                        return null;
+                        return null
                     }
 
                     const existingUser = await prisma?.user.findUnique({
                         where: { npk: credentials.npk }
                     });
 
-                    if (!existingUser) {
-                        return null;
+                    if (!existingUser || !existingUser.isActive) {
+                        return null
                     }
 
                     const passwordMatch = await compare(credentials.password, existingUser.password);
@@ -49,7 +49,8 @@ export const authOptions: AuthOptions = {
                         position: existingUser.position,
                         unit: existingUser.unit,
                         department: existingUser.department,
-                        company: existingUser.company
+                        company: existingUser.company,
+                        isActive: existingUser.isActive
                     };
                 } catch (error) {
                     console.error("Error in authorization:", error);
@@ -68,6 +69,7 @@ export const authOptions: AuthOptions = {
                 token.unit = user.unit
                 token.department = user.department
                 token.company = user.company
+                token.isActive = user.isActive
             }
 
             return token;
@@ -83,7 +85,8 @@ export const authOptions: AuthOptions = {
                     position: token.position,
                     unit: token.unit,
                     department: token.department,
-                    company: token.company
+                    company: token.company,
+                    isActive: token.isActive
                 }
             };
         }

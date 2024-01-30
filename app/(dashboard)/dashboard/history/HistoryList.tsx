@@ -110,7 +110,7 @@ const HistoryList = (
                     <UserItemRecapDelete recap={recap} />
                 </Accordion>
             ))}
-            {(recaps.length === 0) && <Empty>Belum ada rekap pekerjaan yang disubmit.</Empty>}
+            {(recaps.length === 0) && <Empty>Belum ada rekap pekerjaan yang disubmit</Empty>}
             {isLoading && <LoadingIndicator />}
             <div ref={bottomRef} />
             <AnimatePresence>

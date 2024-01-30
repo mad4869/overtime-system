@@ -1,18 +1,18 @@
 import { useState } from "react"
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { AnimatePresence } from "framer-motion";
-import { MdShield, MdEmail } from "react-icons/md";
+import { AnimatePresence } from "framer-motion"
 import { HiIdentification } from "react-icons/hi2"
+import { MdShield, MdEmail } from "react-icons/md"
 import { RiLockPasswordFill } from "react-icons/ri"
-import { FaUser, FaWrench, FaUsers, FaBuilding } from "react-icons/fa";
+import { FaUser, FaUsers, FaBuilding, FaIdCardAlt } from "react-icons/fa"
 
 import InputField from "@/components/InputField"
 import Button from "@/components/Button"
 import ErrorMessage from "@/components/ErrorMessage"
 import SuccessMessage from "@/components/SuccessMessage"
 import { userRegisterSchema } from "@/schemas/validationSchemas"
-import { userRegister, type UserRegister } from "./actions/auth"
+import { userRegister, type UserRegister } from "../actions/auth"
 
 const RegisterForm = () => {
     const [registerError, setRegisterError] = useState('')
@@ -28,13 +28,14 @@ const RegisterForm = () => {
             setRegisterError(res.message)
             setTimeout(() => {
                 setRegisterError('')
-            }, 2000)
+            }, 5000)
         } else {
             reset()
+
             setRegisterSuccess(res.message)
             setTimeout(() => {
                 setRegisterSuccess('')
-            }, 2000)
+            }, 3000)
         }
     }
 
@@ -49,8 +50,8 @@ const RegisterForm = () => {
                     placeholder="User"
                     useLabel
                     icon={<FaUser size={14} />}
-                    {...register('name')} />
-                <ErrorMessage>{errors.name?.message}</ErrorMessage>
+                    {...register('nama')} />
+                <ErrorMessage>{errors.nama?.message}</ErrorMessage>
                 <InputField
                     id="npk"
                     type="text"
@@ -79,7 +80,7 @@ const RegisterForm = () => {
                     id="position"
                     type="text"
                     useLabel
-                    icon={<FaWrench size={14} />}
+                    icon={<FaIdCardAlt size={12} />}
                     {...register('jabatan')} />
                 <ErrorMessage>{errors.jabatan?.message}</ErrorMessage>
                 <InputField

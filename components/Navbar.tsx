@@ -25,7 +25,7 @@ const Navbar = async () => {
         <nav className="flex flex-col items-center justify-between h-full w-72">
             <Link href="/dashboard" className="flex items-center w-full gap-4">
                 <Logo size="sm" />
-                <h1 className={`text-2xl font-bold text-amber-400 ${oswald.className}`}>OMS</h1>
+                <h1 className={`text-2xl font-bold text-amber-400 ${oswald.className}`}>SML</h1>
             </Link>
             <Menu currentProfileRole={currentProfile?.role} />
             <div className="w-full">

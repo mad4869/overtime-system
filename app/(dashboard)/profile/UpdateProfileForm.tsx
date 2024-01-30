@@ -7,7 +7,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
-import { FaClipboardList } from "react-icons/fa";
+import { FaClipboardList } from "react-icons/fa"
+import { HiIdentification } from "react-icons/hi2"
+import { MdShield, MdEmail } from "react-icons/md"
+import { RiLockPasswordFill } from "react-icons/ri"
+import { FaUser, FaUsers, FaBuilding, FaIdCardAlt } from "react-icons/fa"
 
 import Button from "@/components/Button";
 import InputField from "@/components/InputField";
@@ -28,13 +32,13 @@ const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserUpdateProfile>({
         resolver: zodResolver(userUpdateProfileSchema),
         defaultValues: {
-            name: profile.name,
+            nama: profile.name,
             npk: profile.npk,
             email: profile.email,
-            position: profile.position,
+            jabatan: profile.position,
             unit: profile.unit,
-            department: profile.department,
-            company: profile.company
+            departemen: profile.department,
+            perusahaan: profile.company
         }
     })
 
@@ -43,8 +47,7 @@ const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
 
     const router = useRouter()
 
-    const { id, role, createdAt, updatedAt, ...rest } = profile
-    type Rest = typeof rest
+    const { id, role, createdAt, updatedAt, isActive, ...rest } = profile
 
     const submitUpdate = async (data: UserUpdateProfile) => {
         const res = await updateUserProfile(data, profile.id)
@@ -72,16 +75,58 @@ const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
                     <h6 className="font-medium">Update Profile</h6>
                 </div>
                 <div className="space-y-2">
-                    {Object.keys(rest).map((key) => (
-                        <div key={key} className="flex flex-col">
-                            <InputField
-                                id={key}
-                                type="text"
-                                useLabel
-                                {...register(key as keyof Rest)} />
-                            <ErrorMessage>{errors[key as keyof Rest]?.message}</ErrorMessage>
-                        </div>
-                    ))}
+                    <InputField
+                        id="name"
+                        type="text"
+                        placeholder="User"
+                        useLabel
+                        icon={<FaUser size={14} />}
+                        {...register('nama')} />
+                    <ErrorMessage>{errors.nama?.message}</ErrorMessage>
+                    <InputField
+                        id="npk"
+                        type="text"
+                        placeholder="123456"
+                        useLabel
+                        icon={<HiIdentification size={14} />}
+                        {...register('npk')} />
+                    <ErrorMessage>{errors.npk?.message}</ErrorMessage>
+                    <InputField
+                        id="email"
+                        type="email"
+                        placeholder="user@email.com"
+                        useLabel
+                        icon={<MdEmail size={14} />}
+                        {...register('email')} />
+                    <ErrorMessage>{errors.npk?.message}</ErrorMessage>
+                    <InputField
+                        id="position"
+                        type="text"
+                        useLabel
+                        icon={<FaIdCardAlt size={12} />}
+                        {...register('jabatan')} />
+                    <ErrorMessage>{errors.jabatan?.message}</ErrorMessage>
+                    <InputField
+                        id="unit"
+                        type="text"
+                        useLabel
+                        icon={<MdShield size={14} />}
+                        {...register('unit')} />
+                    <ErrorMessage>{errors.unit?.message}</ErrorMessage>
+                    <InputField
+                        id="department"
+                        type="text"
+                        useLabel
+                        icon={<FaUsers size={12} />}
+                        {...register('departemen')} />
+                    <ErrorMessage>{errors.departemen?.message}</ErrorMessage>
+                    <InputField
+                        id="company"
+                        type="text"
+                        useLabel
+                        icon={<FaBuilding size={14} />}
+                        {...register('perusahaan')} />
+                    <ErrorMessage>{errors.perusahaan?.message}</ErrorMessage>
                 </div>
             </div>
             <div className="flex items-center gap-4">

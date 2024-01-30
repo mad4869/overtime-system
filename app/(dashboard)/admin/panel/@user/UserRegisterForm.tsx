@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import RegisterForm from "@/app/RegisterForm";
+import RegisterForm from "@/app/(landing)/RegisterForm";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
 const UserRegisterForm = () => {

@@ -10,7 +10,7 @@ const ErrorMessage = ({ children, useIcon = false }: ErrorMessageProps) => {
 
     return (
         <span className={`
-            text-xs text-rose-600
+            text-xs text-rose-800
             ${useIcon && 'flex items-center gap-2 px-4 py-1 bg-rose-400/50 rounded-full'}
         `}>
             {useIcon && <IoMdAlert />}

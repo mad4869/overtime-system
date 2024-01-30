@@ -41,7 +41,40 @@ export async function getUserProfile(userId: number | undefined) {
     }
 }
 
-export async function getSuperAdminProfile() {
+export async function getInactiveProfiles(pageSize?: number, skipped?: number) {
+    try {
+        const inactives = await prisma.user.findMany({
+            where: { isActive: false },
+            take: pageSize,
+            skip: skipped,
+            orderBy: { createdAt: 'asc' }
+        })
+
+        const inactivesCount = await prisma.user.count({
+            where: { isActive: false }
+        })
+
+        const inactivesWoPassword = inactives.map((inactive) => {
+            const { password, ...rest } = inactive
+            return rest
+        })
+
+        return {
+            success: true,
+            message: 'Daftar user tidak aktif berhasil diperoleh.',
+            data: { profiles: inactivesWoPassword, profilesCount: inactivesCount }
+        }
+    } catch (error) {
+        console.error('Error during data fetching:', error);
+
+        return {
+            success: false,
+            message: 'Internal server error'
+        }
+    }
+}
+
+export async function getSuperAdminProfiles() {
     try {
         const superAdmins = await prisma.user.findMany({
             where: { role: 'SUPER_ADMIN' }
@@ -52,13 +85,55 @@ export async function getSuperAdminProfile() {
             message: 'Super admin tidak ditemukan.'
         }
 
+        const superAdminsWoPassword = superAdmins.map((superAdmin) => {
+            const { password, ...rest } = superAdmin
+            return rest
+        })
+
         return {
             success: true,
             message: 'Super admin berhasil diperoleh.',
-            data: superAdmins
+            data: superAdminsWoPassword
         }
     } catch (error) {
         console.error('Error during data fetching:', error);
+
+        return {
+            success: false,
+            message: 'Internal server error'
+        }
+    }
+}
+
+export async function activateProfile(userId: number) {
+    try {
+        const targetedProfile = await prisma.user.findUnique({
+            where: { id: userId }
+        })
+
+        if (!targetedProfile) return {
+            success: false,
+            message: 'Profil user tidak ditemukan.'
+        }
+
+        const updatedProfile = await prisma.user.update({
+            where: { id: userId },
+            data: {
+                isActive: true
+            }
+        })
+
+        const { password, ...rest } = updatedProfile
+
+        revalidatePath('/admin')
+
+        return {
+            success: true,
+            message: 'Profil user berhasil diaktivasi.',
+            data: rest
+        }
+    } catch (error) {
+        console.error('Error during data update:', error);
 
         return {
             success: false,
@@ -81,7 +156,7 @@ export async function updateUserProfile(user: UserUpdate, userId: number) {
         const updatedProfile = await prisma.user.update({
             where: { id: userId },
             data: {
-                name: user.name,
+                name: user.nama,
                 npk: user.npk,
                 email: user.email,
                 role: user.role,

@@ -41,11 +41,6 @@ export async function getUserItemRecaps() {
             orderBy: { createdAt: 'asc' }
         })
 
-        if (userItemRecaps.length === 0) return {
-            success: false,
-            message: 'Daftar rekap tidak ditemukan.'
-        }
-
         return {
             success: true,
             message: 'Daftar rekap berhasil diperoleh.',
@@ -221,7 +216,7 @@ export async function approveUserItemRecap(recapId: number, by: 'VP' | 'AVP') {
 
             return {
                 success: true,
-                message: 'Rekap berhasil diupdate.',
+                message: 'Rekap pekerjaan berhasil disetujui.',
                 data: updatedRecap
             }
         }

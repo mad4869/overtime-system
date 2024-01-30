@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { FaCircleUser } from "react-icons/fa6";
-import { RiShieldUserFill } from "react-icons/ri";
 import { ImUserTie } from "react-icons/im";
 import { MdEditSquare } from "react-icons/md"
+import { FaCircleUser } from "react-icons/fa6";
+import { RiShieldUserFill } from "react-icons/ri";
 import { type Profile } from "@/types/customs";
 
 type ProfileListProps = {
@@ -10,9 +10,6 @@ type ProfileListProps = {
 }
 
 const ProfileList = ({ profile }: ProfileListProps) => {
-    const { id, role, name, npk, email, createdAt, updatedAt, ...rest } = profile
-    type Rest = typeof rest
-
     return (
         <div className="flex flex-col justify-center px-8 py-4 rounded-md shadow-md shadow-primary/50">
             <div className="flex items-center justify-between mb-4">
@@ -32,12 +29,22 @@ const ProfileList = ({ profile }: ProfileListProps) => {
                 <Link href={{ query: { 'update-profile': true } }}><MdEditSquare size={24} /></Link>
             </div>
             <div>
-                {Object.keys(rest).map((key) => (
-                    <div key={key} className="flex items-center gap-4 p-2 text-sm">
-                        <span className="w-32 p-1 text-center text-white rounded bg-primary">{key.toUpperCase()}</span>
-                        <span className="text-primary-500">{rest[key as keyof Rest]}</span>
-                    </div>
-                ))}
+                <div className="flex items-center gap-4 p-2 text-sm">
+                    <span className="w-32 p-1 text-center text-white rounded bg-primary">Jabatan</span>
+                    <span className="text-primary-500">{profile.position}</span>
+                </div>
+                <div className="flex items-center gap-4 p-2 text-sm">
+                    <span className="w-32 p-1 text-center text-white rounded bg-primary">Unit Kerja</span>
+                    <span className="text-primary-500">{profile.unit}</span>
+                </div>
+                <div className="flex items-center gap-4 p-2 text-sm">
+                    <span className="w-32 p-1 text-center text-white rounded bg-primary">Departemen</span>
+                    <span className="text-primary-500">{profile.department}</span>
+                </div>
+                <div className="flex items-center gap-4 p-2 text-sm">
+                    <span className="w-32 p-1 text-center text-white rounded bg-primary">Perusahaan</span>
+                    <span className="text-primary-500">{profile.company}</span>
+                </div>
             </div>
         </div>
     )

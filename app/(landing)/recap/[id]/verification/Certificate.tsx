@@ -1,10 +1,10 @@
 import UserItemList from "@/components/UserItemList"
-import { type Payload } from "@/actions/signature"
+import { type SignaturePayload } from "@/actions/signature"
 import { type UserItemRecapSimple } from "@/types/customs"
 
 type CertificateProps = {
     recap: UserItemRecapSimple
-    payload: Payload
+    payload: SignaturePayload
 }
 
 const Certificate = ({ recap, payload }: CertificateProps) => {

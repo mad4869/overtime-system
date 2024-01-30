@@ -4,7 +4,7 @@ import { Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer'
 
 import overtimeMap from '@/constants/overtimeMap'
 import setRecapPeriod from '@/constants/recapPeriod'
-import { type UserItemRecapSimple } from '@/types/customs'
+import { type Profile, type UserItemRecapSimple } from '@/types/customs'
 
 const styles = StyleSheet.create({
     page: {
@@ -110,9 +110,11 @@ type RecapLetterPageProps = {
         avpSignature: string
         vpSignature: string
     }
+    avp: Profile
+    vp: Profile
 }
 
-const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) => {
+const RecapLetterPage = ({ userItemsRecap, signature, avp, vp }: RecapLetterPageProps) => {
     return (
         <Page size="A4" style={styles.page}>
             <View style={styles.title}>
@@ -123,7 +125,14 @@ const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) =>
                         SURAT PERINTAH LEMBUR {recapYear}
                     </Text>
                     <Text>
-                        PERIODE {recapPeriod.startPeriod.toLocaleDateString('en-GB')} - {recapPeriod.finishedPeriod.toLocaleDateString('en-GB')}
+                        PERIODE&nbsp;
+                        {recapPeriod.startPeriod.toLocaleDateString(
+                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+                        )}
+                        &nbsp;-&nbsp;
+                        {recapPeriod.finishedPeriod.toLocaleDateString(
+                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+                        )}
                     </Text>
                 </View>
             </View>
@@ -229,8 +238,8 @@ const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) =>
                         {signature && signature.vpSignature &&
                             <Image src={signature.vpSignature} style={{ width: 60, height: 60 }} />
                         }
-                        <Text style={styles.footerProfileName}>Mohammad Samsul</Text>
-                        <Text>VP O & M 1</Text>
+                        <Text style={styles.footerProfileName}>{vp.name}</Text>
+                        <Text>{vp.position} {vp.unit}</Text>
                     </View>
                 </View>
                 <View style={styles.footerField}>
@@ -241,8 +250,8 @@ const RecapLetterPage = ({ userItemsRecap, signature }: RecapLetterPageProps) =>
                         {signature && signature.avpSignature &&
                             <Image src={signature.avpSignature} style={{ width: 60, height: 60 }} />
                         }
-                        <Text style={styles.footerProfileName}>Bramastra Wisnu Putra</Text>
-                        <Text>AVP Mekanik P6</Text>
+                        <Text style={styles.footerProfileName}>{avp.name}</Text>
+                        <Text>{avp.position} {avp.unit}</Text>
                     </View>
                 </View>
                 <View style={styles.footerField}>

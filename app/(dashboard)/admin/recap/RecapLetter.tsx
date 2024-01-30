@@ -1,6 +1,6 @@
 import RecapLetterPage from './RecapLetterPage'
 import useQRCode from '@/hooks/useQRCode';
-import useToken from '@/hooks/useToken';
+import useSignatureToken from '@/hooks/useSignatureToken';
 import { type Profile, type UserItemRecapSimple } from '@/types/customs';
 
 type RecapLetterProps = {
@@ -13,15 +13,17 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
     const isApprovedByAVP = userItemsRecap.isApprovedByAVP
     const isApprovedByVP = userItemsRecap.isApprovedByVP
 
-    const avpToken = useToken('AVP', avp)
-    const vpToken = useToken('VP', vp)
+    const avpToken = useSignatureToken(avp)
+    const vpToken = useSignatureToken(vp)
 
-    const avpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, avpToken, 'AVP', isApprovedByAVP)
-    const vpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, vpToken, 'VP', isApprovedByVP)
+    const avpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, avpToken, isApprovedByAVP)
+    const vpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
 
     return <RecapLetterPage
         userItemsRecap={userItemsRecap}
-        signature={{ avpSignature: avpQRCodeData, vpSignature: vpQRCodeData }} />
+        signature={{ avpSignature: avpQRCodeData, vpSignature: vpQRCodeData }}
+        avp={avp}
+        vp={vp} />
 }
 
 export default RecapLetter

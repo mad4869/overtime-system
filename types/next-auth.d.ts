@@ -11,6 +11,7 @@ declare module "next-auth" {
         unit: string
         department: string
         company: string
+        isActive: boolean
     }
     interface Session {
         user: User

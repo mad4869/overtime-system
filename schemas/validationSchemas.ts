@@ -31,9 +31,10 @@ export const userLoginSchema = z.object({
 })
 
 export const userDeleteAccountSchema = userLoginSchema.omit({ npk: true })
+export const userResetPasswordSchema = userLoginSchema.omit({ password: true })
 
 export const userRegisterSchema = z.object({
-    name: z.string().min(1, 'Nama tidak boleh kosong.').max(255, 'Nama tidak boleh melebihi 255 karakter.').trim(),
+    nama: z.string().min(1, 'Nama tidak boleh kosong.').max(255, 'Nama tidak boleh melebihi 255 karakter.').trim(),
     npk: z.string().min(1, 'NPK tidak boleh kosong.').max(255, 'NPK tidak boleh melebihi 255 karakter.').trim(),
     email: z.string().email('Format email invalid.').max(255, 'Email tidak boleh melebihi 255 karakter.'),
     password: z.string().min(6, 'Password minimal berisi 6 karakter.').refine((password) => {

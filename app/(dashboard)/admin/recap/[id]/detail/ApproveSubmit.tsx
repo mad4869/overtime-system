@@ -25,12 +25,12 @@ const ApproveSubmit = ({ recapId, isApproved, by }: ApproveSubmitProps) => {
             setApproveSubmitSuccess(res.message)
             setTimeout(() => {
                 setApproveSubmitSuccess('')
-            }, 2000)
+            }, 3000)
         } else {
             setApproveSubmitError(res.message)
             setTimeout(() => {
                 setApproveSubmitError('')
-            }, 2000)
+            }, 5000)
         }
     }
 

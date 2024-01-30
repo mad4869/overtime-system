@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
-import { generateToken } from "@/actions/signature"
+import { generateSignatureToken } from "@/actions/signature"
 import { type Profile } from "@/types/customs"
 
-const useToken = (by: 'AVP' | 'VP', user: Profile) => {
+const useSignatureToken = (user: Profile) => {
     const [token, setToken] = useState('')
 
     useEffect(() => {
         const handleToken = async () => {
-            const token = await generateToken(by, user)
+            const token = await generateSignatureToken(user)
             setToken(token)
         }
 
         handleToken()
-    }, [by, user])
+    }, [user])
 
     return token
 }
 
-export default useToken
+export default useSignatureToken

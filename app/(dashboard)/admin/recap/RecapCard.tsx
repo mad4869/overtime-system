@@ -27,8 +27,13 @@ const RecapCard = ({ no, recapId, userItems, isApproved, date }: RecapCardProps)
                     {isApproved ? 'Approved' : 'Not Approved'}
                 </span>
                 <div className="flex flex-col">
-                    <p>Submitted by <strong>{userItems[0].user.name}</strong></p>
-                    <p>Submitted on {date.toLocaleDateString('id-ID')}</p>
+                    <p>
+                        Disubmit oleh <strong>{userItems[0].user.name}</strong>
+                    </p>
+                    <p>
+                        Disubmit pada&nbsp;
+                        {date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </p>
                 </div>
             </div>
             <div className="flex items-center gap-4">
@@ -36,13 +41,13 @@ const RecapCard = ({ no, recapId, userItems, isApproved, date }: RecapCardProps)
                     href={`/admin/recap/${recapId}/detail`}
                     title="View detail"
                     className="text-xs text-secondary-400 hover:text-secondary">
-                    View Detail
+                    Lihat Detail
                 </Link>
                 <Link
                     href={`/admin/recap/${recapId}/spl`}
                     title="View surat perintah lembur"
                     className="text-xs text-secondary-400 hover:text-secondary">
-                    View SPL
+                    Lihat SPL
                 </Link>
             </div>
         </div>

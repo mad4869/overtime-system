@@ -1,7 +1,7 @@
 import RecapCard from "./RecapCard";
 import ExportRecap from "./ExportRecap";
 import ErrorMessage from "@/components/ErrorMessage";
-import { getSuperAdminProfile } from "../actions/users";
+import { getSuperAdminProfiles } from "../actions/users";
 import { type UserItemRecapSimple } from "@/types/customs";
 
 type RecapListProps = {
@@ -9,7 +9,7 @@ type RecapListProps = {
 }
 
 const RecapList = async ({ userItemRecaps }: RecapListProps) => {
-    const res = await getSuperAdminProfile()
+    const res = await getSuperAdminProfiles()
     if (!res.data) return <ErrorMessage useIcon>{res.message}</ErrorMessage>
 
     const vp = res.data.filter((superAdmin) => superAdmin.position === 'VP')

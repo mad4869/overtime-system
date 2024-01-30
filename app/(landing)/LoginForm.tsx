@@ -1,3 +1,4 @@
+import Link from "next/link"
 import { z } from "zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -7,16 +8,22 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { HiIdentification } from "react-icons/hi2"
 import { RiLockPasswordFill } from "react-icons/ri"
 
-import InputField from "@/components/InputField"
 import Button from "@/components/Button"
+import InputField from "@/components/InputField"
 import ErrorMessage from "@/components/ErrorMessage"
+import SuccessMessage from "@/components/SuccessMessage"
 import { userLoginSchema } from "@/schemas/validationSchemas"
 
 type UserLogin = z.infer<typeof userLoginSchema>
 
 const LoginForm = () => {
-    const router = useRouter()
     const [loginError, setLoginError] = useState('')
+    const [loginSuccess, setLoginSuccess] = useState('')
+    const router = useRouter()
+
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserLogin>({
+        resolver: zodResolver(userLoginSchema)
+    })
 
     const login = async (data: UserLogin) => {
         try {
@@ -27,20 +34,21 @@ const LoginForm = () => {
             })
 
             if (res?.error && res.status === 401) {
-                setLoginError('NPK or Password invalid. Please try again.')
+                setLoginError('NPK/Password invalid, atau akun Anda belum aktif. Silakan coba lagi atau hubungi Admin.')
                 setTimeout(() => {
                     setLoginError('')
-                }, 2000)
+                }, 5000)
             }
-            if (res?.ok) router.refresh()
+            if (res?.ok) {
+                reset()
+
+                setLoginSuccess('Login berhasil. Mengarahkan Anda ke Dashboard...')
+                router.push('/dashboard')
+            }
         } catch (error) {
             console.error(error)
         }
     }
-
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserLogin>({
-        resolver: zodResolver(userLoginSchema)
-    })
 
     return (
         <form className="flex flex-col gap-2" onSubmit={handleSubmit(login)} noValidate>
@@ -62,8 +70,17 @@ const LoginForm = () => {
                     {...register('password')} />
                 <ErrorMessage>{errors.password?.message}</ErrorMessage>
                 <ErrorMessage>{loginError}</ErrorMessage>
+                {loginSuccess && <SuccessMessage>{loginSuccess}</SuccessMessage>}
             </div>
-            <Button type="submit" title="Log In" disabled={isSubmitting}>Login</Button>
+            <div className="flex items-center justify-between">
+                <Link
+                    href="/reset-password"
+                    title="Lupa password"
+                    className="text-xs transition-colors text-secondary hover:text-secondary-800">
+                    Lupa password?
+                </Link>
+                <Button type="submit" title="Log In" disabled={isSubmitting}>Login</Button>
+            </div>
         </form>
     )
 }

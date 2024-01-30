@@ -42,7 +42,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
         `${userItem.startTime.getMinutes()}` :
         `0${userItem.startTime.getMinutes()}`
 
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserAddItem>({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserAddItem>({
         resolver: zodResolver(userAddItemSchema),
         defaultValues: {
             pekerjaan: userItem.item,
@@ -67,7 +67,6 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
     const submitUpdate = async (data: UserAddItem) => {
         const res = await updateUserItem(data, userItem.id)
         if (res.success) {
-            reset()
             setUpdateItemSuccess(`${res.message} The item: ${res.data?.item}`)
             setTimeout(() => {
                 setUpdateItemSuccess('')

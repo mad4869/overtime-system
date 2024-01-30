@@ -20,8 +20,8 @@ const AuthPanel = () => {
                 <p className='mt-4 text-xs text-right text-primary'>
                     Belum memiliki akun?
                     <span
-                        className='font-medium transition-colors cursor-pointer text-secondary hover:text-secondary-800'
-                        onClick={() => setActiveForm('register')} title='Register your account'>
+                        className='font-medium transition-colors cursor-pointer text-secondary-800 hover:text-secondary-900'
+                        onClick={() => setActiveForm('register')} title='Daftarkan akun Anda'>
                         &nbsp;Register
                     </span>
                 </p>
@@ -30,8 +30,8 @@ const AuthPanel = () => {
                 <p className='mt-4 text-xs text-right text-primary hover:text-primary-800'>
                     Sudah memiliki akun?
                     <span
-                        className='font-medium transition-colors cursor-pointer text-secondary hover:text-secondary-800'
-                        onClick={() => setActiveForm('login')} title='Login and enter the site'>
+                        className='font-medium transition-colors cursor-pointer text-secondary-800 hover:text-secondary-900'
+                        onClick={() => setActiveForm('login')} title='Masuk dengan akun yang sudah terdaftar'>
                         &nbsp;Login
                     </span>
                 </p>

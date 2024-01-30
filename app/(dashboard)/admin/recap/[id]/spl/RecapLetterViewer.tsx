@@ -3,7 +3,7 @@
 import { PDFViewer } from "@react-pdf/renderer";
 
 import RecapLetterSingle from "./RecapLetterSingle";
-import useToken from "@/hooks/useToken";
+import useToken from "@/hooks/useSignatureToken";
 import useClient from '@/hooks/useClient';
 import useQRCode from "@/hooks/useQRCode";
 import { type Profile, type UserItemRecapSimple } from '@/types/customs';
@@ -20,11 +20,11 @@ const LetterViewer = ({ userItemsRecap, avp, vp }: LetterViewerProps) => {
     const isApprovedByAVP = userItemsRecap.isApprovedByAVP
     const isApprovedByVP = userItemsRecap.isApprovedByVP
 
-    const avpToken = useToken('AVP', avp)
-    const vpToken = useToken('VP', vp)
+    const avpToken = useToken(avp)
+    const vpToken = useToken(vp)
 
-    const avpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, avpToken, 'AVP', isApprovedByAVP)
-    const vpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, vpToken, 'VP', isApprovedByVP)
+    const avpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, avpToken, isApprovedByAVP)
+    const vpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
 
     return (
         <>
@@ -32,7 +32,9 @@ const LetterViewer = ({ userItemsRecap, avp, vp }: LetterViewerProps) => {
                 <PDFViewer style={{ width: '100%', height: '100vh' }}>
                     <RecapLetterSingle
                         userItemsRecap={userItemsRecap}
-                        signature={{ avpSignature: avpQRCodeData, vpSignature: vpQRCodeData }} />
+                        signature={{ avpSignature: avpQRCodeData, vpSignature: vpQRCodeData }}
+                        avp={avp}
+                        vp={vp} />
                 </PDFViewer>
             }
         </>

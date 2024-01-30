@@ -1,4 +1,5 @@
 import RecapList from "./RecapList";
+import Empty from "@/components/Empty";
 import ErrorMessage from "@/components/ErrorMessage";
 import setRecapPeriod from "@/constants/recapPeriod";
 import { getUserItemRecaps } from "../actions/userItemRecaps";
@@ -12,7 +13,7 @@ export default async function Recap() {
     return (
         <>
             <div className="flex items-center justify-between">
-                <h6 className="text-2xl font-medium">Submitted Recaps</h6>
+                <h6 className="text-2xl font-medium">Daftar Rekap Tersubmit</h6>
                 <p className="text-sm text-slate-400">
                     Periode&nbsp;
                     {recapPeriod.startPeriod.toLocaleDateString(
@@ -24,7 +25,8 @@ export default async function Recap() {
                     )}
                 </p>
             </div>
-            <RecapList userItemRecaps={res.data} />
+            {res.data.length > 0 && <RecapList userItemRecaps={res.data} />}
+            {res.data.length === 0 && <Empty>Belum ada rekap tersubmit</Empty>}
         </>
     )
 }

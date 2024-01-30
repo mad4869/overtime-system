@@ -14,6 +14,7 @@ export type Profile = {
     company: string;
     createdAt: Date;
     updatedAt: Date;
+    isActive: boolean
 }
 
 export type UserItem = ({
