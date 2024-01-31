@@ -39,7 +39,7 @@ const ResetForm = () => {
 
     return (
         <form
-            className="flex flex-col gap-1"
+            className="flex flex-col w-full gap-1 sm:w-fit"
             onSubmit={handleSubmit(submitReset)}>
             <div className="space-y-1">
                 <InputField

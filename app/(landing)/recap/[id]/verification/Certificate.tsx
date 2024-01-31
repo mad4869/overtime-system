@@ -12,13 +12,14 @@ type CertificateProps = {
 const Certificate = ({ recap, payload }: CertificateProps) => {
     return (
         <div
-            className="flex flex-col items-center w-1/2 gap-4 pb-4 overflow-hidden bg-white rounded-lg shadow-xl shadow-white/50 text-primary">
-            <div className="flex items-center justify-between w-full px-12 py-4 text-white bg-primary">
-                <FaCircleCheck size={28} />
-                <h1 className="text-3xl font-bold">SERTIFIKAT TANDA TANGAN</h1>
+            className="flex flex-col items-center w-3/4 gap-4 pb-4 overflow-hidden bg-white rounded-lg shadow-xl lg:w-1/2 shadow-white/50 text-primary">
+            <div
+                className="flex items-center justify-center w-full py-4 text-white lg:justify-between lg:px-6 xl:px-12 bg-primary">
+                <span className="hidden lg:inline"><FaCircleCheck size={28} /></span>
+                <h1 className="text-xl font-bold text-center lg:text-3xl">SERTIFIKAT TANDA TANGAN</h1>
             </div>
-            <p className="text-lg">Dokumen ini menyatakan</p>
-            <p>
+            <p className="text-lg text-center">Dokumen ini menyatakan</p>
+            <p className="text-center">
                 Surat Perintah Lembur atas nama <strong>{recap.userItems[0].user.name}</strong>
                 &nbsp;yang dibuat pada&nbsp;
                 <strong>
@@ -26,7 +27,7 @@ const Certificate = ({ recap, payload }: CertificateProps) => {
                 </strong>
             </p>
             <UserItemList userItems={recap.userItems} />
-            <p>Telah ditandatangani secara digital oleh</p>
+            <p className="text-center">Telah ditandatangani secara digital oleh</p>
             <div className="flex flex-col items-center">
                 <p className="text-xl font-bold">{payload.name}</p>
                 <p className="text-lg">NPK {payload.npk}</p>
