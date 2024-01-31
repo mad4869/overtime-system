@@ -29,7 +29,7 @@ const ResetNotice = ({ token }: ResetNoticeProps) => {
                     </span>
                     <p className="text-center">Silakan login menggunakan password berikut:</p>
                     <h1 className="text-3xl font-bold">{password}</h1>
-                    <div className="flex items-center justify-center gap-2 px-4 py-1 text-amber-900 bg-amber-600/50">
+                    <div className="flex items-center justify-center gap-2 px-4 py-1 text-warning-900 bg-warning-600/50">
                         <IoMdAlert />
                         <p>Untuk keamanan, harap segera mengganti password ini dengan password baru</p>
                     </div>
