@@ -11,6 +11,7 @@ import { MdDashboard, MdAdminPanelSettings } from "react-icons/md";
 import { FaDoorOpen } from 'react-icons/fa'
 
 import Logo from "./Logo"
+import License from "./License";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
 const oswald = Oswald({ subsets: ['latin'] })
@@ -85,9 +86,12 @@ const SlidingMenu = ({ currentProfileRole }: SlidingMenuProps) => {
                     )
                 })}
             </ul>
-            <div className="flex items-center gap-2 pt-2 text-white/50 max-w-fit hover:text-danger-500">
-                <FaDoorOpen size={12} />
-                <p title="Log Out" className="text-sm cursor-pointer" onClick={logoutUser}>Logout</p>
+            <div className="flex flex-col justify-center gap-4 pt-2">
+                <div className="flex items-center gap-2 max-w-fit text-white/50 hover:text-danger-500">
+                    <FaDoorOpen size={12} />
+                    <p title="Log Out" className="text-sm cursor-pointer" onClick={logoutUser}>Logout</p>
+                </div>
+                <License />
             </div>
         </motion.div>
     )

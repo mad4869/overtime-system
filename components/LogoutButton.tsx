@@ -16,7 +16,7 @@ const LogoutButton = () => {
     }
 
     return (
-        <div className="items-center hidden gap-2 pt-2 sm:flex text-white/50 max-w-fit hover:text-danger-500">
+        <div className="flex items-center gap-2 pt-2 text-white/50 max-w-fit hover:text-danger-500">
             <FaDoorOpen size={12} />
             <p title="Log Out" className="text-xs cursor-pointer md:text-sm" onClick={logoutUser}>Logout</p>
         </div>

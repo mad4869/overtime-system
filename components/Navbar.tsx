@@ -8,6 +8,7 @@ import { RiShieldUserFill } from "react-icons/ri";
 
 import Logo from "./Logo"
 import Menu from "./Menu";
+import License from "./License";
 import LogoutButton from "./LogoutButton";
 import { authOptions } from "@/config/authOptions";
 import { getCurrentUserProfile } from "@/actions/user";
@@ -39,12 +40,15 @@ const Navbar = async () => {
                         {currentProfile?.role === 'USER' && <FaCircleUser size={20} />}
                         {currentProfile?.role === 'ADMIN' && <RiShieldUserFill size={20} />}
                         {currentProfile?.role === 'SUPER_ADMIN' && <ImUserTie size={20} />}
-                        <div className="hidden sm:flex flex-col">
+                        <div className="flex-col hidden sm:flex">
                             <p className="font-bold">{currentProfile?.name}</p>
                             <p>NPK {currentProfile?.npk}</p>
                         </div>
                     </Link>
-                    <LogoutButton />
+                    <div className="flex-col justify-center hidden gap-4 pt-2 sm:flex">
+                        <LogoutButton />
+                        <License />
+                    </div>
                 </div>
             </div>
         </aside>

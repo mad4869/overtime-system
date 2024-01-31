@@ -5,12 +5,12 @@ const License = () => {
     const currentYear = currentDate.getFullYear()
 
     return (
-        <section
-            className="px-8 py-4 space-y-2 rounded-lg shadow-xl bg-white/50 shadow-white/50 text-primary">
-            <div className='flex items-center justify-center gap-2 font-medium'>
+        <footer className='flex flex-col justify-center text-[8px] text-white/30'>
+            <div className='flex items-center gap-1'>
                 <p>&copy;</p>
                 <p>{currentYear}</p>
-                <p>-</p>
+            </div>
+            <div className='flex flex-col'>
                 <a
                     href='https://github.com/mad4869/overtime-system/'
                     target='_blank'
@@ -20,17 +20,7 @@ const License = () => {
                 </a>
                 <p>versi {packageJson.version}</p>
             </div>
-            <p className='text-xs'>
-                Built by&nbsp;
-                <a
-                    href='https://github.com/mad4869/'
-                    target='_blank'
-                    title='Go to Github'
-                    className='hover:underline'>
-                    MAkbarD
-                </a>
-            </p>
-        </section>
+        </footer>
     )
 }
 
