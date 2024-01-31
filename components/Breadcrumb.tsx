@@ -11,7 +11,7 @@ const Breadcrumb = () => {
 
     return (
         <nav
-            className="sticky top-0 flex items-center w-full gap-2 overflow-hidden rounded-md bg-neutral-200/75 backdrop-blur">
+            className="sticky top-0 z-10 flex items-center w-full gap-2 overflow-hidden rounded-md bg-neutral-200/75 backdrop-blur">
             <div className="p-1 bg-neutral-400">
                 <Link href={`/${menus[0]}`}><MdHome size={20} className="text-neutral-600" /></Link>
             </div>

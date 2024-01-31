@@ -76,15 +76,36 @@ export async function addUserItem(item: AdminAddItem) {
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
     try {
+        const targetedUser = await prisma.user.findUnique({
+            where: { id: parseInt(item['user ID']) }
+        })
+
+        if (!targetedUser) return {
+            success: false,
+            message: 'User dengan ID tersebut tidak ditemukan.'
+        }
+
+        if (item['user item recap ID']) {
+            const targetedRecap = await prisma.userItemRecap.findUnique({
+                where: { id: parseInt(item['user item recap ID']) }
+            })
+            if (!targetedRecap) return {
+                success: false,
+                message: 'Rekap dengan ID tersebut tidak ditemukan.'
+            }
+        }
+
         const newUserItem = await prisma.userItem.create({
             data: {
-                userId: item['user ID'],
+                userId: parseInt(item['user ID']),
                 item: item.pekerjaan,
                 startTime: startDate,
                 finishedTime: finishedDate,
-                userItemRecapId: item["user item recap ID"]
+                userItemRecapId: item["user item recap ID"] ? parseInt(item["user item recap ID"]) : null
             }
         })
+
+        revalidatePath('/admin')
 
         return {
             success: true,
@@ -121,18 +142,37 @@ export async function updateUserItem(item: AdminAddItem, userItemId: number) {
             message: 'Item tidak ditemukan.'
         }
 
+        const targetedUser = await prisma.user.findUnique({
+            where: { id: parseInt(item['user ID']) }
+        })
+
+        if (!targetedUser) return {
+            success: false,
+            message: 'User dengan ID tersebut tidak ditemukan.'
+        }
+
+        if (item['user item recap ID']) {
+            const targetedRecap = await prisma.userItemRecap.findUnique({
+                where: { id: parseInt(item['user item recap ID']) }
+            })
+            if (!targetedRecap) return {
+                success: false,
+                message: 'Rekap dengan ID tersebut tidak ditemukan.'
+            }
+        }
+
         const updatedItem = await prisma.userItem.update({
             where: { id: userItemId },
             data: {
-                userId: item["user ID"],
+                userId: parseInt(item["user ID"]),
                 item: item.pekerjaan,
                 startTime: startDate,
                 finishedTime: finishedDate,
-                userItemRecapId: item["user item recap ID"]
+                userItemRecapId: item["user item recap ID"] ? parseInt(item["user item recap ID"]) : null
             }
         })
 
-        revalidatePath('/dashboard')
+        revalidatePath('/admin')
 
         return {
             success: true,

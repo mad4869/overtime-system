@@ -42,7 +42,7 @@ const UserItemDeleteSubmit = ({ id }: UserItemDeleteSubmitProps) => {
                 setDeleteError('')
             }, 5000)
         } else {
-            router.replace(pathname)
+            router.replace(pathname, { scroll: false })
         }
     }
 

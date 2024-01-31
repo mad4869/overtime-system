@@ -41,7 +41,7 @@ export default async function UserItemPanel({ searchParams }: PageProps) {
     return (
         <section className="relative space-y-4">
             <div className="flex items-center justify-between">
-                <h6 className="text-2xl font-medium">Panel User & Item</h6>
+                <h6 className="text-2xl font-medium">Panel Item Pekerjaan</h6>
                 <Link href={{ query: { 'add-user-item': true } }} title="Tambah item" scroll={false}>
                     <FaRegPlusSquare size={20} />
                 </Link>

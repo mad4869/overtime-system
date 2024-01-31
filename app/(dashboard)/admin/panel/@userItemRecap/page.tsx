@@ -1,5 +1,6 @@
 import Link from "next/link";
 import prisma from "@/prisma/client";
+import { getServerSession } from "next-auth";
 import { FaRegPlusSquare } from "react-icons/fa";
 
 import UserItemRecapList from "./UserItemRecapList";
@@ -9,10 +10,14 @@ import UserItemRecapDeleteSubmit from "./UserItemRecapDeleteSubmit";
 import Empty from "@/components/Empty";
 import Pagination from "@/components/Pagination";
 import ErrorMessage from "@/components/ErrorMessage";
+import { authOptions } from "@/config/authOptions";
 import { getUserItemRecap } from "../../actions/userItemRecaps";
 import { type PageProps } from "@/types/customs";
 
 export default async function UserItemRecapPanel({ searchParams }: PageProps) {
+    const session = await getServerSession(authOptions)
+    const currentUser = session?.user
+
     const pageSize = 10
     const userItemRecapPage = typeof searchParams['user-item-recap-page'] === 'string' ? parseInt(searchParams['user-item-recap-page']) : undefined
     const page = userItemRecapPage || 1
@@ -33,16 +38,18 @@ export default async function UserItemRecapPanel({ searchParams }: PageProps) {
     return (
         <section className="relative space-y-4">
             <div className="flex items-center justify-between">
-                <h6 className="text-2xl font-medium">Panel Rekap User & Item</h6>
+                <h6 className="text-2xl font-medium">Panel Rekap Item Pekerjaan</h6>
                 <Link href={{ query: { 'add-user-item-recap': true } }} title="Tambah rekap" scroll={false}>
                     <FaRegPlusSquare size={20} />
                 </Link>
             </div>
             {userItemRecaps.length === 0 && <Empty>Belum ada rekap tersubmit</Empty>}
-            <UserItemRecapList userItemRecaps={userItemRecaps} />
+            <UserItemRecapList currentUser={currentUser} userItemRecaps={userItemRecaps} />
             <Pagination type="user-item-recap" totalItem={userItemRecapsCount} page={page} pageSize={pageSize} />
             {addUserItemRecap && <UserItemRecapAddSubmit />}
-            {updateUserItemRecapId && userItemRecap && <UserItemRecapUpdateForm userItemRecap={userItemRecap} />}
+            {updateUserItemRecapId && userItemRecap &&
+                <UserItemRecapUpdateForm currentUser={currentUser} userItemRecap={userItemRecap} />
+            }
             {updateUserItemRecapId && !userItemRecap && <ErrorMessage>{message}</ErrorMessage>}
             {deleteUserItemRecapId && <UserItemRecapDeleteSubmit id={deleteUserItemRecapId} />}
         </section>

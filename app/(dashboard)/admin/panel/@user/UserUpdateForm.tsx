@@ -8,12 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { IoIosSend } from "react-icons/io";
 
 import Button from '@/components/Button'
+import Toggle from "@/components/Toggle"
 import Dropdown from "@/components/Dropdown"
 import InputField from "@/components/InputField"
 import ErrorMessage from "@/components/ErrorMessage"
 import SuccessMessage from "@/components/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
-import { userAddItemSchema } from "@/schemas/validationSchemas"
+import { userUpdateSchema } from "@/schemas/validationSchemas"
 import { updateUserProfile, type UserUpdate } from '../../actions/users'
 import { type Profile } from "@/types/customs"
 
@@ -25,17 +26,18 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
     const [updateUserSuccess, setUpdateUserSuccess] = useState('')
     const [updateUserError, setUpdateUserError] = useState('')
 
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<UserUpdate>({
-        resolver: zodResolver(userAddItemSchema),
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserUpdate>({
+        resolver: zodResolver(userUpdateSchema),
         defaultValues: {
-            name: profile.name,
+            nama: profile.name,
             npk: profile.npk,
             email: profile.email,
             role: profile.role,
             jabatan: profile.position,
             unit: profile.unit,
             departemen: profile.department,
-            perusahaan: profile.company
+            perusahaan: profile.company,
+            aktif: profile.isActive
         }
     })
 
@@ -54,7 +56,6 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
     const submitUpdate = async (data: UserUpdate) => {
         const res = await updateUserProfile(data, profile.id)
         if (res.success) {
-            reset()
             setUpdateUserSuccess(`${res.message} The user: ${res.data?.name}`)
             setTimeout(() => {
                 setUpdateUserSuccess('')
@@ -79,8 +80,8 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                         id="name"
                         type="text"
                         useLabel
-                        {...register('name')} />
-                    <ErrorMessage>{errors.name?.message}</ErrorMessage>
+                        {...register('nama')} />
+                    <ErrorMessage>{errors.nama?.message}</ErrorMessage>
                 </div>
                 <div>
                     <InputField
@@ -99,7 +100,10 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                     <ErrorMessage>{errors.email?.message}</ErrorMessage>
                 </div>
                 <div>
-                    <Dropdown {...register('role')} options={['USER', 'ADMIN', 'SUPER_ADMIN']} />
+                    <Dropdown
+                        id="role"
+                        useLabel
+                        {...register('role')} />
                     <ErrorMessage>{errors.role?.message}</ErrorMessage>
                 </div>
                 <div>
@@ -133,6 +137,13 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                         useLabel
                         {...register('perusahaan')} />
                     <ErrorMessage>{errors.perusahaan?.message}</ErrorMessage>
+                </div>
+                <div>
+                    <Toggle
+                        id="is-active"
+                        useLabel
+                        {...register('aktif')} />
+                    <ErrorMessage>{errors.aktif?.message}</ErrorMessage>
                 </div>
                 <ErrorMessage>{updateUserError}</ErrorMessage>
                 <AnimatePresence>

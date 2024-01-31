@@ -33,10 +33,10 @@ const Navbar = async () => {
                     {currentProfile?.role === 'USER' && <FaCircleUser size={20} />}
                     {currentProfile?.role === 'ADMIN' && <RiShieldUserFill size={20} />}
                     {currentProfile?.role === 'SUPER_ADMIN' && <ImUserTie size={20} />}
-                    <div>
+                    <Link href='/profile' title="Profile">
                         <p className="font-bold">{currentProfile?.name}</p>
                         <p>NPK {currentProfile?.npk}</p>
-                    </div>
+                    </Link>
                 </div>
                 <div className="flex items-center gap-2 pt-2 text-white/50 max-w-fit hover:text-rose-400">
                     <FaDoorOpen size={12} />

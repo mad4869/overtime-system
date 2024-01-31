@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
 
@@ -17,8 +16,6 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
     const [activateUserError, setActivateUserError] = useState('')
     const [deleteUserError, setDeleteUserError] = useState('')
 
-    const router = useRouter()
-
     const submitActivation = async () => {
         const res = await activateProfile(userId)
         if (!res.success) {
@@ -26,8 +23,6 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
             setTimeout(() => {
                 setActivateUserError('')
             }, 5000)
-        } else {
-            router.push('/admin/activation')
         }
     }
 
@@ -38,8 +33,6 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
             setTimeout(() => {
                 setDeleteUserError('')
             }, 5000)
-        } else {
-            router.push('/admin/activation')
         }
     }
 

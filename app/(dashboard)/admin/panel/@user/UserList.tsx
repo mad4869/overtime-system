@@ -28,12 +28,12 @@ const UserList = ({ users }: UserListProps) => {
                         ))}
                         <td>
                             <Link href={{ query: { 'update-user': user.id } }} title="Update user" scroll={false}>
-                                <MdEditSquare />
+                                <MdEditSquare size={12} />
                             </Link>
                         </td>
                         <td>
                             <Link href={{ query: { 'delete-user': user.id } }} title="Hapus user" scroll={false}>
-                                <MdDelete />
+                                <MdDelete size={12} />
                             </Link>
                         </td>
                     </tr>

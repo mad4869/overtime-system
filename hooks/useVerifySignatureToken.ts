@@ -5,6 +5,7 @@ const useVerifySignatureToken = (token: string) => {
     const [verifiedData, setVerifiedData] = useState<{ isVerified: boolean, payload: SignaturePayload | undefined }>(
         { isVerified: false, payload: undefined }
     )
+    const [isVerificationComplete, setIsVerificationComplete] = useState(false)
 
     useEffect(() => {
         const verify = async () => {
@@ -12,12 +13,14 @@ const useVerifySignatureToken = (token: string) => {
             if (payload) {
                 setVerifiedData({ isVerified: true, payload })
             }
+
+            setIsVerificationComplete(true)
         }
 
         verify()
     }, [token])
 
-    return verifiedData
+    return isVerificationComplete ? verifiedData : null
 }
 
 export default useVerifySignatureToken

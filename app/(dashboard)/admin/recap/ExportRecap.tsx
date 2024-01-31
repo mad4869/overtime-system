@@ -20,7 +20,7 @@ type ExportRecapProps = {
 
 const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     const isClient = useClient()
-    const exportToExcel = useExportToExcel(userItemRecaps)
+    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit')
 
     const recapPeriod = setRecapPeriod()
 
@@ -46,7 +46,8 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
                                     </Button> :
                                     <Button
                                         title="Export rekap menjadi file PDF"
-                                        icon={<FaRegFilePdf />}>
+                                        icon={<FaRegFilePdf />}
+                                        options={{ color: 'pdf' }}>
                                         Ubah ke PDF
                                     </Button>
                         }
@@ -54,7 +55,7 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
                     <Button
                         title="Export rekap menjadi file Excel"
                         icon={<SiMicrosoftexcel />}
-                        options={{ color: 'secondary' }}
+                        options={{ color: 'excel' }}
                         handleClick={exportToExcel}>
                         Ubah ke Excel
                     </Button>

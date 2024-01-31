@@ -163,7 +163,8 @@ export async function updateUserProfile(user: UserUpdate, userId: number) {
                 position: user.jabatan,
                 unit: user.unit,
                 department: user.departemen,
-                company: user.perusahaan
+                company: user.perusahaan,
+                isActive: user.aktif
             }
         })
 

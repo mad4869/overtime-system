@@ -48,7 +48,7 @@ const UserItemAddForm = () => {
         }
     }
 
-    const modalRef = useRef<HTMLDivElement>(null)
+    const modalRef = useRef<HTMLFormElement>(null)
     const router = useRouter()
     const pathname = usePathname()
 
@@ -62,6 +62,7 @@ const UserItemAddForm = () => {
 
     return (
         <form
+            ref={modalRef}
             onSubmit={handleSubmit(submitUserItem)}
             className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md top-4 bg-primary/30 backdrop-blur shadow-primary/70">
             <div className="flex flex-col gap-2">

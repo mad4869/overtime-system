@@ -12,7 +12,7 @@ import InputField from "@/components/InputField"
 import ErrorMessage from "@/components/ErrorMessage"
 import SuccessMessage from "@/components/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
-import { userAddItemSchema } from "@/schemas/validationSchemas"
+import { adminAddItemSchema } from "@/schemas/validationSchemas"
 import { updateUserItem, type AdminAddItem } from "../../actions/userItems"
 import { type UserItem } from "@/types/customs"
 
@@ -40,14 +40,15 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
         `${userItem.startTime.getMinutes()}` :
         `0${userItem.startTime.getMinutes()}`
 
-    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<AdminAddItem>({
-        resolver: zodResolver(userAddItemSchema),
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<AdminAddItem>({
+        resolver: zodResolver(adminAddItemSchema),
         defaultValues: {
-            "user ID": userItem.userId,
+            "user ID": `${userItem.userId}`,
+            pekerjaan: userItem.item,
             tanggal: startDate,
             mulai: startHour + ':' + startMinute,
             selesai: finishedHour + ':' + finishedMinute,
-            "user item recap ID": userItem.userItemRecapId
+            "user item recap ID": userItem.userItemRecapId ? `${userItem.userItemRecapId}` : ''
         }
     })
 
@@ -66,7 +67,6 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
     const submitUpdate = async (data: AdminAddItem) => {
         const res = await updateUserItem(data, userItem.id)
         if (res.success) {
-            reset()
             setUpdateItemSuccess(`${res.message} The item: ${res.data?.item}`)
             setTimeout(() => {
                 setUpdateItemSuccess('')
@@ -81,65 +81,76 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
     }
 
     return (
-        <form
-            ref={modalRef}
-            onSubmit={handleSubmit(submitUpdate)}
-            className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 bg-secondary/30 backdrop-blur shadow-secondary/70">
-            <div className="flex flex-col gap-2">
-                <div>
-                    <InputField
-                        id="user-id"
-                        type="number"
-                        useLabel
-                        {...register('user ID')} />
-                    <ErrorMessage>{errors["user ID"]?.message}</ErrorMessage>
+        <>
+            <form
+                ref={modalRef}
+                onSubmit={handleSubmit(submitUpdate)}
+                className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 bg-secondary/30 backdrop-blur shadow-secondary/70">
+                <div className="flex flex-col gap-2">
+                    <div>
+                        <InputField
+                            id="user-id"
+                            type="number"
+                            useLabel
+                            {...register('user ID')} />
+                        <ErrorMessage>{errors["user ID"]?.message}</ErrorMessage>
+                    </div>
+                    <div>
+                        <InputField
+                            id="item"
+                            type="text"
+                            placeholder="Mengerjakan tugas lembur"
+                            useLabel
+                            {...register('pekerjaan')} />
+                        <ErrorMessage>{errors.pekerjaan?.message}</ErrorMessage>
+                    </div>
+                    <div>
+                        <InputField
+                            id='date'
+                            type="date"
+                            useLabel
+                            {...register('tanggal')} />
+                        <ErrorMessage>{errors.tanggal?.message}</ErrorMessage>
+                    </div>
+                    <div>
+                        <InputField
+                            id="start-time"
+                            type="time"
+                            useLabel
+                            {...register('mulai')} />
+                        <ErrorMessage>{errors.mulai?.message}</ErrorMessage>
+                    </div>
+                    <div>
+                        <InputField
+                            id="finished-time"
+                            type="time"
+                            useLabel
+                            {...register('selesai')} />
+                        <ErrorMessage>{errors.selesai?.message}</ErrorMessage>
+                    </div>
+                    <div>
+                        <InputField
+                            id="user-item-recap-id"
+                            type="number"
+                            useLabel
+                            {...register('user item recap ID')} />
+                        <ErrorMessage>{errors["user item recap ID"]?.message}</ErrorMessage>
+                    </div>
+                    <ErrorMessage>{updateItemError}</ErrorMessage>
+                    <AnimatePresence>
+                        {updateItemSuccess && <SuccessMessage>{updateItemSuccess}</SuccessMessage>}
+                    </AnimatePresence>
+                    <Button
+                        type='submit'
+                        title='Update item'
+                        icon={<IoIosSend />}
+                        disabled={isSubmitting}
+                        options={{ isFull: true }}>
+                        Update
+                    </Button>
                 </div>
-                <div>
-                    <InputField
-                        id='date'
-                        type="date"
-                        useLabel
-                        {...register('tanggal')} />
-                    <ErrorMessage>{errors.tanggal?.message}</ErrorMessage>
-                </div>
-                <div>
-                    <InputField
-                        id="start-time"
-                        type="time"
-                        useLabel
-                        {...register('mulai')} />
-                    <ErrorMessage>{errors.mulai?.message}</ErrorMessage>
-                </div>
-                <div>
-                    <InputField
-                        id="finished-time"
-                        type="time"
-                        useLabel
-                        {...register('selesai')} />
-                    <ErrorMessage>{errors.selesai?.message}</ErrorMessage>
-                </div>
-                <div>
-                    <InputField
-                        id="user-item-recap-id"
-                        type="number"
-                        useLabel
-                        {...register('user item recap ID')} />
-                    <ErrorMessage>{errors["user item recap ID"]?.message}</ErrorMessage>
-                </div>
-                <ErrorMessage>{updateItemError}</ErrorMessage>
-                <AnimatePresence>
-                    {updateItemSuccess && <SuccessMessage>{updateItemSuccess}</SuccessMessage>}
-                </AnimatePresence>
-                <Button
-                    type='submit'
-                    title='Update item'
-                    icon={<IoIosSend />}
-                    disabled={isSubmitting}
-                    options={{ isFull: true }}>
-                    Update
-                </Button>
-            </div>
-        </form>
+            </form>
+        </>
     )
 }
 

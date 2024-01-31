@@ -5,7 +5,7 @@ import { PropsWithChildren, type MouseEventHandler, type ReactElement } from "re
 
 type ButtonOptions = {
     type?: 'fill' | 'outline'
-    color?: 'primary' | 'secondary' | 'error'
+    color?: 'primary' | 'secondary' | 'error' | 'pdf' | 'excel'
     size?: 'sm' | 'md' | 'lg'
     isFull?: boolean
 }
@@ -29,11 +29,15 @@ const Button = ({ children, type = 'button', title, handleClick, disabled, icon,
         if (type === 'fill') {
             if (color === 'primary') return 'border-none bg-primary text-white hover:bg-primary-900 hover:text-primary-200'
             if (color === 'secondary') return 'border-none bg-secondary text-white hover:bg-secondary-900 hover:text-secondary-200'
-            return 'border-none bg-rose-600 text-white hover:bg-rose-900 hover:text-rose-200'
+            if (color === 'error') return 'border-none bg-rose-600 text-white hover:bg-rose-900 hover:text-rose-200'
+            if (color === 'pdf') return 'border-none bg-red-700 text-white hover:bg-red-900 hover:text-red-200'
+            return 'border-none bg-green-600 text-white hover:bg-green-900 hover:text-green-200'
         } else {
             if (color === 'primary') return 'border border-solid bg-transparent border-primary text-primary hover:border-primary-900 hover:text-primary-900'
             if (color === 'secondary') return 'border border-solid bg-transparent border-secondary text-secondary hover:border-secondary-900 hover:text-secondary-900'
-            return 'border border-solid bg-transparent border-rose-600 text-rose-600 hover:border-rose-900 hover:text-rose-900'
+            if (color === 'error') return 'border border-solid bg-transparent border-rose-600 text-rose-600 hover:border-rose-900 hover:text-rose-900'
+            if (color === 'pdf') 'border border-solid bg-transparent border-red-700 text-red-700 hover:border-red-900 hover:text-red-900'
+            return 'border border-solid bg-transparent border-green-600 text-green-600 hover:border-green-900 hover:text-green-900'
         }
     }
 

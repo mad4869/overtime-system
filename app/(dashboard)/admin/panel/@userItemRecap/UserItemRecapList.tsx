@@ -1,13 +1,15 @@
 import Link from "next/link"
+import { type User } from "next-auth"
 import { MdEditSquare, MdDelete } from "react-icons/md"
 import { type UserItemRecap } from "@/types/customs"
 
 type UserItemRecapSimple = Omit<UserItemRecap, 'userItems'>
 type UserItemRecapListProps = {
+    currentUser: User | undefined
     userItemRecaps: UserItemRecapSimple[]
 }
 
-const UserItemRecapList = ({ userItemRecaps }: UserItemRecapListProps) => {
+const UserItemRecapList = ({ currentUser, userItemRecaps }: UserItemRecapListProps) => {
     if (userItemRecaps.length === 0) return null
 
     const keys = Object.keys(userItemRecaps[0])
@@ -27,20 +29,22 @@ const UserItemRecapList = ({ userItemRecaps }: UserItemRecapListProps) => {
                         {keys.map((key, index) => (
                             <td key={index}>{`${userItemRecap[key as keyof UserItemRecapSimple]}`}</td>
                         ))}
-                        <td>
-                            <Link
-                                href={{ query: { 'update-user-item-recap': userItemRecap.id } }}
-                                title="Update rekap"
-                                scroll={false}>
-                                <MdEditSquare />
-                            </Link>
-                        </td>
+                        {currentUser?.role === 'SUPER_ADMIN' &&
+                            <td>
+                                <Link
+                                    href={{ query: { 'update-user-item-recap': userItemRecap.id } }}
+                                    title="Update rekap"
+                                    scroll={false}>
+                                    <MdEditSquare size={12} />
+                                </Link>
+                            </td>
+                        }
                         <td>
                             <Link
                                 href={{ query: { 'delete-user-item-recap': userItemRecap.id } }}
                                 title="Hapus rekap"
                                 scroll={false}>
-                                <MdDelete />
+                                <MdDelete size={12} />
                             </Link>
                         </td>
                     </tr>

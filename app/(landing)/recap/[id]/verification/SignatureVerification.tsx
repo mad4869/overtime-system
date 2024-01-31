@@ -2,6 +2,7 @@
 
 import Certificate from "./Certificate"
 import ErrorMessage from "@/components/ErrorMessage"
+import LoadingIndicator from "@/components/LoadingIndicator"
 import useVerifySignatureToken from "@/hooks/useVerifySignatureToken"
 import { type UserItemRecapSimple } from "@/types/customs"
 
@@ -15,9 +16,15 @@ const SignatureVerification = ({ recap, token }: SignatureVerificationProps) => 
 
     return (
         <section className="w-full h-[calc(100%-4rem)] flex justify-center items-center">
-            {res.isVerified && res.payload ?
-                <Certificate recap={recap} payload={res.payload} /> :
-                <ErrorMessage useIcon>Signature invalid</ErrorMessage>
+            {!res && <LoadingIndicator />}
+            {res && res.isVerified && res.payload &&
+                <Certificate recap={recap} payload={res.payload} />
+            }
+            {res && !res.isVerified && !res.payload &&
+                <div
+                    className="flex items-center justify-center w-1/2 p-4 rounded-lg shadow-xl bg-white/50 shadow-white/50 ">
+                    <ErrorMessage useIcon>Tanda tangan invalid</ErrorMessage>
+                </div>
             }
         </section>
     )

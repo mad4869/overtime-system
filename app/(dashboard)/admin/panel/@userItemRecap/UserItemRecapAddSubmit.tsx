@@ -51,7 +51,7 @@ const UserItemRecapAddSubmit = () => {
     return (
         <div
             ref={modalRef}
-            className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 bg-primary/30 backdrop-blur shadow-primary/50">
+            className="absolute right-0 z-10 flex flex-col items-center gap-4 px-4 py-4 text-sm rounded shadow-md bottom-16 bg-primary/30 backdrop-blur shadow-primary/50">
             <div className='space-y-4'>
                 <p>Anda ingin membuat rekap baru?</p>
                 <div className='flex items-center justify-center gap-4'>
