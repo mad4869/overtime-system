@@ -42,7 +42,7 @@ const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
 
     return (
         <div className="mt-4 space-y-2">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
                 <span className="flex items-center gap-2 text-xs text-primary-500">
                     <IoMdAlert />
                     <p>Periksa kembali daftar pekerjaan Anda sebelum melakukan submit</p>

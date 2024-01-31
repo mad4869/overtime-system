@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth"
 import { type Metadata } from "next"
 
 import Heading from "./Heading"
+import MobileMenu from "./MobileMenu"
 import DeleteSubmit from "./DeleteSubmit"
 import UserItemSubmitForm from "./UserItemSubmitForm"
 import UserItemUpdateForm from "./UserItemUpdateForm"
@@ -10,7 +11,6 @@ import setRecapPeriod from "@/constants/recapPeriod"
 import { PageProps } from "@/types/customs"
 import { authOptions } from "@/config/authOptions"
 import { getUserItem, getUserItemsValid } from "./actions/userItems"
-import SlidingMenu from "@/components/SlidingMenu"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
 const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
@@ -58,7 +58,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
             {updatedItemId && userItem && <UserItemUpdateForm userItem={userItem} />}
             {updatedItemId && !userItem && <ErrorMessage>{userItemMessage}</ErrorMessage>}
             {deletedItemId && <DeleteSubmit id={deletedItemId} type="user-item" />}
-            {mobileMenu && <SlidingMenu currentProfileRole={currentUser.role} />}
+            <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )
 }

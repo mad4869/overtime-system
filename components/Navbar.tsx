@@ -23,7 +23,7 @@ const Navbar = async () => {
     const { data: currentProfile } = await getCurrentUserProfile(currentUser.id)
 
     return (
-        <nav
+        <aside
             className="w-8 h-full sm:w-28 md:w-40 lg:w-60 xl:w-72">
             <div className="flex flex-col items-center justify-between h-full">
                 <Link href={{ query: { menu: true } }} className="block text-white sm:hidden">
@@ -35,17 +35,19 @@ const Navbar = async () => {
                 </Link>
                 <Menu currentProfileRole={currentProfile?.role} />
                 <div className="w-full">
-                    <Link href='/profile' title="Profile" className="flex items-center justify-center gap-2 pb-2 text-xs text-white border-none sm:justify-start sm:border-b border-white/30">
+                    <Link href='/profile' title="Profile" className="flex items-center justify-center gap-2 pb-2 text-xs text-white sm:justify-start sm:border-b border-white/30">
                         {currentProfile?.role === 'USER' && <FaCircleUser size={20} />}
                         {currentProfile?.role === 'ADMIN' && <RiShieldUserFill size={20} />}
                         {currentProfile?.role === 'SUPER_ADMIN' && <ImUserTie size={20} />}
-                        <p className="hidden font-bold sm:block">{currentProfile?.name}</p>
-                        <p className="hidden sm:block">NPK {currentProfile?.npk}</p>
+                        <div className="hidden sm:flex flex-col">
+                            <p className="font-bold">{currentProfile?.name}</p>
+                            <p>NPK {currentProfile?.npk}</p>
+                        </div>
                     </Link>
                     <LogoutButton />
                 </div>
             </div>
-        </nav>
+        </aside>
     )
 }
 
