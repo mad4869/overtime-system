@@ -1,12 +1,17 @@
 import { getServerSession } from "next-auth"
 import { RiShieldUserFill } from "react-icons/ri";
 import { ImUserTie } from "react-icons/im";
+import { type Metadata } from "next";
 
 import SearchBar from "@/components/SearchBar";
 import MobileMenu from "@/components/MobileMenu";
 import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions"
 import { type PageProps } from "@/types/customs";
+
+export const metadata: Metadata = {
+    title: 'Admin - Panel Admin'
+}
 
 export default async function Panel({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)

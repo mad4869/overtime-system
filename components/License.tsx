@@ -10,7 +10,7 @@ const License = () => {
                 <p>&copy;</p>
                 <p>{currentYear}</p>
             </div>
-            <div className='flex flex-col'>
+            <div className='flex flex-col gap-0 md:flex-row md:items-center md:gap-1'>
                 <a
                     href='https://github.com/mad4869/overtime-system/'
                     target='_blank'

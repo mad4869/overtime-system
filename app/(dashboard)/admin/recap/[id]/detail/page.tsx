@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { type Metadata } from "next";
 
 import ApproveSubmit from "./ApproveSubmit";
 import MobileMenu from "@/components/MobileMenu";
@@ -7,6 +8,10 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
 import { getUserItemRecap } from "../../../actions/userItemRecaps"
 import { type PageProps } from "@/types/customs";
+
+export const metadata: Metadata = {
+    title: 'Admin - Detail Rekap Pekerjaan'
+}
 
 export default async function Detail({ params, searchParams }: { params: { id: string } } & PageProps) {
     const session = await getServerSession(authOptions)

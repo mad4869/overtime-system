@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { type Metadata } from "next";
 
 import RecapList from "./RecapList";
 import Empty from "@/components/Empty";
@@ -8,6 +9,10 @@ import setRecapPeriod from "@/constants/recapPeriod";
 import { authOptions } from "@/config/authOptions";
 import { getUserItemRecaps } from "../actions/userItemRecaps";
 import { type PageProps } from "@/types/customs";
+
+export const metadata: Metadata = {
+    title: 'Admin - Rekap User'
+}
 
 export default async function Recap({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)

@@ -12,7 +12,7 @@ const SuccessMessage = ({ children }: PropsWithChildren) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
             transition={{ duration: 0.3 }}
-            className="px-2 py-1 text-xs text-white rounded-md bg-emerald-600 flex items-center gap-2">
+            className="flex items-center gap-2 px-2 py-1 text-xs text-white rounded-md bg-success-600">
             <CiCircleCheck />
             {children}
         </motion.p>

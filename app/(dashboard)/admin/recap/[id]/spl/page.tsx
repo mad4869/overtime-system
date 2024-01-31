@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth";
+import { type Metadata } from "next";
 
 import RecapLetterViewer from "./RecapLetterViewer";
 import MobileMenu from "@/components/MobileMenu";
@@ -7,6 +8,10 @@ import { authOptions } from "@/config/authOptions";
 import { getSuperAdminProfiles } from "../../../actions/users";
 import { getUserItemRecap } from "../../../actions/userItemRecaps";
 import { type PageProps } from "@/types/customs";
+
+export const metadata: Metadata = {
+    title: 'Admin - Surat Perintah Lembur'
+}
 
 export default async function SPL({ params, searchParams }: { params: { id: string } } & PageProps) {
     const session = await getServerSession(authOptions)

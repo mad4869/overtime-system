@@ -1,11 +1,16 @@
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/config/authOptions"
+import { type Metadata } from "next"
 
 import HistoryList from "./HistoryList"
 import DeleteSubmit from "../DeleteSubmit"
 import ErrorMessage from "@/components/ErrorMessage"
 import { getUserItemRecaps } from "../actions/userItemRecaps"
 import { type PageProps } from "@/types/customs"
+
+export const metadata: Metadata = {
+    title: 'Dashboard - Histori Rekap Pekerjaan'
+}
 
 export default async function History({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)

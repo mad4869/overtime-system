@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
+import { type Metadata } from "next";
 
 import ProfileList from "./ProfileList";
 import DetailPanel from "./DetailPanel";
@@ -8,6 +9,10 @@ import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
 import { getUserProfile } from "../../../actions/users"
 import { type PageProps } from "@/types/customs";
+
+export const metadata: Metadata = {
+    title: 'Admin - Detail User Tidak Aktif'
+}
 
 export default async function Detail({ params, searchParams }: { params: { id: string } } & PageProps) {
     const session = await getServerSession(authOptions)

@@ -1,4 +1,5 @@
 import { getServerSession } from "next-auth"
+import { type Metadata } from "next"
 
 import UserCard from "./UserCard"
 import Empty from "@/components/Empty"
@@ -8,6 +9,10 @@ import ErrorMessage from "@/components/ErrorMessage"
 import { authOptions } from "@/config/authOptions"
 import { getInactiveProfiles } from "../actions/users"
 import { type PageProps } from "@/types/customs"
+
+export const metadata: Metadata = {
+    title: 'Admin - Aktivasi User'
+}
 
 export default async function Activation({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
