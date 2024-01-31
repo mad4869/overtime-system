@@ -11,7 +11,7 @@ const AuthPanel = () => {
     const [activeForm, setActiveForm] = useState<'login' | 'register'>('login')
 
     return (
-        <div className="flex-1 w-1/2">
+        <div className="flex-1 w-full sm:w-3/4 md:w-1/2">
             <AnimatePresence initial={false} mode='wait'>
                 {activeForm === 'login' && <Switch key='login-form'><LoginForm /></Switch>}
                 {activeForm === 'register' && <Switch key='register-form'><RegisterForm /></Switch>}
