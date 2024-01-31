@@ -16,8 +16,8 @@ export default function Forbidden() {
     return (
         <div className='w-full h-[calc(100%-3rem)] px-12 bg-primary text-white flex flex-col justify-center items-center gap-2'>
             <FaAngry size={100} />
-            <h1 className='text-3xl'><strong>403 Forbidden:</strong> You are not authorized to access this route.</h1>
-            <p className='text-secondary-300 hover:text-secondary'>Redirecting you back...</p>
+            <h1 className='text-3xl text-center'><strong>403 Forbidden:</strong> Anda tidak boleh mengakses jalan ini.</h1>
+            <p className='text-center text-secondary-300 hover:text-secondary'>Mengirim Anda kembali...</p>
         </div>
     )
 }
