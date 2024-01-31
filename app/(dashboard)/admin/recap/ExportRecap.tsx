@@ -29,7 +29,7 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     return (
         <>
             {isClient &&
-                <div className="flex items-center justify-center gap-4">
+                <div className="flex flex-col items-center justify-center gap-2 sm:gap-4 sm:flex-row">
                     <PDFDownloadLink
                         document={<RecapLetters recaps={userItemRecaps} avp={avp} vp={vp} />}
                         fileName={`Recap_Tanggal_${recapPeriod.startPeriod.toLocaleDateString('id-ID')}_${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}`}>

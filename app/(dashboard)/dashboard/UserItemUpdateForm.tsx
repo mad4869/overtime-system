@@ -67,7 +67,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
     const submitUpdate = async (data: UserAddItem) => {
         const res = await updateUserItem(data, userItem.id)
         if (res.success) {
-            setUpdateItemSuccess(`${res.message} The item: ${res.data?.item}`)
+            setUpdateItemSuccess(`${res.message} Pekerjaan: ${res.data?.item}`)
             setTimeout(() => {
                 setUpdateItemSuccess('')
                 router.replace(pathname)

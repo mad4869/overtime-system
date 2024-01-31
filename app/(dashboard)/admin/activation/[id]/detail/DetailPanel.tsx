@@ -37,7 +37,7 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
     }
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center mt-4">
             <ErrorMessage>{activateUserError}</ErrorMessage>
             <ErrorMessage>{deleteUserError}</ErrorMessage>
             <div className="flex items-center gap-2">

@@ -1,11 +1,20 @@
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 import ProfileList from "./ProfileList";
 import DetailPanel from "./DetailPanel";
+import MobileMenu from "@/components/MobileMenu";
 import ErrorMessage from "@/components/ErrorMessage";
+import { authOptions } from "@/config/authOptions";
 import { getUserProfile } from "../../../actions/users"
+import { type PageProps } from "@/types/customs";
 
-export default async function Detail({ params }: { params: { id: string } }) {
+export default async function Detail({ params, searchParams }: { params: { id: string } } & PageProps) {
+    const session = await getServerSession(authOptions)
+    const currentUser = session?.user
+
+    if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
+
     const userId = parseInt(params.id)
 
     const res = await getUserProfile(userId)
@@ -13,11 +22,14 @@ export default async function Detail({ params }: { params: { id: string } }) {
 
     if (res.data.isActive) redirect('/admin/activation')
 
+    const mobileMenu = Boolean(searchParams.menu)
+
     return (
-        <section className="py-4 space-y-4">
-            <h6 className="text-2xl font-medium">Detail User</h6>
+        <section className="py-4">
+            <h6 className="mb-4 text-2xl font-medium">Detail User</h6>
             <ProfileList profile={res.data} />
             <DetailPanel userId={userId} />
+            <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )
 }

@@ -6,7 +6,7 @@ import SlidingMenu from "@/components/SlidingMenu"
 
 type MobileMenuProps = {
     showMenu: boolean
-    currentProfileRole: "USER" | "ADMIN" | "SUPER_ADMIN" | undefined
+    currentProfileRole: "USER" | "ADMIN" | "SUPER_ADMIN"
 }
 
 const MobileMenu = ({ showMenu, currentProfileRole }: MobileMenuProps) => {

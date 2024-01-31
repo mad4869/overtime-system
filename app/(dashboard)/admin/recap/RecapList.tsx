@@ -16,7 +16,7 @@ const RecapList = async ({ userItemRecaps }: RecapListProps) => {
     const avp = res.data.filter((superAdmin) => superAdmin.position === 'AVP')
 
     return (
-        <>
+        <div className="space-y-4">
             {userItemRecaps.map((userItemRecap, index) => (
                 <RecapCard
                     key={userItemRecap.id}
@@ -27,7 +27,7 @@ const RecapList = async ({ userItemRecaps }: RecapListProps) => {
                     date={userItemRecap.createdAt} />
             ))}
             <ExportRecap userItemRecaps={userItemRecaps} avp={avp[0]} vp={vp[0]} />
-        </>
+        </div>
     )
 }
 

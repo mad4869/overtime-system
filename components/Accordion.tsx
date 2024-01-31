@@ -35,11 +35,11 @@ const Accordion = ({ title, recap = { isRecap: false, indexRecap: 0, isRecapAppr
                         data-te-target={`#collapsed${recap.indexRecap}`}
                         aria-expanded="false"
                         aria-controls={`collapsed${recap.indexRecap}`}>
-                        <div className="flex flex-col justify-center lg:hidden gap-1 text-sm md:text-base">
+                        <div className="flex flex-col justify-center gap-1 text-sm lg:hidden md:text-base">
                             {title}
                             {recap.isRecap &&
                                 <span className={`
-                                ${recap.isRecapApproved ? 'bg-emerald-400' : 'bg-neutral-400'} 
+                                ${recap.isRecapApproved ? 'bg-success-600' : 'bg-neutral-400'} 
                                 text-white px-2 py-px rounded-full text-xs w-fit
                                 `}>
                                     {recap.isRecapApproved ? 'Disetujui' : 'Belum Disetujui'}
@@ -49,7 +49,7 @@ const Accordion = ({ title, recap = { isRecap: false, indexRecap: 0, isRecapAppr
                         <span className="hidden lg:inline">{title}</span>
                         {recap.isRecap &&
                             <span className={`
-                                ${recap.isRecapApproved ? 'bg-emerald-400' : 'bg-neutral-400'} 
+                                ${recap.isRecapApproved ? 'bg-success-600' : 'bg-neutral-400'} 
                                 text-white px-2 py-px rounded-full text-xs ml-2 hidden lg:inline
                             `}>
                                 {recap.isRecapApproved ? 'Disetujui' : 'Belum Disetujui'}

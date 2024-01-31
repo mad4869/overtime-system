@@ -1,9 +1,19 @@
+import { getServerSession } from "next-auth";
+
 import RecapLetterViewer from "./RecapLetterViewer";
+import MobileMenu from "@/components/MobileMenu";
 import ErrorMessage from "@/components/ErrorMessage";
+import { authOptions } from "@/config/authOptions";
 import { getSuperAdminProfiles } from "../../../actions/users";
 import { getUserItemRecap } from "../../../actions/userItemRecaps";
+import { type PageProps } from "@/types/customs";
 
-export default async function SPL({ params }: { params: { id: string } }) {
+export default async function SPL({ params, searchParams }: { params: { id: string } } & PageProps) {
+    const session = await getServerSession(authOptions)
+    const currentUser = session?.user
+
+    if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
+
     const recapId = parseInt(params.id)
 
     const recapRes = await getUserItemRecap(recapId)
@@ -14,5 +24,12 @@ export default async function SPL({ params }: { params: { id: string } }) {
     const vp = profileRes.data.filter((superAdmin) => superAdmin.position === 'VP')
     const avp = profileRes.data.filter((superAdmin) => superAdmin.position === 'AVP')
 
-    return <RecapLetterViewer userItemsRecap={recapRes.data} avp={avp[0]} vp={vp[0]} />
+    const mobileMenu = Boolean(searchParams.menu)
+
+    return (
+        <section className="relative">
+            <RecapLetterViewer userItemsRecap={recapRes.data} avp={avp[0]} vp={vp[0]} />
+            <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
+        </section>
+    )
 }

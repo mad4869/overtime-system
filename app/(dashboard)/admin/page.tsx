@@ -1,14 +1,17 @@
 import Link from "next/link"
 import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
-import { type Metadata } from "next"
-
 import { ImUserCheck } from "react-icons/im";
 import { MdAdminPanelSettings } from "react-icons/md"
 import { HiMiniDocumentCheck } from "react-icons/hi2"
+import { type Metadata } from "next"
+
+import MobileMenu from "@/components/MobileMenu";
+import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions"
 import { getInactiveProfiles } from "./actions/users"
 import { getUserItemRecaps } from "./actions/userItemRecaps";
+import { type PageProps } from "@/types/customs";
 
 const Forbidden = dynamic(() => import('./Forbidden'))
 
@@ -16,13 +19,18 @@ export const metadata: Metadata = {
     title: 'Admin'
 }
 
-export default async function Admin() {
+export default async function Admin({ searchParams }: PageProps) {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
-    if (currentUser?.role === 'USER') return <Forbidden />
+
+    if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
+
+    if (currentUser.role === 'USER') return <Forbidden />
 
     const inactiveRes = await getInactiveProfiles()
     const recapsRes = await getUserItemRecaps()
+
+    const mobileMenu = Boolean(searchParams.menu)
 
     return (
         <section className="flex items-center justify-center w-full gap-4 text-white/70 h-[calc(100%-4rem)]">
@@ -30,18 +38,20 @@ export default async function Admin() {
                 <Link
                     href="/admin/panel"
                     title="Ke Panel Admin"
-                    className="flex flex-col items-center gap-4 px-16 py-24 shadow-inner bg-primary rounded-xl shadow-primary-900 group">
+                    className="flex flex-col items-center gap-4 px-4 py-20 shadow-inner sm:py-24 sm:px-16 bg-primary rounded-xl shadow-primary-900 group">
                     <span
                         className="p-2 transition-colors duration-300 rounded-full bg-white/70 backdrop-blur text-primary group-hover:bg-white">
                         <MdAdminPanelSettings size={50} />
                     </span>
-                    <h6 className="text-3xl font-bold transition-colors duration-300 group-hover:text-white">Panel Admin</h6>
+                    <h6 className="text-3xl font-bold text-center transition-colors duration-300 group-hover:text-white">
+                        Panel Admin
+                    </h6>
                 </Link>
                 <div className="flex flex-col items-center justify-center h-full gap-2">
                     <Link
                         href="/admin/activation"
                         title="Ke Aktivasi User"
-                        className="relative flex flex-col items-center gap-4 py-8 shadow-inner px-14 group bg-secondary rounded-xl shadow-secondary-900">
+                        className="relative flex flex-col items-center gap-4 px-4 py-4 shadow-inner sm:py-8 sm:px-14 group bg-secondary rounded-xl shadow-secondary-900">
                         <span
                             className="p-2 transition-colors duration-300 rounded-full bg-white/70 backdrop-blur text-secondary group-hover:bg-white">
                             <ImUserCheck size={30} />
@@ -53,14 +63,14 @@ export default async function Admin() {
                                 {inactiveRes.data.profilesCount}
                             </span>
                         )}
-                        <h6 className="text-xl font-bold transition-colors duration-300 group-hover:text-white">
+                        <h6 className="text-xl font-bold text-center transition-colors duration-300 group-hover:text-white">
                             Aktivasi User
                         </h6>
                     </Link>
                     <Link
                         href="/admin/recap"
                         title="Ke Rekap User"
-                        className="relative flex flex-col items-center gap-4 px-16 py-8 shadow-inner group bg-secondary rounded-xl shadow-secondary-900">
+                        className="relative flex flex-col items-center gap-4 px-4 py-4 shadow-inner sm:py-8 sm:px-16 group bg-secondary rounded-xl shadow-secondary-900">
                         <span
                             className="p-2 transition-colors duration-300 rounded-full bg-white/70 backdrop-blur text-secondary group-hover:bg-white">
                             <HiMiniDocumentCheck size={30} />
@@ -72,12 +82,13 @@ export default async function Admin() {
                                 {recapsRes.data.length}
                             </span>
                         )}
-                        <h6 className="text-xl font-bold transition-colors duration-300 group-hover:text-white">
+                        <h6 className="text-xl font-bold text-center transition-colors duration-300 group-hover:text-white">
                             Rekap User
                         </h6>
                     </Link>
                 </div>
             </div>
+            <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )
 }

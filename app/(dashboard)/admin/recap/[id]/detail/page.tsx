@@ -1,14 +1,18 @@
 import { getServerSession } from "next-auth";
 
-import UserItemList from "../UserItemList"
 import ApproveSubmit from "./ApproveSubmit";
+import MobileMenu from "@/components/MobileMenu";
+import UserItemList from "@/components/UserItemList"
 import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
 import { getUserItemRecap } from "../../../actions/userItemRecaps"
+import { type PageProps } from "@/types/customs";
 
-export default async function Detail({ params }: { params: { id: string } }) {
+export default async function Detail({ params, searchParams }: { params: { id: string } } & PageProps) {
     const session = await getServerSession(authOptions)
     const currentUser = session?.user
+
+    if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
 
     const recapId = parseInt(params.id)
 
@@ -18,13 +22,15 @@ export default async function Detail({ params }: { params: { id: string } }) {
     const isApprovedByVP = res.data.isApprovedByVP
     const isApprovedByAVP = res.data.isApprovedByAVP
 
+    const mobileMenu = Boolean(searchParams.menu)
+
     return (
-        <section className="py-4 space-y-4">
-            <div className="flex items-center justify-between pb-2 text-xs border-b text-primary-300 border-primary-300/50">
-                <p>Recap ID <strong>{res.data.id}</strong></p>
+        <section className="py-4">
+            <div className="flex items-center justify-between pb-2 mb-4 text-xs border-b text-primary-300 border-primary-300/50">
+                <p>ID Rekap <strong>{res.data.id}</strong></p>
                 <p>{res.data.createdAt.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
             </div>
-            <div className="space-y-1 text-center">
+            <div className="mb-4 space-y-1 text-center">
                 <h1 className="text-3xl font-bold">{res.data.userItems[0].user.name}</h1>
                 <div className="flex items-center justify-center gap-4 text-sm text-primary-300">
                     <h6>NPK {res.data.userItems[0].user.npk}</h6>
@@ -39,6 +45,7 @@ export default async function Detail({ params }: { params: { id: string } }) {
             {currentUser?.position === 'AVP' &&
                 <ApproveSubmit recapId={res.data.id} isApproved={isApprovedByAVP} by="AVP" />
             }
+            <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )
 }

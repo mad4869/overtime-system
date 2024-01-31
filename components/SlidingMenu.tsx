@@ -16,7 +16,7 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 const oswald = Oswald({ subsets: ['latin'] })
 
 type SlidingMenuProps = {
-    currentProfileRole: 'USER' | 'ADMIN' | 'SUPER_ADMIN' | undefined
+    currentProfileRole: 'USER' | 'ADMIN' | 'SUPER_ADMIN'
 }
 
 const SlidingMenu = ({ currentProfileRole }: SlidingMenuProps) => {

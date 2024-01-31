@@ -56,7 +56,7 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
     const submitUpdate = async (data: UserUpdate) => {
         const res = await updateUserProfile(data, profile.id)
         if (res.success) {
-            setUpdateUserSuccess(`${res.message} The user: ${res.data?.name}`)
+            setUpdateUserSuccess(`${res.message} User: ${res.data?.name}`)
             setTimeout(() => {
                 setUpdateUserSuccess('')
                 router.replace(pathname, { scroll: false })

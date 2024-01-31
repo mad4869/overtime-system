@@ -17,21 +17,24 @@ type RecapCardProps = {
 
 const RecapCard = ({ no, recapId, userItems, isApproved, date }: RecapCardProps) => {
     return (
-        <div className='flex items-center justify-between w-full px-4 py-2 text-sm rounded shadow-md shadow-primary/40'>
-            <div className="flex items-center gap-4">
-                <p className="px-2 py-1 text-xs text-white rounded-full bg-primary">{no}</p>
-                <span className={`
-                        text-xs px-2 py-1 rounded
-                        ${isApproved ? 'text-white bg-emerald-400' : 'text-neutral-400 bg-neutral-200'}
+        <div
+            className='flex items-center justify-between w-full px-4 py-4 text-sm rounded shadow-md sm:py-2 shadow-primary/40'>
+            <div className="flex flex-col items-start gap-4 sm:items-center sm:flex-row">
+                <div className="flex items-center gap-2 sm:gap-4">
+                    <p className="px-2 py-1 text-xs text-white rounded-full bg-primary">{no}</p>
+                    <span className={`
+                        text-xs px-2 py-1 rounded min-w-fit
+                        ${isApproved ? 'text-white bg-success-600' : 'text-neutral-400 bg-neutral-200'}
                     `}>
-                    {isApproved ? 'Approved' : 'Not Approved'}
-                </span>
+                        {isApproved ? 'Disetujui' : 'Belum Disetujui'}
+                    </span>
+                </div>
                 <div className="flex flex-col">
                     <p>
                         Disubmit oleh <strong>{userItems[0].user.name}</strong>
                     </p>
                     <p>
-                        Disubmit pada&nbsp;
+                        Pada&nbsp;
                         {date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                     </p>
                 </div>
