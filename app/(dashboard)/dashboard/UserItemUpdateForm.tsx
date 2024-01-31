@@ -60,7 +60,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
 
     useEffect(() => {
         if (isClickedOutside) {
-            router.replace(pathname)
+            router.replace(pathname, { scroll: false })
         }
     }, [isClickedOutside, router, pathname])
 

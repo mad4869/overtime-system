@@ -10,6 +10,7 @@ import setRecapPeriod from "@/constants/recapPeriod"
 import { PageProps } from "@/types/customs"
 import { authOptions } from "@/config/authOptions"
 import { getUserItem, getUserItemsValid } from "./actions/userItems"
+import SlidingMenu from "@/components/SlidingMenu"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
 const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
@@ -35,6 +36,8 @@ export default async function Dashboard({ searchParams }: PageProps) {
     const deletedItemId = typeof searchParams['delete-item'] === 'string' ? parseInt(searchParams['delete-item']) : undefined
     const { message: userItemMessage, data: userItem } = await getUserItem(updatedItemId)
 
+    const mobileMenu = Boolean(searchParams.menu)
+
     return (
         <section className="relative space-y-4">
             <Heading />
@@ -55,6 +58,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
             {updatedItemId && userItem && <UserItemUpdateForm userItem={userItem} />}
             {updatedItemId && !userItem && <ErrorMessage>{userItemMessage}</ErrorMessage>}
             {deletedItemId && <DeleteSubmit id={deletedItemId} type="user-item" />}
+            {mobileMenu && <SlidingMenu currentProfileRole={currentUser.role} />}
         </section>
     )
 }

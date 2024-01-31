@@ -1,6 +1,7 @@
 'use client'
 
 import { signOut } from "next-auth/react";
+import { FaDoorOpen } from 'react-icons/fa'
 
 const LogoutButton = () => {
     const logoutUser = async () => {
@@ -14,7 +15,12 @@ const LogoutButton = () => {
         }
     }
 
-    return <p title="Log Out" className="text-sm cursor-pointer" onClick={logoutUser}>Logout</p>
+    return (
+        <div className="items-center hidden gap-2 pt-2 sm:flex text-white/50 max-w-fit hover:text-danger-500">
+            <FaDoorOpen size={12} />
+            <p title="Log Out" className="text-xs cursor-pointer md:text-sm" onClick={logoutUser}>Logout</p>
+        </div>
+    )
 }
 
 export default LogoutButton

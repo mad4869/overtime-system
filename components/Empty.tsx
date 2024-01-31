@@ -2,8 +2,8 @@ import { PropsWithChildren } from "react"
 
 const Empty = ({ children }: PropsWithChildren) => {
     return (
-        <div className="flex items-center justify-center">
-            <p className="bg-secondary text-white rounded-full px-4 py-1">
+        <div className="flex items-center justify-center text-xs lg:text-base">
+            <p className="px-2 py-1 text-center text-white rounded-full lg:px-4 bg-secondary">
                 {children}
             </p>
         </div>

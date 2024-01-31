@@ -58,10 +58,10 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
     return (
         <form
             onSubmit={handleSubmit(submitUserItem)}
-            className="flex flex-col items-center gap-8 py-4 text-sm rounded shadow-inner px-36 bg-primary-100 shadow-primary/50">
+            className="flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-inner md:px-10 lg:px-16 xl:px-36 bg-primary-100 shadow-primary/50">
             <div className="flex flex-col items-center">
-                <h6 className="text-lg">Formulir Pekerjaan Lembur</h6>
-                <p className="text-xs text-primary-500">
+                <h6 className="text-sm text-center sm:text-base md:text-lg">Formulir Pekerjaan Lembur</h6>
+                <p className="text-xs text-center text-primary-500">
                     Submit pekerjaan yang Anda lakukan pada periode&nbsp;
                     <span className="underline">
                         {recapPeriod.startPeriod.toLocaleDateString(
@@ -75,7 +75,7 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                     &nbsp;di sini.
                 </p>
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col w-full gap-2">
                 <div>
                     <InputField
                         id="item"
@@ -95,8 +95,8 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                         {...register('tanggal')} />
                     <ErrorMessage>{errors.tanggal?.message}</ErrorMessage>
                 </div>
-                <div className="flex items-start w-full gap-2">
-                    <div>
+                <div className="flex flex-col items-start w-full gap-2 md:flex-row">
+                    <div className="w-full">
                         <InputField
                             id='start-time'
                             type="time"
@@ -105,7 +105,7 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                             {...register('mulai')} />
                         <ErrorMessage>{errors.mulai?.message}</ErrorMessage>
                     </div>
-                    <div>
+                    <div className="w-full">
                         <InputField
                             id="finished-time"
                             type="time"

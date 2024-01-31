@@ -25,7 +25,7 @@ const Menu = ({ currentProfileRole }: MenuProps) => {
     }, [currentUrl])
 
     return (
-        <ul className="flex flex-col w-full gap-4 text-sm text-white/50">
+        <ul className="flex flex-col items-center w-full gap-4 text-xs sm:items-start md:text-sm text-white/50">
             {menus.map(menu => {
                 if (menu.url === '/admin' && currentProfileRole === 'USER') return null
 
@@ -33,11 +33,16 @@ const Menu = ({ currentProfileRole }: MenuProps) => {
                     <li
                         key={menu.url}
                         className={
-                            `flex items-center gap-2 ${activeNav.startsWith(menu.url) ? 'text-white' : ''} hover:text-white`
+                            `${activeNav.startsWith(menu.url) ? 'text-white' : ''} hover:text-white`
                         }
-                        title={menu.title}>
-                        <menu.icon />
-                        <Link href={menu.url} onClick={() => setActiveNav(menu.url)}>{menu.title}</Link>
+                        title={menu.title}
+                        onClick={() => setActiveNav(menu.url)}>
+                        <Link href={menu.url} className="flex items-center gap-2">
+                            <menu.icon />
+                            <p className="hidden sm:block">
+                                {menu.title}
+                            </p>
+                        </Link>
                     </li>
                 )
             })}
