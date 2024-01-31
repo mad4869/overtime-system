@@ -60,7 +60,7 @@ const SlidingMenu = ({ currentProfileRole }: SlidingMenuProps) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.5 }}
-            className="fixed left-0 z-10 flex flex-col items-center justify-between w-48 h-full p-8 border shadow-xl -top-4 bg-primary rounded-r-md shadow-primary/70 border-primary-400">
+            className="fixed top-0 left-0 z-10 flex flex-col items-center justify-between w-48 h-full p-8 border shadow-xl bg-primary rounded-r-md shadow-primary/70 border-primary-400">
             <Link href="/dashboard" className="flex items-center w-full gap-4">
                 <Logo size="sm" />
                 <h1 className={`text-2xl font-bold text-amber-400 ${oswald.className}`}>SML</h1>

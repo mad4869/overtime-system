@@ -3,7 +3,7 @@ import { MdHistory } from "react-icons/md";
 
 const Heading = () => {
     return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
             <h6 className="text-2xl font-medium">Dashboard</h6>
             <div className="flex items-center gap-1 transition-colors text-primary-400 hover:text-primary">
                 <MdHistory />

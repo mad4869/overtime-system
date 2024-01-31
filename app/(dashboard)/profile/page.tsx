@@ -4,15 +4,16 @@ import { RiLockPasswordFill } from "react-icons/ri"
 import { MdDelete } from "react-icons/md";
 import { type Metadata } from "next";
 
-import Button from "@/components/Button";
 import ProfileList from "./ProfileList"
 import UpdateProfileForm from "./UpdateProfileForm";
 import ChangePasswordForm from "./ChangePasswordForm";
 import DeleteAccountSubmit from "./DeleteAccountSubmit";
+import Button from "@/components/Button";
+import MobileMenu from "@/components/MobileMenu";
 import ErrorMessage from "@/components/ErrorMessage";
-import { PageProps } from "@/types/customs";
 import { authOptions } from "@/config/authOptions"
 import { getUserProfile } from "./actions/user";
+import { type PageProps } from "@/types/customs";
 
 export const metadata: Metadata = {
     title: 'Profile'
@@ -31,11 +32,13 @@ export default async function Profile({ searchParams }: PageProps) {
     const changePassword = Boolean(searchParams['change-password'])
     const deleteAccount = Boolean(searchParams['delete-account'])
 
+    const mobileMenu = Boolean(searchParams.menu)
+
     return (
-        <section className="relative py-4">
+        <section className="relative py-4 h-[calc(100%-4rem)]">
             {!updateProfile ? <ProfileList profile={res.data} /> : <UpdateProfileForm profile={res.data} />}
             {!updateProfile &&
-                <div className="flex items-center gap-2 mt-36">
+                <div className="absolute bottom-0 left-0 flex items-center gap-2">
                     <Link href={{ query: { 'change-password': true } }}>
                         <Button
                             title="Ubah password"
@@ -56,6 +59,7 @@ export default async function Profile({ searchParams }: PageProps) {
             }
             {changePassword && <ChangePasswordForm userId={currentUser.id} />}
             {deleteAccount && <DeleteAccountSubmit userId={currentUser.id} />}
+            <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )
 }

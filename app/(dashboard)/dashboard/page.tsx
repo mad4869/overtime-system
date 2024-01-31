@@ -3,10 +3,10 @@ import { getServerSession } from "next-auth"
 import { type Metadata } from "next"
 
 import Heading from "./Heading"
-import MobileMenu from "./MobileMenu"
 import DeleteSubmit from "./DeleteSubmit"
 import UserItemSubmitForm from "./UserItemSubmitForm"
 import UserItemUpdateForm from "./UserItemUpdateForm"
+import MobileMenu from "@/components/MobileMenu"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { PageProps } from "@/types/customs"
 import { authOptions } from "@/config/authOptions"
@@ -39,7 +39,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
     const mobileMenu = Boolean(searchParams.menu)
 
     return (
-        <section className="relative space-y-4">
+        <section className="relative">
             <Heading />
             <UserItemSubmitForm currentUserId={currentUser.id} />
             <Accordion title="Daftar Pekerjaan">
