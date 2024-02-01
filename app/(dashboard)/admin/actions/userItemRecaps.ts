@@ -16,8 +16,8 @@ export async function getUserItemRecaps() {
         const userItemRecaps = await prisma.userItemRecap.findMany({
             where: {
                 AND: [
-                    { createdAt: { gte: recapPeriod.startPeriod.toUTCString() } },
-                    { createdAt: { lte: recapPeriod.finishedPeriod.toUTCString() } }
+                    { createdAt: { gte: recapPeriod.startPeriod } },
+                    { createdAt: { lte: recapPeriod.finishedPeriod } }
                 ]
             },
             include: {

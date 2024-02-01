@@ -16,8 +16,8 @@ export async function adminGetUserItem(userId?: number) {
         where: {
             userId: userId,
             AND: [
-                { startTime: { gte: recapPeriod.startPeriod.toUTCString() } },
-                { startTime: { lte: recapPeriod.finishedPeriod.toUTCString() } }
+                { startTime: { gte: recapPeriod.startPeriod } },
+                { startTime: { lte: recapPeriod.finishedPeriod } }
             ]
         },
         include: {
