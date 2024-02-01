@@ -93,8 +93,8 @@ export async function addUserItem(item: UserAddItem, currentUserId: number) {
     const startTime = item.mulai.split(':')
     const finishedTime = item.selesai.split(':')
 
-    startDate.setUTCHours(parseInt(startTime[0]), parseInt(startTime[1]))
-    finishedDate.setUTCHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
+    startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
+    finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
     try {
         const newItem = await prisma.userItem.create({
@@ -130,8 +130,8 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
     const startTime = item.mulai.split(':')
     const finishedTime = item.selesai.split(':')
 
-    startDate.setUTCHours(parseInt(startTime[0]), parseInt(startTime[1]))
-    finishedDate.setUTCHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
+    startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
+    finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
     try {
         const targetedItem = await prisma.userItem.findUnique({
