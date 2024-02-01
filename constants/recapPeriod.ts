@@ -11,11 +11,11 @@ const setRecapPeriod = () => {
     const finishedPeriod = new Date(currentYear, currentMonth, finishedPeriodDate)
 
     if (currentDate < startPeriodDate) {
-        startPeriod.setMonth(currentMonth === 0 ? 11 : (currentMonth - 1))
-        startPeriod.setFullYear(currentMonth === 0 ? (currentYear - 1) : currentYear)
+        startPeriod.setUTCMonth(currentMonth === 0 ? 11 : (currentMonth - 1))
+        startPeriod.setUTCFullYear(currentMonth === 0 ? (currentYear - 1) : currentYear)
     } else {
-        finishedPeriod.setMonth(currentMonth === 11 ? 0 : (currentMonth + 1))
-        finishedPeriod.setFullYear(currentMonth === 11 ? (currentYear + 1) : currentYear)
+        finishedPeriod.setUTCMonth(currentMonth === 11 ? 0 : (currentMonth + 1))
+        finishedPeriod.setUTCFullYear(currentMonth === 11 ? (currentYear + 1) : currentYear)
     }
 
     return { startPeriod, finishedPeriod }

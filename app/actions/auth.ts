@@ -1,5 +1,6 @@
 'use server'
 
+import React from "react";
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import prisma from "@/prisma/client";
@@ -9,7 +10,6 @@ import { Resend } from "resend";
 
 import Email from "@/components/Email";
 import { userRegisterSchema, userResetPasswordSchema } from "@/schemas/validationSchemas";
-import React from "react";
 
 export type UserRegister = z.infer<typeof userRegisterSchema>
 export type UserResetPassword = z.infer<typeof userResetPasswordSchema>
