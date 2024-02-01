@@ -4,7 +4,7 @@ import prisma from "@/prisma/client"
 import { z } from "zod";
 import { revalidatePath } from "next/cache"
 
-import setRecapPeriod from "@/constants/recapPeriod";
+import setRecapPeriod, { gmtOffset } from "@/constants/recapPeriod";
 import { adminAddItemSchema } from "@/schemas/validationSchemas";
 
 export type AdminAddItem = z.infer<typeof adminAddItemSchema>
@@ -75,6 +75,9 @@ export async function addUserItem(item: AdminAddItem) {
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
+    startDate.setTime(startDate.getTime() - gmtOffset)
+    finishedDate.setTime(finishedDate.getTime() - gmtOffset)
+
     try {
         const targetedUser = await prisma.user.findUnique({
             where: { id: parseInt(item['user ID']) }
@@ -131,6 +134,9 @@ export async function updateUserItem(item: AdminAddItem, userItemId: number) {
 
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
+
+    startDate.setTime(startDate.getTime() - gmtOffset)
+    finishedDate.setTime(finishedDate.getTime() - gmtOffset)
 
     try {
         const targetedItem = await prisma.userItem.findUnique({
