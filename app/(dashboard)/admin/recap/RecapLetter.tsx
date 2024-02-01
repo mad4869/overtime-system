@@ -16,8 +16,8 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
     const avpToken = useSignatureToken(avp)
     const vpToken = useSignatureToken(vp)
 
-    const avpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, avpToken, isApprovedByAVP)
-    const vpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
+    const avpQRCodeData = useQRCode(`https://overtimesystem.vercel.app/recap/${userItemsRecap.id}/verification`, avpToken, isApprovedByAVP)
+    const vpQRCodeData = useQRCode(`https://overtimesystem.vercel.app/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
 
     return <RecapLetterPage
         userItemsRecap={userItemsRecap}

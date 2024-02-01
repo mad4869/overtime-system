@@ -23,8 +23,8 @@ const LetterViewer = ({ userItemsRecap, avp, vp }: LetterViewerProps) => {
     const avpToken = useToken(avp)
     const vpToken = useToken(vp)
 
-    const avpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, avpToken, isApprovedByAVP)
-    const vpQRCodeData = useQRCode(`/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
+    const avpQRCodeData = useQRCode(`https://overtimesystem.vercel.app/recap/${userItemsRecap.id}/verification`, avpToken, isApprovedByAVP)
+    const vpQRCodeData = useQRCode(`https://overtimesystem.vercel.app/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
 
     return (
         <>

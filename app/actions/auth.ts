@@ -80,7 +80,7 @@ export async function setPasswordToken(user: UserResetPassword) {
             from: 'Sistem Manajemen Lembur <onboarding@resend.dev>',
             to: targetedUser.email,
             subject: `Reset password: NPK ${targetedUser.npk}`,
-            react: React.createElement(Email, { url: `http://localhost:3000/reset-password?token=${token}` })
+            react: React.createElement(Email, { url: `https://overtimesystem.vercel.app/reset-password?token=${token}` })
         })
 
         const emailName = targetedUser.email.split('@')[0]
