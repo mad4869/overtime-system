@@ -13,8 +13,8 @@ export async function getUserItemsValid(currentUserId: number, recapPeriod: { st
             where: {
                 userId: currentUserId,
                 AND: [
-                    { startTime: { gte: recapPeriod.startPeriod } },
-                    { startTime: { lte: recapPeriod.finishedPeriod } }
+                    { startTime: { gte: recapPeriod.startPeriod.toUTCString() } },
+                    { startTime: { lte: recapPeriod.finishedPeriod.toUTCString() } }
                 ]
             },
             include: {

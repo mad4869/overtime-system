@@ -1,14 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 model User {
@@ -16,7 +13,7 @@ model User {
   name       String     @db.VarChar(255)
   npk        String     @unique @db.VarChar(255)
   email      String     @db.VarChar(255)
-  password   String     @db.Text
+  password   String
   role       UserRole   @default(USER)
   position   String     @db.VarChar(255)
   unit       String     @db.VarChar(255)
@@ -28,31 +25,30 @@ model User {
   items      UserItem[]
 }
 
-enum UserRole {
-  SUPER_ADMIN
-  ADMIN
-  USER
-}
-
 model UserItem {
-  id           Int      @id @default(autoincrement())
-  userId       Int
-  item         String   @db.Text
-  startTime    DateTime
-  finishedTime DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  UserItemRecap   UserItemRecap? @relation(fields: [userItemRecapId], references: [id])
+  id              Int            @id @default(autoincrement())
+  userId          Int
+  item            String
+  startTime       DateTime       @db.Timestamptz()
+  finishedTime    DateTime       @db.Timestamptz()
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
   userItemRecapId Int?
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  UserItemRecap   UserItemRecap? @relation(fields: [userItemRecapId], references: [id])
 }
 
 model UserItemRecap {
   id              Int        @id @default(autoincrement())
-  userItems       UserItem[]
   isApprovedByVP  Boolean    @default(false)
   isApprovedByAVP Boolean    @default(false)
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
+  userItems       UserItem[]
+}
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  USER
 }
