@@ -1,5 +1,5 @@
+import dynamic from "next/dynamic";
 import RecapCard from "./RecapCard";
-import ExportRecap from "./ExportRecap";
 import ErrorMessage from "@/components/ErrorMessage";
 import { getSuperAdminProfiles } from "../actions/users";
 import { type UserItemRecapSimple } from "@/types/customs";
@@ -7,6 +7,8 @@ import { type UserItemRecapSimple } from "@/types/customs";
 type RecapListProps = {
     userItemRecaps: UserItemRecapSimple[]
 }
+
+const ExportRecap = dynamic(() => import('./ExportRecap'), { ssr: false })
 
 const RecapList = async ({ userItemRecaps }: RecapListProps) => {
     const res = await getSuperAdminProfiles()

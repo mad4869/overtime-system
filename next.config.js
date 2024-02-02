@@ -3,6 +3,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 /** @type {import('next').NextConfig} */
-const nextConfig = { swcMinify: false }
+const nextConfig = {}
 
 module.exports = withBundleAnalyzer(nextConfig)
