@@ -92,6 +92,7 @@ const ChangePasswordForm = ({ userId }: ChangePasswordFormProps) => {
                     type='submit'
                     title='Ganti password'
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     icon={<IoIosSend />}
                     options={{ isFull: true }}>
                     Update

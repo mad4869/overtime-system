@@ -42,7 +42,7 @@ const ApproveSubmit = ({ recapId, isApproved, by }: ApproveSubmitProps) => {
             </AnimatePresence>
             <Button
                 type="button"
-                title="Setujui rekap pekerjaan"
+                title={!isApproved ? "Setujui rekap pekerjaan" : "Rekap telah disetujui"}
                 handleClick={approveRecap}
                 disabled={isApproved}
                 icon={<FaThumbsUp />}>

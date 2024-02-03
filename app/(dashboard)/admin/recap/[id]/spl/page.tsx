@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { type Metadata } from "next";
 
-import RecapLetterViewer from "./RecapLetterViewer";
+import RecapLetter from "./RecapLetter";
 import MobileMenu from "@/components/MobileMenu";
 import ErrorMessage from "@/components/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
@@ -33,7 +33,7 @@ export default async function SPL({ params, searchParams }: { params: { id: stri
 
     return (
         <section className="relative">
-            <RecapLetterViewer userItemsRecap={recapRes.data} avp={avp[0]} vp={vp[0]} />
+            <RecapLetter userItemsRecap={recapRes.data} avp={avp[0]} vp={vp[0]} />
             <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )

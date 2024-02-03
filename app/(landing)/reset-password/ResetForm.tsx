@@ -55,7 +55,9 @@ const ResetForm = () => {
                     {resetSuccess && <SuccessMessage>{resetSuccess}</SuccessMessage>}
                 </AnimatePresence>
             </div>
-            <Button type="submit" title="Reset password" disabled={isSubmitting}>Reset Password</Button>
+            <Button type="submit" title="Reset password" disabled={isSubmitting} loading={isSubmitting}>
+                Reset Password
+            </Button>
         </form>
     )
 }

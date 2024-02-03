@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import RecapCard from "./RecapCard";
 import ErrorMessage from "@/components/ErrorMessage";
+import LoadingIndicator from "@/components/LoadingIndicator";
 import { getSuperAdminProfiles } from "../actions/users";
 import { type UserItemRecapSimple } from "@/types/customs";
 
@@ -8,7 +9,7 @@ type RecapListProps = {
     userItemRecaps: UserItemRecapSimple[]
 }
 
-const ExportRecap = dynamic(() => import('./ExportRecap'), { ssr: false })
+const ExportRecap = dynamic(() => import('./ExportRecap'), { ssr: false, loading: () => <LoadingIndicator /> })
 
 const RecapList = async ({ userItemRecaps }: RecapListProps) => {
     const res = await getSuperAdminProfiles()

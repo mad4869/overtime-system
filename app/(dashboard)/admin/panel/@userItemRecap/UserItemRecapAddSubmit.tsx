@@ -55,7 +55,7 @@ const UserItemRecapAddSubmit = () => {
             <div className='space-y-4'>
                 <p>Anda ingin membuat rekap baru?</p>
                 <div className='flex items-center justify-center gap-4'>
-                    <Button handleClick={confirmAdd} disabled={isSubmitting}>Ya</Button>
+                    <Button handleClick={confirmAdd} disabled={isSubmitting} loading={isSubmitting}>Ya</Button>
                     <Link href={pathname} scroll={false}>
                         <Button options={{ type: 'outline' }}>Tidak</Button>
                     </Link>

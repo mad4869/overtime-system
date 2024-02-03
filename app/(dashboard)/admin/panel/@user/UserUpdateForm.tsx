@@ -154,6 +154,7 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                     title='Update user'
                     icon={<IoIosSend />}
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     options={{ isFull: true }}>
                     Update
                 </Button>
