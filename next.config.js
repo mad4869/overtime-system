@@ -3,6 +3,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+    experimental: {
+        serverComponentsExternalPackages: ['puppeteer-core']
+    }
+}
 
 module.exports = withBundleAnalyzer(nextConfig)
