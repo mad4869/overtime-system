@@ -3,6 +3,8 @@
 import { type IconType } from "react-icons"
 import { PropsWithChildren, type MouseEventHandler, type ReactElement } from "react"
 
+import Spinner from "./Spinner"
+
 type ButtonOptions = {
     type?: 'fill' | 'outline'
     color?: 'primary' | 'secondary' | 'error' | 'pdf' | 'excel'
@@ -15,11 +17,12 @@ type ButtonProps = PropsWithChildren & {
     title?: string
     icon?: ReactElement<IconType>
     disabled?: boolean
+    loading?: boolean
     handleClick?: MouseEventHandler<HTMLButtonElement>
     options?: ButtonOptions
 }
 
-const Button = ({ children, type = 'button', title, handleClick, disabled, icon, options = {
+const Button = ({ children, type = 'button', title, handleClick, disabled, loading, icon, options = {
     size: 'sm',
     color: 'primary',
     type: 'fill',
@@ -60,7 +63,7 @@ const Button = ({ children, type = 'button', title, handleClick, disabled, icon,
             title={title}
             disabled={disabled}
             onClick={handleClick}>
-            {icon}
+            {!loading ? icon : <Spinner />}
             {children}
         </button>
     )

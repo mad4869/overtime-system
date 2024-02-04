@@ -125,6 +125,7 @@ const UserItemAddForm = () => {
                     type='submit'
                     title='Submit pekerjaan'
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     icon={<IoIosSend />}
                     options={{ isFull: true }}>
                     Submit

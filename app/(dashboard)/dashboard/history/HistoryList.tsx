@@ -13,7 +13,7 @@ import { UserItemRecap } from "@/types/customs";
 import { getUserItemRecaps } from "../actions/userItemRecaps"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
-const UserItemList = dynamic(() => import('@/components/UserItemList'))
+const UserItemList = dynamic(() => import('@/components/UserItemList'), { ssr: false })
 const UserItemRecapDelete = dynamic(() => import('./UserItemRecapDelete'), { ssr: false })
 
 type HistoryListProps = {

@@ -1,5 +1,4 @@
 import Link from "next/link"
-import dynamic from "next/dynamic"
 import { getServerSession } from "next-auth"
 import { ImUserCheck } from "react-icons/im";
 import { MdAdminPanelSettings } from "react-icons/md"
@@ -13,8 +12,6 @@ import { getInactiveProfiles } from "./actions/users"
 import { getUserItemRecaps } from "./actions/userItemRecaps";
 import { type PageProps } from "@/types/customs";
 
-const Forbidden = dynamic(() => import('./Forbidden'))
-
 export const metadata: Metadata = {
     title: 'Admin'
 }
@@ -24,8 +21,6 @@ export default async function Admin({ searchParams }: PageProps) {
     const currentUser = session?.user
 
     if (!currentUser) return <ErrorMessage useIcon>Tidak ada user yang login</ErrorMessage>
-
-    if (currentUser.role === 'USER') return <Forbidden />
 
     const inactiveRes = await getInactiveProfiles()
     const recapsRes = await getUserItemRecaps()

@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link"
 import { MdEditSquare, MdDelete } from "react-icons/md"
 

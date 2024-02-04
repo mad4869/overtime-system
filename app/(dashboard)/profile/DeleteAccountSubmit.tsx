@@ -87,6 +87,7 @@ const DeleteAccountSubmit = ({ userId }: DeleteAccountSubmitProps) => {
                     type='submit'
                     title='Hapus akun'
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     icon={<MdDelete />}
                     options={{ color: 'error', isFull: true }}>
                     Hapus

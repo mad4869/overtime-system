@@ -109,7 +109,7 @@ const RegisterForm = () => {
                     {registerSuccess && <SuccessMessage>{registerSuccess}</SuccessMessage>}
                 </AnimatePresence>
             </div>
-            <Button type="submit" title="Register" disabled={isSubmitting}>Register</Button>
+            <Button type="submit" title="Register" disabled={isSubmitting} loading={isSubmitting}>Register</Button>
         </form>
     )
 }

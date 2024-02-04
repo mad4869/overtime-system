@@ -55,7 +55,13 @@ const UserDeleteSubmit = ({ id }: UserDeleteSubmitProps) => {
                     Apakah Anda yakin ingin menghapus user ini?
                 </p>
                 <div className='flex items-center justify-center gap-4'>
-                    <Button handleClick={confirmDelete} disabled={isSubmitting} options={{ color: 'error' }}>Ya</Button>
+                    <Button
+                        handleClick={confirmDelete}
+                        disabled={isSubmitting}
+                        loading={isSubmitting}
+                        options={{ color: 'error' }}>
+                        Ya
+                    </Button>
                     <Link href={pathname} scroll={false}>
                         <Button options={{ color: 'error', type: 'outline' }}>Tidak</Button>
                     </Link>

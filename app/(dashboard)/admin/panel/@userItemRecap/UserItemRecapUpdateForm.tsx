@@ -89,6 +89,7 @@ const UserItemRecapUpdateForm = ({ currentUser, userItemRecap }: UserItemRecapUp
                     title='Update recap'
                     icon={<IoIosSend />}
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     options={{ isFull: true }}>
                     Update
                 </Button>

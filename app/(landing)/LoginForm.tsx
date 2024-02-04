@@ -79,7 +79,7 @@ const LoginForm = () => {
                     className="text-xs transition-colors text-secondary hover:text-secondary-800">
                     Lupa password?
                 </Link>
-                <Button type="submit" title="Log In" disabled={isSubmitting}>Login</Button>
+                <Button type="submit" title="Log In" disabled={isSubmitting} loading={isSubmitting}>Login</Button>
             </div>
         </form>
     )

@@ -73,7 +73,7 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
         <form
             ref={modalRef}
             onSubmit={handleSubmit(submitUpdate)}
-            className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md bottom-16 bg-secondary/30 backdrop-blur shadow-secondary/70">
+            className="absolute right-0 z-10 flex flex-col items-center gap-8 px-4 py-4 text-sm rounded shadow-md top-4 bg-secondary/30 backdrop-blur shadow-secondary/70">
             <div className="flex flex-col gap-2">
                 <div>
                     <InputField
@@ -154,6 +154,7 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                     title='Update user'
                     icon={<IoIosSend />}
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     options={{ isFull: true }}>
                     Update
                 </Button>
