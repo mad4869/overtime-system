@@ -1,5 +1,6 @@
 import QRCode from 'qrcode'
-import puppeteer from 'puppeteer'
+import puppeteer from 'puppeteer-core'
+import chromium from '@sparticuz/chromium'
 import { setRecapContent, contentStyle } from '@/constants/recapContent'
 import { generateSignatureToken } from '@/actions/signature'
 import { type Profile, type UserItemRecapSimple } from '@/types/customs'
@@ -11,7 +12,12 @@ async function generateRecapPDF(
     avp: Profile,
     vp: Profile
 ) {
-    const browser = await puppeteer.launch({ headless: 'new' })
+    const browser = await puppeteer.launch({
+        args: chromium.args,
+        defaultViewport: chromium.defaultViewport,
+        executablePath: await chromium.executablePath(),
+        headless: chromium.headless
+    })
 
     const page = await browser.newPage()
 
