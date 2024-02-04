@@ -133,7 +133,7 @@ const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
                 <Link href="/profile">
                     <Button title="Batalkan update" options={{ type: 'outline' }}>Cancel</Button>
                 </Link>
-                <Button type="submit" title="Update profile" disabled={isSubmitting}>Submit</Button>
+                <Button type="submit" title="Update profile" disabled={isSubmitting} loading={isSubmitting}>Submit</Button>
                 <ErrorMessage>{updateProfileError}</ErrorMessage>
                 <AnimatePresence>
                     {updateProfileSuccess && <SuccessMessage>{updateProfileSuccess}</SuccessMessage>}

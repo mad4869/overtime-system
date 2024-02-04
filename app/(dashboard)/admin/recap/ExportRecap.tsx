@@ -1,16 +1,13 @@
 'use client'
 
-import { PDFDownloadLink } from "@react-pdf/renderer"
-import { IoMdAlert } from "react-icons/io";
-import { FaRegFilePdf } from "react-icons/fa6";
+import { useState } from "react";
+import { FaFilePdf } from "react-icons/fa6";
 import { SiMicrosoftexcel } from "react-icons/si";
 
-import RecapLetters from "./RecapLetters";
 import Button from "@/components/Button"
-import useClient from "@/hooks/useClient";
 import setRecapPeriod from "@/constants/recapPeriod";
 import useExportToExcel from "@/hooks/useExportToExcel"
-import { Profile, type UserItemRecapSimple } from "@/types/customs"
+import { type Profile, type UserItemRecapSimple } from "@/types/customs"
 
 type ExportRecapProps = {
     userItemRecaps: UserItemRecapSimple[]
@@ -19,48 +16,70 @@ type ExportRecapProps = {
 }
 
 const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
-    const isClient = useClient()
-    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit')
+    const [isExporting, setIsExporting] = useState(false)
 
     const recapPeriod = setRecapPeriod()
+    const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
+    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
+    const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
+    const recapYear = recapStartYear + recapFinishedYear
 
-    if (!userItemRecaps) return null
+    const period = `${recapPeriod.startPeriod.toLocaleDateString(
+        'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+    )} - ${recapPeriod.finishedPeriod.toLocaleDateString(
+        'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+    )}`
+
+    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit')
+    const exportToPDF = async () => {
+        setIsExporting(true)
+
+        const res = await fetch('/admin/recap/api', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                period,
+                recapYear,
+                userItemRecaps,
+                avp,
+                vp
+            })
+        })
+
+        setIsExporting(false)
+
+        const pdf = await res.arrayBuffer()
+        const pdfBlob = new Blob([pdf], { type: 'application/pdf' })
+        const pdfUrl = URL.createObjectURL(pdfBlob)
+
+        const link = document.createElement('a')
+        link.href = pdfUrl
+        link.download = `Rekap ${period}.pdf`
+        link.click()
+    }
 
     return (
         <>
-            {isClient &&
-                <div className="flex flex-col items-center justify-center gap-2 sm:gap-4 sm:flex-row">
-                    <PDFDownloadLink
-                        document={<RecapLetters recaps={userItemRecaps} avp={avp} vp={vp} />}
-                        fileName={`Recap_Tanggal_${recapPeriod.startPeriod.toLocaleDateString('id-ID')}_${recapPeriod.finishedPeriod.toLocaleDateString('id-ID')}`}>
-                        {({ blob, url, loading, error }) =>
-                            loading ?
-                                <div className="px-4 py-1 text-xs rounded-full bg-primary-300 text-primary">
-                                    Menunggu dokumen...
-                                </div> : error ?
-                                    <Button
-                                        title="Error saat pemrosesan dokumen"
-                                        disabled
-                                        icon={<IoMdAlert />}>
-                                        Dokumen error
-                                    </Button> :
-                                    <Button
-                                        title="Export rekap menjadi file PDF"
-                                        icon={<FaRegFilePdf />}
-                                        options={{ color: 'pdf' }}>
-                                        Ubah ke PDF
-                                    </Button>
-                        }
-                    </PDFDownloadLink>
-                    <Button
-                        title="Export rekap menjadi file Excel"
-                        icon={<SiMicrosoftexcel />}
-                        options={{ color: 'excel' }}
-                        handleClick={exportToExcel}>
-                        Ubah ke Excel
-                    </Button>
-                </div>
-            }
+            <div className="flex flex-col items-center justify-center gap-2 sm:gap-4 sm:flex-row">
+                <Button
+                    title="Export rekap menjadi file PDF"
+                    icon={<FaFilePdf />}
+                    options={{ color: 'pdf' }}
+                    disabled={isExporting}
+                    loading={isExporting}
+                    handleClick={exportToPDF}>
+                    Ubah ke PDF
+                </Button>
+                <Button
+                    title="Export rekap menjadi file Excel"
+                    icon={<SiMicrosoftexcel />}
+                    options={{ color: 'excel' }}
+                    handleClick={exportToExcel}>
+                    Ubah ke Excel
+                </Button>
+            </div>
         </>
     )
 }

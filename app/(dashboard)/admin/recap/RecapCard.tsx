@@ -42,13 +42,13 @@ const RecapCard = ({ no, recapId, userItems, isApproved, date }: RecapCardProps)
             <div className="flex items-center gap-4">
                 <Link
                     href={`/admin/recap/${recapId}/detail`}
-                    title="View detail"
+                    title="Lihat detail rekap"
                     className="text-xs text-secondary-400 hover:text-secondary">
                     Lihat Detail
                 </Link>
                 <Link
                     href={`/admin/recap/${recapId}/spl`}
-                    title="View surat perintah lembur"
+                    title="Lihat surat perintah lembur"
                     className="text-xs text-secondary-400 hover:text-secondary">
                     Lihat SPL
                 </Link>

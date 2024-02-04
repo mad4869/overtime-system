@@ -14,7 +14,7 @@ import { getUserItem, getUserItemsValid } from "./actions/userItems"
 
 const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
 const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
-const UserItemList = dynamic(() => import('@/components/UserItemList'))
+const UserItemList = dynamic(() => import('@/components/UserItemList'), { ssr: false })
 const ErrorMessage = dynamic(() => import('@/components/ErrorMessage'))
 const Empty = dynamic(() => import("@/components/Empty"))
 

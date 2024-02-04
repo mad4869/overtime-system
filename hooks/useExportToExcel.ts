@@ -75,7 +75,11 @@ const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string) => 
 
         writeFileXLSX(
             wb,
-            `Rekap ${unit} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'numeric', year: 'numeric' })} - ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'numeric', year: 'numeric' })}.xlsx`,
+            `Rekap ${recapPeriod.startPeriod.toLocaleDateString(
+                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+            )} - ${recapPeriod.finishedPeriod.toLocaleDateString(
+                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
+            )}.xlsx`,
             { compression: true }
         )
     }, [userItemRecaps, unit, recapPeriod.startPeriod, recapPeriod.finishedPeriod])

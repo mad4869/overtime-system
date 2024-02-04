@@ -57,7 +57,13 @@ const DeleteSubmit = ({ id, type }: DeleteSubmitProps) => {
                     Apakah Anda yakin ingin menghapus {type === 'user-item-recap' && 'rekap'} pekerjaan ini?
                 </p>
                 <div className='flex items-center justify-center gap-4'>
-                    <Button handleClick={confirmDelete} disabled={isSubmitting} options={{ color: 'error' }}>Ya</Button>
+                    <Button
+                        handleClick={confirmDelete}
+                        disabled={isSubmitting}
+                        loading={isSubmitting}
+                        options={{ color: 'error' }}>
+                        Ya
+                    </Button>
                     <Link href={pathname}>
                         <Button options={{ color: 'error', type: 'outline' }}>Tidak</Button>
                     </Link>

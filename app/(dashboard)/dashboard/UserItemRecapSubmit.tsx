@@ -51,6 +51,7 @@ const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
                     title="Submit pekerjaan sebagai rekap untuk disetujui"
                     icon={<GrDocumentUpload />}
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     handleClick={submitRecap}>
                     Submit sebagai Rekap
                 </Button>

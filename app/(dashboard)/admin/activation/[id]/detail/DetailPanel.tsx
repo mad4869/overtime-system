@@ -15,9 +15,16 @@ type DetailPanelProps = {
 const DetailPanel = ({ userId }: DetailPanelProps) => {
     const [activateUserError, setActivateUserError] = useState('')
     const [deleteUserError, setDeleteUserError] = useState('')
+    const [isActivateLoading, setIsActivateLoading] = useState(false)
+    const [isDeleteLoading, setIsDeleteLoading] = useState(false)
 
     const submitActivation = async () => {
+        setIsActivateLoading(true)
+
         const res = await activateProfile(userId)
+
+        setIsActivateLoading(false)
+
         if (!res.success) {
             setActivateUserError(res.message)
             setTimeout(() => {
@@ -27,7 +34,12 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
     }
 
     const submitDelete = async () => {
+        setIsDeleteLoading(true)
+
         const res = await deleteUserProfile(userId)
+
+        setIsDeleteLoading(false)
+
         if (!res.success) {
             setDeleteUserError(res.message)
             setTimeout(() => {
@@ -44,13 +56,18 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
                 <Button
                     title="Aktivasi user"
                     handleClick={submitActivation}
-                    icon={<FaCircleCheck size={16} />}>
+                    icon={<FaCircleCheck size={16} />}
+                    disabled={isActivateLoading}
+                    loading={isActivateLoading}>
                     Aktivasi
                 </Button>
                 <Button
                     title="Tolak user"
                     handleClick={submitDelete}
-                    icon={<IoIosCloseCircle size={16} />} options={{ color: 'error' }}>
+                    icon={<IoIosCloseCircle size={16} />}
+                    disabled={isDeleteLoading}
+                    loading={isDeleteLoading}
+                    options={{ color: 'error' }}>
                     Tolak
                 </Button>
             </div>

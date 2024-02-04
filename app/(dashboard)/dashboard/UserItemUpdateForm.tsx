@@ -132,6 +132,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                     title='Update pekerjaan'
                     icon={<IoIosSend />}
                     disabled={isSubmitting}
+                    loading={isSubmitting}
                     options={{ isFull: true }}>
                     Update
                 </Button>

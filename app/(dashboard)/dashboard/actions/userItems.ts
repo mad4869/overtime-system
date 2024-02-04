@@ -3,6 +3,7 @@
 import prisma from "@/prisma/client"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
+import { gmtOffset } from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 
 export type UserAddItem = z.infer<typeof userAddItemSchema>
@@ -96,6 +97,9 @@ export async function addUserItem(item: UserAddItem, currentUserId: number) {
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
+    startDate.setTime(startDate.getTime() - gmtOffset)
+    finishedDate.setTime(finishedDate.getTime() - gmtOffset)
+
     try {
         const newItem = await prisma.userItem.create({
             data: {
@@ -132,6 +136,9 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
 
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
+
+    startDate.setTime(startDate.getTime() - gmtOffset)
+    finishedDate.setTime(finishedDate.getTime() - gmtOffset)
 
     try {
         const targetedItem = await prisma.userItem.findUnique({
