@@ -1,6 +1,6 @@
 import { Oswald } from 'next/font/google'
 
-import Logo from "@/components/Logo"
+import Logo from "@/components/ui/Logo"
 import AuthPanel from './AuthPanel'
 
 const oswald = Oswald({ subsets: ['latin'] })

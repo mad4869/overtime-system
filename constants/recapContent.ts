@@ -1,4 +1,5 @@
 import overtimeMap from "./overtimeMap"
+import { offsetWITA } from "./recapPeriod"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
 
 export const setRecapContent = (
@@ -63,6 +64,8 @@ export const setRecapContent = (
                     ${userItemsRecap.userItems.map((userItem, index) => {
                         const startDate = new Date(userItem.startTime)
                         const finishedDate = new Date(userItem.finishedTime)
+                        startDate.setTime(startDate.getTime() + offsetWITA)
+                        finishedDate.setTime(finishedDate.getTime() + offsetWITA)
                         const userItemDuration = (finishedDate.getTime()) - (startDate.getTime())
                         const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 

@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { MdDelete } from "react-icons/md"
 
-import Button from "@/components/Button"
+import Button from "@/components/ui/Button"
 import { type UserItemRecap } from "@/types/customs";
 
 type UserItemRecapDeleteProps = {
@@ -25,7 +25,7 @@ const UserItemRecapDelete = ({ recap }: UserItemRecapDeleteProps) => {
                         'Hapus rekap pekerjaan' :
                         'Rekap pekerjaan tidak bisa dihapus karena telah disetujui. Hubungi admin untuk proses lebih lanjut.'
                 }
-                handleClick={showDeleteModal}
+                onClick={showDeleteModal}
                 disabled={recapApproved}
                 icon={<MdDelete />}
                 options={{ color: 'error' }}>

@@ -13,10 +13,10 @@ import { MdShield, MdEmail } from "react-icons/md"
 import { RiLockPasswordFill } from "react-icons/ri"
 import { FaUser, FaUsers, FaBuilding, FaIdCardAlt } from "react-icons/fa"
 
-import Button from "@/components/Button";
-import InputField from "@/components/InputField";
-import ErrorMessage from "@/components/ErrorMessage";
-import SuccessMessage from "@/components/SuccessMessage";
+import Button from "@/components/ui/Button";
+import InputField from "@/components/ui/InputField";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import SuccessMessage from "@/components/ui/SuccessMessage";
 import { updateUserProfile } from "./actions/user";
 import { userRegisterSchema } from "@/schemas/validationSchemas";
 import { type Profile } from "@/types/customs";

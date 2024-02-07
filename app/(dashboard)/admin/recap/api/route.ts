@@ -23,8 +23,8 @@ async function generateRecapPDF(
     const page = await browser.newPage()
 
     const pdfContents = await Promise.all(userItemRecaps.map(async (recap) => {
-        const avpToken = generateSignatureToken(avp)
-        const vpToken = generateSignatureToken(vp)
+        const avpToken = await generateSignatureToken(avp)
+        const vpToken = await generateSignatureToken(vp)
         const avpQRCodeData: string = await new Promise((resolve, reject) => {
             if (recap.isApprovedByAVP) {
                 QRCode.toDataURL(`https://overtimesystem.vercel.app/recap/${recap.id}/verification?token=${avpToken}`, (err, url) => {

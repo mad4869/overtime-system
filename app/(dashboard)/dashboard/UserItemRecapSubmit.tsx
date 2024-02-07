@@ -5,9 +5,9 @@ import { AnimatePresence } from "framer-motion";
 import { GrDocumentUpload } from "react-icons/gr";
 import { IoMdAlert } from "react-icons/io";
 
-import Button from "@/components/Button"
-import ErrorMessage from "@/components/ErrorMessage";
-import SuccessMessage from "@/components/SuccessMessage";
+import Button from "@/components/ui/Button"
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import SuccessMessage from "@/components/ui/SuccessMessage";
 import { addUserItemRecap } from "./actions/userItemRecaps";
 import { type UserItem } from "@/types/customs";
 
@@ -52,7 +52,7 @@ const UserItemRecapSubmit = ({ userItems }: UserItemRecapSubmitProps) => {
                     icon={<GrDocumentUpload />}
                     disabled={isSubmitting}
                     loading={isSubmitting}
-                    handleClick={submitRecap}>
+                    onClick={submitRecap}>
                     Submit sebagai Rekap
                 </Button>
             </div>

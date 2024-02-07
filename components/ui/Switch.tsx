@@ -1,9 +1,7 @@
-import { PropsWithChildren } from 'react'
 import { motion } from 'framer-motion'
+import { type PropsWithChildren } from 'react'
 
-type SwitchProps = PropsWithChildren
-
-const Switch = ({ children }: SwitchProps) => {
+const Switch = ({ children }: PropsWithChildren) => {
     return (
         <motion.div
             initial={{ opacity: 0, x: 100 }}

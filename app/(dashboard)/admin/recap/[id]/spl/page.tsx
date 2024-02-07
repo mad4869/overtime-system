@@ -2,8 +2,8 @@ import { getServerSession } from "next-auth";
 import { type Metadata } from "next";
 
 import RecapLetter from "./RecapLetter";
-import MobileMenu from "@/components/MobileMenu";
-import ErrorMessage from "@/components/ErrorMessage";
+import MobileMenu from "@/components/layout/MobileMenu";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
 import { getSuperAdminProfiles } from "../../../actions/users";
 import { getUserItemRecap } from "../../../actions/userItemRecaps";

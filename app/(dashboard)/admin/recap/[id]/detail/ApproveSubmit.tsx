@@ -4,9 +4,9 @@ import { useState } from "react";
 import { FaThumbsUp } from "react-icons/fa6";
 import { AnimatePresence } from "framer-motion";
 
-import Button from "@/components/Button"
-import ErrorMessage from "@/components/ErrorMessage";
-import SuccessMessage from "@/components/SuccessMessage";
+import Button from "@/components/ui/Button"
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import SuccessMessage from "@/components/ui/SuccessMessage";
 import { approveUserItemRecap } from "../../../actions/userItemRecaps"
 
 type ApproveSubmitProps = {
@@ -43,7 +43,7 @@ const ApproveSubmit = ({ recapId, isApproved, by }: ApproveSubmitProps) => {
             <Button
                 type="button"
                 title={!isApproved ? "Setujui rekap pekerjaan" : "Rekap telah disetujui"}
-                handleClick={approveRecap}
+                onClick={approveRecap}
                 disabled={isApproved}
                 icon={<FaThumbsUp />}>
                 Approve

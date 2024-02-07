@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import RecapCard from "./RecapCard";
-import ErrorMessage from "@/components/ErrorMessage";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { getSuperAdminProfiles } from "../actions/users";
 import { type UserItemRecapSimple } from "@/types/customs";
 
@@ -17,6 +17,8 @@ const RecapList = async ({ userItemRecaps }: RecapListProps) => {
 
     const vp = res.data.filter((superAdmin) => superAdmin.position === 'VP')
     const avp = res.data.filter((superAdmin) => superAdmin.position === 'AVP')
+
+    if (!vp.length || !avp.length) return <ErrorMessage useIcon>Tidak ditemukan akun berjabatan VP atau AVP</ErrorMessage>
 
     return (
         <div className="space-y-4">

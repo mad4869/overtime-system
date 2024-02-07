@@ -8,7 +8,7 @@ import { z } from "zod";
 import { hash } from 'bcrypt'
 import { Resend } from "resend";
 
-import Email from "@/components/Email";
+import Email from "@/components/ui/Email";
 import { userRegisterSchema, userResetPasswordSchema } from "@/schemas/validationSchemas";
 
 export type UserRegister = z.infer<typeof userRegisterSchema>

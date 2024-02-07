@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaFilePdf } from "react-icons/fa6";
 import { SiMicrosoftexcel } from "react-icons/si";
 
-import Button from "@/components/Button"
+import Button from "@/components/ui/Button"
 import setRecapPeriod from "@/constants/recapPeriod";
 import useExportToExcel from "@/hooks/useExportToExcel"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
@@ -21,16 +21,12 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     const recapPeriod = setRecapPeriod()
     const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
     const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
-    const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
+    const recapFinishedYear = `${recapPeriod.finishedPeriod.getFullYear()}`
     const recapYear = recapStartYear + recapFinishedYear
 
-    const period = `${recapPeriod.startPeriod.toLocaleDateString(
-        'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-    )} - ${recapPeriod.finishedPeriod.toLocaleDateString(
-        'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-    )}`
+    const period = `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`
 
-    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit')
+    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit', period)
     const exportToPDF = async () => {
         setIsExporting(true)
 
@@ -69,14 +65,14 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
                     options={{ color: 'pdf' }}
                     disabled={isExporting}
                     loading={isExporting}
-                    handleClick={exportToPDF}>
+                    onClick={exportToPDF}>
                     Ubah ke PDF
                 </Button>
                 <Button
                     title="Export rekap menjadi file Excel"
                     icon={<SiMicrosoftexcel />}
                     options={{ color: 'excel' }}
-                    handleClick={exportToExcel}>
+                    onClick={exportToExcel}>
                     Ubah ke Excel
                 </Button>
             </div>

@@ -8,10 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { HiIdentification } from "react-icons/hi2"
 import { RiLockPasswordFill } from "react-icons/ri"
 
-import Button from "@/components/Button"
-import InputField from "@/components/InputField"
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
+import Button from "@/components/ui/Button"
+import InputField from "@/components/ui/InputField"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import { userLoginSchema } from "@/schemas/validationSchemas"
 
 type UserLogin = z.infer<typeof userLoginSchema>

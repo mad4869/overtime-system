@@ -1,23 +1,28 @@
 'use client'
 
-import { useForm } from "react-hook-form"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { IoIosSend } from "react-icons/io";
 import { FaScrewdriverWrench } from "react-icons/fa6"
 import { FaCalendarAlt, FaClock } from "react-icons/fa"
 
-import Button from '@/components/Button'
-import InputField from "@/components/InputField"
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
-import setRecapPeriod from "@/constants/recapPeriod"
+import Button from '@/components/ui/Button'
+import InputField from "@/components/ui/InputField"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 import { addUserItem, type UserAddItem } from './actions/userItems'
 
 type UserItemSubmitFormProps = {
-    currentUserId: number
+    currentUserId: number,
+    recapPeriod: {
+        startPeriod: Date;
+        finishedPeriod: Date;
+        startPeriodUTC: Date;
+        finishedPeriodUTC: Date;
+    }
 }
 
 const userAddItemSchemaRefined = userAddItemSchema.refine((schema) => {
@@ -29,7 +34,7 @@ const userAddItemSchemaRefined = userAddItemSchema.refine((schema) => {
     return selesaiMinute > mulaiMinute
 }, { message: 'Waktu selesai harus setelah mulai.', path: ['selesai'] })
 
-const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
+const UserItemSubmitForm = ({ currentUserId, recapPeriod }: UserItemSubmitFormProps) => {
     const [addItemSuccess, setAddItemSuccess] = useState('')
     const [addItemError, setAddItemError] = useState('')
 
@@ -53,24 +58,20 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
         }
     }
 
-    const recapPeriod = setRecapPeriod()
-
     return (
         <form
             onSubmit={handleSubmit(submitUserItem)}
-            className="flex flex-col items-center gap-8 px-4 py-4 mb-4 text-sm rounded shadow-inner md:px-10 lg:px-16 xl:px-36 bg-primary-100 shadow-primary/50">
+            className="flex flex-col items-center gap-8 px-4 py-4 mb-4 text-sm rounded shadow-inner md:px-10 lg:px-14 xl:px-36 bg-primary-100 shadow-primary/50">
             <div className="flex flex-col items-center">
                 <h6 className="text-sm text-center sm:text-base md:text-lg">Formulir Pekerjaan Lembur</h6>
                 <p className="text-xs text-center text-primary-500">
                     Submit pekerjaan yang Anda lakukan pada periode&nbsp;
                     <span className="underline">
-                        {recapPeriod.startPeriod.toLocaleDateString(
-                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                        )}
-                        -
-                        {recapPeriod.finishedPeriod.toLocaleDateString(
-                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                        )}
+                        {recapPeriod.startPeriod.getUTCDate()}&nbsp;
+                        {recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
+                        &nbsp;-&nbsp;
+                        {recapPeriod.finishedPeriod.getUTCDate()}&nbsp;
+                        {recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
                     </span>
                     &nbsp;di sini.
                 </p>

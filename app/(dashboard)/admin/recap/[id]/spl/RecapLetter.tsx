@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-import InfoMessage from '@/components/InfoMessage';
+import InfoMessage from '@/components/ui/InfoMessage';
 import useQRCode from '@/hooks/useQRCode';
 import useSignatureToken from '@/hooks/useSignatureToken';
 import overtimeMap from '@/constants/overtimeMap';
@@ -27,7 +27,7 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
     const recapPeriod = setRecapPeriod()
     const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
     const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
-    const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
+    const recapFinishedYear = `${recapPeriod.finishedPeriod.getFullYear()}`
     const recapYear = recapStartYear + recapFinishedYear
 
     return (
@@ -43,13 +43,9 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
                         <h2 className='text-2xl'>SURAT PERINTAH LEMBUR {recapYear}</h2>
                         <h3 className='text-xl'>
                             PERIODE&nbsp;
-                            {recapPeriod.startPeriod.toLocaleDateString(
-                                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                            )}
+                            {recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                             &nbsp;-&nbsp;
-                            {recapPeriod.finishedPeriod.toLocaleDateString(
-                                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                            )}
+                            {recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </h3>
                     </div>
                 </div>

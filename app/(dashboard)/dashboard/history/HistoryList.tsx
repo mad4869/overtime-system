@@ -6,14 +6,14 @@ import { AnimatePresence, motion, useInView } from "framer-motion";
 import { IoFilterSharp } from "react-icons/io5";
 
 import FilterModal from "./FilterModal";
-import Empty from "@/components/Empty"
-import LoadingIndicator from "@/components/LoadingIndicator";
+import Empty from "@/components/ui/Empty"
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import { UserItemRecap } from "@/types/customs";
 import { getUserItemRecaps } from "../actions/userItemRecaps"
+import { type UserItemRecap } from "@/types/customs";
 
-const Accordion = dynamic(() => import('@/components/Accordion'), { ssr: false })
-const UserItemList = dynamic(() => import('@/components/UserItemList'), { ssr: false })
+const Accordion = dynamic(() => import('@/components/ui/Accordion'), { ssr: false })
+const UserItemList = dynamic(() => import('@/components/ui/UserItemList'), { ssr: false })
 const UserItemRecapDelete = dynamic(() => import('./UserItemRecapDelete'), { ssr: false })
 
 type HistoryListProps = {
