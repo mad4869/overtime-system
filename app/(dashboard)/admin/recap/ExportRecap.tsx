@@ -19,16 +19,12 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     const [isExporting, setIsExporting] = useState(false)
 
     const recapPeriod = setRecapPeriod()
-    const isRecapSameYear = recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' }) === recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
-    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' })}-` : ''
-    const recapFinishedYear = recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
+    const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
+    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
+    const recapFinishedYear = `${recapPeriod.finishedPeriod.getFullYear()}`
     const recapYear = recapStartYear + recapFinishedYear
 
-    const period = `${recapPeriod.startPeriod.toLocaleDateString(
-        'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-    )} - ${recapPeriod.finishedPeriod.toLocaleDateString(
-        'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-    )}`
+    const period = `${recapPeriod.startPeriod.getUTCDate()} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.getUTCDate()} ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}`
 
     const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit')
     const exportToPDF = async () => {

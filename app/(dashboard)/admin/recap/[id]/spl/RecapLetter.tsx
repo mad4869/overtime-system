@@ -25,9 +25,9 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
     const vpQRCodeData = useQRCode(`https://overtimesystem.vercel.app/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
 
     const recapPeriod = setRecapPeriod()
-    const isRecapSameYear = recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' }) === recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
-    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' })}-` : ''
-    const recapFinishedYear = recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
+    const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
+    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
+    const recapFinishedYear = `${recapPeriod.finishedPeriod.getFullYear()}`
     const recapYear = recapStartYear + recapFinishedYear
 
     return (
@@ -43,13 +43,11 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
                         <h2 className='text-2xl'>SURAT PERINTAH LEMBUR {recapYear}</h2>
                         <h3 className='text-xl'>
                             PERIODE&nbsp;
-                            {recapPeriod.startPeriod.toLocaleDateString(
-                                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                            )}
+                            {recapPeriod.startPeriod.getUTCDate()}&nbsp;
+                            {recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
                             &nbsp;-&nbsp;
-                            {recapPeriod.finishedPeriod.toLocaleDateString(
-                                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                            )}
+                            {recapPeriod.finishedPeriod.getUTCDate()}&nbsp;
+                            {recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
                         </h3>
                     </div>
                 </div>

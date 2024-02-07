@@ -64,13 +64,11 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
                 <p className="text-xs text-center text-primary-500">
                     Submit pekerjaan yang Anda lakukan pada periode&nbsp;
                     <span className="underline">
-                        {recapPeriod.startPeriod.toLocaleDateString(
-                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                        )}
-                        -
-                        {recapPeriod.finishedPeriod.toLocaleDateString(
-                            'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-                        )}
+                        {recapPeriod.startPeriod.getUTCDate()}&nbsp;
+                        {recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
+                        &nbsp;-&nbsp;
+                        {recapPeriod.finishedPeriod.getUTCDate()}&nbsp;
+                        {recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
                     </span>
                     &nbsp;di sini.
                 </p>

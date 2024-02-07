@@ -19,12 +19,15 @@ const setRecapPeriod = () => {
         finishedPeriod.setFullYear(currentMonth === 11 ? (currentYear + 1) : currentYear)
     }
 
+    const startPeriodUTC = new Date(startPeriod)
+    const finishedPeriodUTC = new Date(finishedPeriod)
+
     const offsetWITA = 8 * 60 * 60 * 1000
 
-    startPeriod.setTime(startPeriod.getTime() - offsetWITA)
-    finishedPeriod.setTime(finishedPeriod.getTime() + offsetWITA)
+    startPeriodUTC.setTime(startPeriod.getTime() - offsetWITA)
+    finishedPeriodUTC.setTime(finishedPeriod.getTime() - offsetWITA)
 
-    return { startPeriod, finishedPeriod }
+    return { startPeriod, finishedPeriod, startPeriodUTC, finishedPeriodUTC }
 }
 
 export default setRecapPeriod

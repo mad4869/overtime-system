@@ -16,7 +16,7 @@ const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string) => 
         const title = [
             ['REKAPITULASI JAM LEMBUR KARYAWAN KNE/YUM'],
             [`Unit Kerja: ${unit}`],
-            [`Periode: ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`]
+            [`Periode: ${recapPeriod.startPeriod.getUTCDate()} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.getUTCDate()} ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}`]
         ]
 
         fullTable.push(...title)
@@ -75,11 +75,7 @@ const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string) => 
 
         writeFileXLSX(
             wb,
-            `Rekap ${recapPeriod.startPeriod.toLocaleDateString(
-                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-            )} - ${recapPeriod.finishedPeriod.toLocaleDateString(
-                'id-ID', { day: 'numeric', month: 'long', year: 'numeric' }
-            )}.xlsx`,
+            `Rekap ${recapPeriod.startPeriod.getUTCDate()} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.getUTCDate()} ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}.xlsx`,
             { compression: true }
         )
     }, [userItemRecaps, unit, recapPeriod.startPeriod, recapPeriod.finishedPeriod])

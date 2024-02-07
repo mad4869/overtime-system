@@ -10,10 +10,9 @@ export const userAddItemSchema = z.object({
     pekerjaan: z.string().trim().min(1, 'Pekerjaan tidak boleh kosong.'),
     tanggal: z.string().length(10, 'Tanggal tidak boleh kosong.').refine((date) => {
         const tanggal = new Date(date)
-        const tanggalUTC = new Date(tanggal.toISOString())
         return (
-            tanggalUTC.getTime() >= recapPeriod.startPeriod.getTime() &&
-            tanggalUTC.getTime() <= recapPeriod.finishedPeriod.getTime()
+            tanggal.getTime() >= recapPeriod.startPeriod.getTime() &&
+            tanggal.getTime() <= recapPeriod.finishedPeriod.getTime()
         )
     }, 'Tanggal pekerjaan harus berada di dalam periode yang telah ditentukan.'),
     mulai: z.string().min(1, 'Waktu mulai tidak boleh kosong.').regex(timeFormatRegex, 'Format waktu salah.'),
