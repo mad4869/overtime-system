@@ -1,6 +1,8 @@
 const startPeriodDate = 11
 const finishedPeriodDate = 10
 
+export const offsetWITA = 8 * 60 * 60 * 1000
+
 const setRecapPeriod = () => {
     const now = new Date()
     const currentDate = now.getDate()
@@ -21,8 +23,6 @@ const setRecapPeriod = () => {
 
     const startPeriodUTC = new Date(startPeriod)
     const finishedPeriodUTC = new Date(finishedPeriod)
-
-    const offsetWITA = 8 * 60 * 60 * 1000
 
     startPeriodUTC.setTime(startPeriod.getTime() - offsetWITA)
     finishedPeriodUTC.setTime(finishedPeriod.getTime() - offsetWITA)

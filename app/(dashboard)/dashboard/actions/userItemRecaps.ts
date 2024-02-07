@@ -2,6 +2,7 @@
 
 import prisma from "@/prisma/client"
 import { revalidatePath } from "next/cache"
+import { offsetWITA } from "@/constants/recapPeriod"
 import { type UserItem, type FilterApproval } from "@/types/customs"
 
 export async function getUserItemRecaps(
@@ -11,9 +12,13 @@ export async function getUserItemRecaps(
     until?: Date,
     approval?: FilterApproval[],
 ) {
-    const fromDate = from ? new Date(from.toISOString()) : undefined
-    const untilDate = until ? new Date(until.toISOString()) : undefined
+    const fromDate = from ? from : undefined
+    const untilDate = until ? until : undefined
+
     untilDate?.setHours(23, 59, 59)
+
+    fromDate?.setTime(fromDate.getTime() - offsetWITA)
+    untilDate?.setTime(untilDate.getTime() - offsetWITA)
 
     try {
         const itemRecaps = await prisma.userItemRecap.findMany({

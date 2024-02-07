@@ -24,9 +24,9 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     const recapFinishedYear = `${recapPeriod.finishedPeriod.getFullYear()}`
     const recapYear = recapStartYear + recapFinishedYear
 
-    const period = `${recapPeriod.startPeriod.getUTCDate()} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.getUTCDate()} ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}`
+    const period = `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`
 
-    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit')
+    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit', period)
     const exportToPDF = async () => {
         setIsExporting(true)
 

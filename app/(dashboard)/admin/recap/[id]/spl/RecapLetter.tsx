@@ -43,11 +43,9 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
                         <h2 className='text-2xl'>SURAT PERINTAH LEMBUR {recapYear}</h2>
                         <h3 className='text-xl'>
                             PERIODE&nbsp;
-                            {recapPeriod.startPeriod.getUTCDate()}&nbsp;
-                            {recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
+                            {recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                             &nbsp;-&nbsp;
-                            {recapPeriod.finishedPeriod.getUTCDate()}&nbsp;
-                            {recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}
+                            {recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </h3>
                     </div>
                 </div>

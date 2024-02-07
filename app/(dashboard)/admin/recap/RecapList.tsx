@@ -18,6 +18,8 @@ const RecapList = async ({ userItemRecaps }: RecapListProps) => {
     const vp = res.data.filter((superAdmin) => superAdmin.position === 'VP')
     const avp = res.data.filter((superAdmin) => superAdmin.position === 'AVP')
 
+    if (!vp.length || !avp.length) return <ErrorMessage useIcon>Tidak ditemukan akun berjabatan VP atau AVP</ErrorMessage>
+
     return (
         <div className="space-y-4">
             {userItemRecaps.map((userItemRecap, index) => (

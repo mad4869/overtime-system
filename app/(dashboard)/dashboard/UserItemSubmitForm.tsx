@@ -1,7 +1,7 @@
 'use client'
 
-import { useForm } from "react-hook-form"
 import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { IoIosSend } from "react-icons/io";
@@ -12,12 +12,17 @@ import Button from '@/components/ui/Button'
 import InputField from "@/components/ui/InputField"
 import ErrorMessage from "@/components/ui/ErrorMessage"
 import SuccessMessage from "@/components/ui/SuccessMessage"
-import setRecapPeriod from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 import { addUserItem, type UserAddItem } from './actions/userItems'
 
 type UserItemSubmitFormProps = {
-    currentUserId: number
+    currentUserId: number,
+    recapPeriod: {
+        startPeriod: Date;
+        finishedPeriod: Date;
+        startPeriodUTC: Date;
+        finishedPeriodUTC: Date;
+    }
 }
 
 const userAddItemSchemaRefined = userAddItemSchema.refine((schema) => {
@@ -29,7 +34,7 @@ const userAddItemSchemaRefined = userAddItemSchema.refine((schema) => {
     return selesaiMinute > mulaiMinute
 }, { message: 'Waktu selesai harus setelah mulai.', path: ['selesai'] })
 
-const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
+const UserItemSubmitForm = ({ currentUserId, recapPeriod }: UserItemSubmitFormProps) => {
     const [addItemSuccess, setAddItemSuccess] = useState('')
     const [addItemError, setAddItemError] = useState('')
 
@@ -53,12 +58,10 @@ const UserItemSubmitForm = ({ currentUserId }: UserItemSubmitFormProps) => {
         }
     }
 
-    const recapPeriod = setRecapPeriod()
-
     return (
         <form
             onSubmit={handleSubmit(submitUserItem)}
-            className="flex flex-col items-center gap-8 px-4 py-4 mb-4 text-sm rounded shadow-inner md:px-10 lg:px-16 xl:px-36 bg-primary-100 shadow-primary/50">
+            className="flex flex-col items-center gap-8 px-4 py-4 mb-4 text-sm rounded shadow-inner md:px-10 lg:px-14 xl:px-36 bg-primary-100 shadow-primary/50">
             <div className="flex flex-col items-center">
                 <h6 className="text-sm text-center sm:text-base md:text-lg">Formulir Pekerjaan Lembur</h6>
                 <p className="text-xs text-center text-primary-500">

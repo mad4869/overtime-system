@@ -12,9 +12,9 @@ import { authOptions } from "@/config/authOptions"
 import { getUserItem, getUserItemsValid } from "./actions/userItems"
 import { type PageProps } from "@/types/customs"
 
-const Accordion = dynamic(() => import('@/components/ui/Accordion'), { ssr: false })
 const UserItemRecapSubmit = dynamic(() => import('./UserItemRecapSubmit'), { ssr: false })
 const UserItemList = dynamic(() => import('@/components/ui/UserItemList'), { ssr: false })
+const Accordion = dynamic(() => import('@/components/ui/Accordion'), { ssr: false })
 const ErrorMessage = dynamic(() => import('@/components/ui/ErrorMessage'))
 const Empty = dynamic(() => import("@/components/ui/Empty"))
 
@@ -41,7 +41,7 @@ export default async function Dashboard({ searchParams }: PageProps) {
     return (
         <section className="relative">
             <Heading />
-            <UserItemSubmitForm currentUserId={currentUser.id} />
+            <UserItemSubmitForm currentUserId={currentUser.id} recapPeriod={recapPeriod} />
             <Accordion title="Daftar Pekerjaan">
                 {
                     userItems && userItems.length > 0 &&

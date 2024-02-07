@@ -2,11 +2,9 @@ import { useCallback } from "react"
 import { utils, writeFileXLSX } from 'xlsx'
 
 import overtimeMap from "@/constants/overtimeMap";
-import setRecapPeriod from "@/constants/recapPeriod";
 import { UserItemRecapSimple } from "@/types/customs";
 
-const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string) => {
-    const recapPeriod = setRecapPeriod()
+const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string, period: string) => {
 
     const exportFile = useCallback(() => {
         const wb = utils.book_new()
@@ -16,7 +14,7 @@ const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string) => 
         const title = [
             ['REKAPITULASI JAM LEMBUR KARYAWAN KNE/YUM'],
             [`Unit Kerja: ${unit}`],
-            [`Periode: ${recapPeriod.startPeriod.getUTCDate()} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.getUTCDate()} ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}`]
+            [`Periode: ${period}`]
         ]
 
         fullTable.push(...title)
@@ -75,10 +73,10 @@ const useExportRecap = (userItemRecaps: UserItemRecapSimple[], unit: string) => 
 
         writeFileXLSX(
             wb,
-            `Rekap ${recapPeriod.startPeriod.getUTCDate()} ${recapPeriod.startPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.getUTCDate()} ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}.xlsx`,
+            `Rekap ${period}.xlsx`,
             { compression: true }
         )
-    }, [userItemRecaps, unit, recapPeriod.startPeriod, recapPeriod.finishedPeriod])
+    }, [userItemRecaps, unit, period])
 
     return exportFile
 }

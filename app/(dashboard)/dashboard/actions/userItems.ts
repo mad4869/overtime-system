@@ -3,18 +3,21 @@
 import prisma from "@/prisma/client"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
+import { offsetWITA } from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 
 export type UserAddItem = z.infer<typeof userAddItemSchema>
 
-export async function getUserItemsValid(currentUserId: number, recapPeriod: { startPeriod: Date, finishedPeriod: Date }) {
+export async function getUserItemsValid(
+    currentUserId: number,
+    recapPeriod: { startPeriod: Date, finishedPeriod: Date, startPeriodUTC: Date, finishedPeriodUTC: Date }) {
     try {
         const userItems = await prisma.userItem.findMany({
             where: {
                 userId: currentUserId,
                 AND: [
-                    { startTime: { gte: recapPeriod.startPeriod } },
-                    { startTime: { lte: recapPeriod.finishedPeriod } }
+                    { startTime: { gte: recapPeriod.startPeriodUTC } },
+                    { startTime: { lte: recapPeriod.finishedPeriodUTC } }
                 ]
             },
             include: {
@@ -96,16 +99,16 @@ export async function addUserItem(item: UserAddItem, currentUserId: number) {
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
-    const startDateUTC = new Date(startDate.toISOString())
-    const finishedDateUTC = new Date(finishedDate.toISOString())
+    startDate.setTime(startDate.getTime() - offsetWITA)
+    finishedDate.setTime(finishedDate.getTime() - offsetWITA)
 
     try {
         const newItem = await prisma.userItem.create({
             data: {
                 userId: currentUserId,
                 item: item.pekerjaan,
-                startTime: startDateUTC,
-                finishedTime: finishedDateUTC
+                startTime: startDate,
+                finishedTime: finishedDate
             }
         })
 
@@ -136,8 +139,8 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
-    const startDateUTC = new Date(startDate.toISOString())
-    const finishedDateUTC = new Date(finishedDate.toISOString())
+    startDate.setTime(startDate.getTime() - offsetWITA)
+    finishedDate.setTime(finishedDate.getTime() - offsetWITA)
 
     try {
         const targetedItem = await prisma.userItem.findUnique({
@@ -158,8 +161,8 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
             where: { id: userItemId },
             data: {
                 item: item.pekerjaan,
-                startTime: startDateUTC,
-                finishedTime: finishedDateUTC
+                startTime: startDate,
+                finishedTime: finishedDate
             }
         })
 
