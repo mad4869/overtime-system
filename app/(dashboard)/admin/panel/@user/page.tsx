@@ -3,12 +3,12 @@ import prisma from "@/prisma/client";
 import { FaRegPlusSquare } from "react-icons/fa";
 
 import UserUpdateForm from "./UserUpdateForm";
-import Empty from "@/components/Empty";
-import Pagination from "@/components/Pagination";
+import Empty from "@/components/ui/Empty";
+import Pagination from "@/components/ui/Pagination";
 import UserList from "./UserList";
 import { getUserProfile } from "../../actions/users";
 import { type PageProps } from "@/types/customs";
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import UserRegisterForm from "./UserRegisterForm";
 import UserDeleteSubmit from "./UserDeleteSubmit";
 

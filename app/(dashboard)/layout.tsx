@@ -1,5 +1,5 @@
-import Breadcrumb from "@/components/Breadcrumb";
-import Navbar from "@/components/Navbar";
+import Breadcrumb from "@/components/layout/Breadcrumb";
+import Navbar from "@/components/layout/Navbar";
 
 export default function DashboardLayout({
     children,

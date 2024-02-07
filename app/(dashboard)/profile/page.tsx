@@ -8,9 +8,9 @@ import ProfileList from "./ProfileList"
 import UpdateProfileForm from "./UpdateProfileForm";
 import ChangePasswordForm from "./ChangePasswordForm";
 import DeleteAccountSubmit from "./DeleteAccountSubmit";
-import Button from "@/components/Button";
-import MobileMenu from "@/components/MobileMenu";
-import ErrorMessage from "@/components/ErrorMessage";
+import Button from "@/components/ui/Button";
+import MobileMenu from "@/components/layout/MobileMenu";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { authOptions } from "@/config/authOptions"
 import { getUserProfile } from "./actions/user";
 import { type PageProps } from "@/types/customs";

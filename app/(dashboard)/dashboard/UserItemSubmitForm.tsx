@@ -8,10 +8,10 @@ import { IoIosSend } from "react-icons/io";
 import { FaScrewdriverWrench } from "react-icons/fa6"
 import { FaCalendarAlt, FaClock } from "react-icons/fa"
 
-import Button from '@/components/Button'
-import InputField from "@/components/InputField"
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
+import Button from '@/components/ui/Button'
+import InputField from "@/components/ui/InputField"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import setRecapPeriod from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 import { addUserItem, type UserAddItem } from './actions/userItems'

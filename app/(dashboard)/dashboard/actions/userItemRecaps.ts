@@ -11,11 +11,18 @@ export async function getUserItemRecaps(
     until?: Date,
     approval?: FilterApproval[],
 ) {
+    const fromDate = from ? new Date(from.toISOString()) : undefined
+    const untilDate = until ? new Date(until.toISOString()) : undefined
+    untilDate?.setHours(23, 59, 59)
+
     try {
         const itemRecaps = await prisma.userItemRecap.findMany({
             where: {
                 userItems: { every: { userId: currentUserId } },
-                createdAt: { gte: from, lte: until },
+                createdAt: {
+                    gte: fromDate,
+                    lte: untilDate
+                },
                 AND: approval
             },
             include: {

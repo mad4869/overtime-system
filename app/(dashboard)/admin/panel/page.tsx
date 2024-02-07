@@ -3,9 +3,9 @@ import { RiShieldUserFill } from "react-icons/ri";
 import { ImUserTie } from "react-icons/im";
 import { type Metadata } from "next";
 
-import SearchBar from "@/components/SearchBar";
-import MobileMenu from "@/components/MobileMenu";
-import ErrorMessage from "@/components/ErrorMessage";
+import SearchBar from "@/components/ui/SearchBar";
+import MobileMenu from "@/components/layout/MobileMenu";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { authOptions } from "@/config/authOptions"
 import { type PageProps } from "@/types/customs";
 

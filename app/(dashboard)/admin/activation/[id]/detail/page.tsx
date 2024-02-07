@@ -4,8 +4,8 @@ import { type Metadata } from "next";
 
 import ProfileList from "./ProfileList";
 import DetailPanel from "./DetailPanel";
-import MobileMenu from "@/components/MobileMenu";
-import ErrorMessage from "@/components/ErrorMessage";
+import MobileMenu from "@/components/layout/MobileMenu";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
 import { getUserProfile } from "../../../actions/users"
 import { type PageProps } from "@/types/customs";

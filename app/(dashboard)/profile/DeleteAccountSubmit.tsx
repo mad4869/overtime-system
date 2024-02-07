@@ -9,10 +9,10 @@ import { AnimatePresence } from "framer-motion"
 import { IoMdAlert } from "react-icons/io";
 import { MdDelete } from "react-icons/md"
 
-import Button from '@/components/Button'
-import InputField from "@/components/InputField"
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
+import Button from '@/components/ui/Button'
+import InputField from "@/components/ui/InputField"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
 import { userDeleteAccountSchema } from "@/schemas/validationSchemas"
 import { deleteUserProfile, type UserDeleteAccount } from './actions/user'

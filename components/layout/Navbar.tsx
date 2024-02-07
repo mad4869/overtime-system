@@ -6,9 +6,9 @@ import { FaCircleUser } from "react-icons/fa6";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RiShieldUserFill } from "react-icons/ri";
 
-import Logo from "./Logo"
 import Menu from "./Menu";
-import License from "./License";
+import Logo from "../ui/Logo"
+import License from "../ui/License";
 import LogoutButton from "./LogoutButton";
 import { authOptions } from "@/config/authOptions";
 import { getCurrentUserProfile } from "@/actions/user";

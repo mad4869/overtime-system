@@ -6,10 +6,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { IoIosSend } from "react-icons/io";
 
-import Button from "@/components/Button";
-import InputField from "@/components/InputField";
-import ErrorMessage from "@/components/ErrorMessage";
-import SuccessMessage from "@/components/SuccessMessage";
+import Button from "@/components/ui/Button";
+import InputField from "@/components/ui/InputField";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import SuccessMessage from "@/components/ui/SuccessMessage";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { adminAddItemSchema } from "@/schemas/validationSchemas";
 import { addUserItem, type AdminAddItem } from "../../actions/userItems";

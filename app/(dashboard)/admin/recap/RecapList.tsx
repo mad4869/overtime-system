@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import RecapCard from "./RecapCard";
-import ErrorMessage from "@/components/ErrorMessage";
-import LoadingIndicator from "@/components/LoadingIndicator";
+import ErrorMessage from "@/components/ui/ErrorMessage";
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import { getSuperAdminProfiles } from "../actions/users";
 import { type UserItemRecapSimple } from "@/types/customs";
 

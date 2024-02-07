@@ -10,8 +10,8 @@ import { FaUserEdit } from "react-icons/fa";
 import { MdDashboard, MdAdminPanelSettings } from "react-icons/md";
 import { FaDoorOpen } from 'react-icons/fa'
 
-import Logo from "./Logo"
-import License from "./License";
+import Logo from "../ui/Logo"
+import License from "../ui/License";
 import useOutsideClick from "@/hooks/useOutsideClick";
 
 const oswald = Oswald({ subsets: ['latin'] })

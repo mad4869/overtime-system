@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image';
-import InfoMessage from '@/components/InfoMessage';
+import InfoMessage from '@/components/ui/InfoMessage';
 import useQRCode from '@/hooks/useQRCode';
 import useSignatureToken from '@/hooks/useSignatureToken';
 import overtimeMap from '@/constants/overtimeMap';
@@ -25,9 +25,9 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
     const vpQRCodeData = useQRCode(`https://overtimesystem.vercel.app/recap/${userItemsRecap.id}/verification`, vpToken, isApprovedByVP)
 
     const recapPeriod = setRecapPeriod()
-    const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
-    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
-    const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
+    const isRecapSameYear = recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' }) === recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
+    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' })}-` : ''
+    const recapFinishedYear = recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
     const recapYear = recapStartYear + recapFinishedYear
 
     return (

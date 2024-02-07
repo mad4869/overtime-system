@@ -1,7 +1,7 @@
 'use client'
 
 import { type IconType } from "react-icons"
-import { PropsWithChildren, type MouseEventHandler, type ReactElement } from "react"
+import { type PropsWithChildren, type ReactElement, type ButtonHTMLAttributes } from "react"
 
 import Spinner from "./Spinner"
 
@@ -12,17 +12,13 @@ type ButtonOptions = {
     isFull?: boolean
 }
 
-type ButtonProps = PropsWithChildren & {
-    type?: 'button' | 'reset' | 'submit'
-    title?: string
+type ButtonProps = PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement> & {
     icon?: ReactElement<IconType>
-    disabled?: boolean
     loading?: boolean
-    handleClick?: MouseEventHandler<HTMLButtonElement>
     options?: ButtonOptions
 }
 
-const Button = ({ children, type = 'button', title, handleClick, disabled, loading, icon, options = {
+const Button = ({ children, type = 'button', title, onClick, disabled, loading, icon, options = {
     size: 'sm',
     color: 'primary',
     type: 'fill',
@@ -62,7 +58,7 @@ const Button = ({ children, type = 'button', title, handleClick, disabled, loadi
             `}
             title={title}
             disabled={disabled}
-            onClick={handleClick}>
+            onClick={onClick}>
             {!loading ? icon : <Spinner />}
             {children}
         </button>

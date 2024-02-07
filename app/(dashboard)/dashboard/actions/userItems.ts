@@ -3,7 +3,6 @@
 import prisma from "@/prisma/client"
 import { z } from "zod"
 import { revalidatePath } from "next/cache"
-import { gmtOffset } from "@/constants/recapPeriod"
 import { userAddItemSchema } from "@/schemas/validationSchemas"
 
 export type UserAddItem = z.infer<typeof userAddItemSchema>
@@ -97,16 +96,16 @@ export async function addUserItem(item: UserAddItem, currentUserId: number) {
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
-    startDate.setTime(startDate.getTime() - gmtOffset)
-    finishedDate.setTime(finishedDate.getTime() - gmtOffset)
+    const startDateUTC = new Date(startDate.toISOString())
+    const finishedDateUTC = new Date(finishedDate.toISOString())
 
     try {
         const newItem = await prisma.userItem.create({
             data: {
                 userId: currentUserId,
                 item: item.pekerjaan,
-                startTime: startDate,
-                finishedTime: finishedDate
+                startTime: startDateUTC,
+                finishedTime: finishedDateUTC
             }
         })
 
@@ -118,7 +117,7 @@ export async function addUserItem(item: UserAddItem, currentUserId: number) {
             data: newItem
         }
     } catch (error) {
-        console.error('Error occured during creating data submission:', error)
+        console.error('Error occured during submitting the data:', error)
 
         return {
             success: false,
@@ -137,8 +136,8 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
     startDate.setHours(parseInt(startTime[0]), parseInt(startTime[1]))
     finishedDate.setHours(parseInt(finishedTime[0]), parseInt(finishedTime[1]))
 
-    startDate.setTime(startDate.getTime() - gmtOffset)
-    finishedDate.setTime(finishedDate.getTime() - gmtOffset)
+    const startDateUTC = new Date(startDate.toISOString())
+    const finishedDateUTC = new Date(finishedDate.toISOString())
 
     try {
         const targetedItem = await prisma.userItem.findUnique({
@@ -159,8 +158,8 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
             where: { id: userItemId },
             data: {
                 item: item.pekerjaan,
-                startTime: startDate,
-                finishedTime: finishedDate
+                startTime: startDateUTC,
+                finishedTime: finishedDateUTC
             }
         })
 
@@ -172,7 +171,7 @@ export async function updateUserItem(item: UserAddItem, userItemId: number) {
             data: updatedItem
         }
     } catch (error) {
-        console.error('Error occured during creating data update:', error)
+        console.error('Error occured during updating the data:', error)
 
         return {
             success: false,
@@ -209,7 +208,7 @@ export async function deleteUserItem(userItemId: number) {
             data: deletedItem
         }
     } catch (error) {
-        console.error('Error occured during creating data deletion:', error)
+        console.error('Error occured during deleting the data:', error)
 
         return {
             success: false,

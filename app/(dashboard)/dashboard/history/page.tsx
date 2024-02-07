@@ -4,7 +4,7 @@ import { type Metadata } from "next"
 
 import HistoryList from "./HistoryList"
 import DeleteSubmit from "../DeleteSubmit"
-import ErrorMessage from "@/components/ErrorMessage"
+import ErrorMessage from "@/components/ui/ErrorMessage"
 import { getUserItemRecaps } from "../actions/userItemRecaps"
 import { type PageProps } from "@/types/customs"
 

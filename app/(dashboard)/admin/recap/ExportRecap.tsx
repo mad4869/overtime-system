@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaFilePdf } from "react-icons/fa6";
 import { SiMicrosoftexcel } from "react-icons/si";
 
-import Button from "@/components/Button"
+import Button from "@/components/ui/Button"
 import setRecapPeriod from "@/constants/recapPeriod";
 import useExportToExcel from "@/hooks/useExportToExcel"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
@@ -19,9 +19,9 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
     const [isExporting, setIsExporting] = useState(false)
 
     const recapPeriod = setRecapPeriod()
-    const isRecapSameYear = recapPeriod.startPeriod.getFullYear() === recapPeriod.finishedPeriod.getFullYear()
-    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.getFullYear()}-` : ''
-    const recapFinishedYear = recapPeriod.finishedPeriod.getFullYear().toString()
+    const isRecapSameYear = recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' }) === recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
+    const recapStartYear = !isRecapSameYear ? `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { year: 'numeric' })}-` : ''
+    const recapFinishedYear = recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { year: 'numeric' })
     const recapYear = recapStartYear + recapFinishedYear
 
     const period = `${recapPeriod.startPeriod.toLocaleDateString(
@@ -69,14 +69,14 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
                     options={{ color: 'pdf' }}
                     disabled={isExporting}
                     loading={isExporting}
-                    handleClick={exportToPDF}>
+                    onClick={exportToPDF}>
                     Ubah ke PDF
                 </Button>
                 <Button
                     title="Export rekap menjadi file Excel"
                     icon={<SiMicrosoftexcel />}
                     options={{ color: 'excel' }}
-                    handleClick={exportToExcel}>
+                    onClick={exportToExcel}>
                     Ubah ke Excel
                 </Button>
             </div>

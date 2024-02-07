@@ -8,10 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { IoIosSend } from "react-icons/io";
 import { type User } from "next-auth"
 
-import Toggle from "@/components/Toggle"
-import Button from '@/components/Button'
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
+import Toggle from "@/components/ui/Toggle"
+import Button from '@/components/ui/Button'
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
 import { adminUpdateRecapSchema } from "@/schemas/validationSchemas"
 import { type UserItemRecap } from "@/types/customs"

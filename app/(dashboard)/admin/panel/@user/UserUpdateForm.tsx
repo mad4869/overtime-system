@@ -7,12 +7,12 @@ import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { IoIosSend } from "react-icons/io";
 
-import Button from '@/components/Button'
-import Toggle from "@/components/Toggle"
-import Dropdown from "@/components/Dropdown"
-import InputField from "@/components/InputField"
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
+import Button from '@/components/ui/Button'
+import Toggle from "@/components/ui/Toggle"
+import Dropdown from "@/components/ui/Dropdown"
+import InputField from "@/components/ui/InputField"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
 import { userUpdateSchema } from "@/schemas/validationSchemas"
 import { updateUserProfile, type UserUpdate } from '../../actions/users'

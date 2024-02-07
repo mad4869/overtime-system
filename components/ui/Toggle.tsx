@@ -1,18 +1,14 @@
-import { forwardRef, type ReactElement } from "react"
 import { type IconType } from "react-icons"
+import { type InputHTMLAttributes, type ReactElement, forwardRef } from "react"
 
-type ToggleProps = {
-    id: string
-    name: string
-    onChange: React.ChangeEventHandler<HTMLInputElement>
-    onBlur: React.ChangeEventHandler<HTMLInputElement>
+type ToggleProps = InputHTMLAttributes<HTMLInputElement> & {
     useLabel?: boolean
     icon?: ReactElement<IconType>
 }
 
 const Toggle = forwardRef<HTMLInputElement, ToggleProps>(function Toggle({
     id,
-    name,
+    name = '',
     onChange,
     onBlur,
     icon,

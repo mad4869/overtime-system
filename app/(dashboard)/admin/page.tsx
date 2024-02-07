@@ -5,8 +5,8 @@ import { MdAdminPanelSettings } from "react-icons/md"
 import { HiMiniDocumentCheck } from "react-icons/hi2"
 import { type Metadata } from "next"
 
-import MobileMenu from "@/components/MobileMenu";
-import ErrorMessage from "@/components/ErrorMessage";
+import MobileMenu from "@/components/layout/MobileMenu";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { authOptions } from "@/config/authOptions"
 import { getInactiveProfiles } from "./actions/users"
 import { getUserItemRecaps } from "./actions/userItemRecaps";

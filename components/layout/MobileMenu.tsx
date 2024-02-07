@@ -2,7 +2,7 @@
 
 import { AnimatePresence } from "framer-motion"
 
-import SlidingMenu from "@/components/SlidingMenu"
+import SlidingMenu from "@/components/layout/SlidingMenu"
 
 type MobileMenuProps = {
     showMenu: boolean

@@ -4,8 +4,8 @@ import { useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
 
-import Button from "@/components/Button";
-import ErrorMessage from "@/components/ErrorMessage";
+import Button from "@/components/ui/Button";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { activateProfile, deleteUserProfile } from "../../../actions/users";
 
 type DetailPanelProps = {
@@ -55,7 +55,7 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
             <div className="flex items-center gap-2">
                 <Button
                     title="Aktivasi user"
-                    handleClick={submitActivation}
+                    onClick={submitActivation}
                     icon={<FaCircleCheck size={16} />}
                     disabled={isActivateLoading}
                     loading={isActivateLoading}>
@@ -63,7 +63,7 @@ const DetailPanel = ({ userId }: DetailPanelProps) => {
                 </Button>
                 <Button
                     title="Tolak user"
-                    handleClick={submitDelete}
+                    onClick={submitDelete}
                     icon={<IoIosCloseCircle size={16} />}
                     disabled={isDeleteLoading}
                     loading={isDeleteLoading}

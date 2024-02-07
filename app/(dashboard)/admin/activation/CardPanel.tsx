@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaCircleCheck } from "react-icons/fa6";
 import { IoIosCloseCircle } from "react-icons/io";
 
-import ErrorMessage from "@/components/ErrorMessage";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { activateProfile, deleteUserProfile } from "../actions/users";
 
 type CardPanelProps = {

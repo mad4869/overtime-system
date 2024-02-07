@@ -1,8 +1,8 @@
 'use client'
 
 import Certificate from "./Certificate"
-import ErrorMessage from "@/components/ErrorMessage"
-import LoadingIndicator from "@/components/LoadingIndicator"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import LoadingIndicator from "@/components/ui/LoadingIndicator"
 import useVerifySignatureToken from "@/hooks/useVerifySignatureToken"
 import { type UserItemRecapSimple } from "@/types/customs"
 

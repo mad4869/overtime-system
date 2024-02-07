@@ -2,9 +2,9 @@ import { getServerSession } from "next-auth";
 import { type Metadata } from "next";
 
 import RecapList from "./RecapList";
-import Empty from "@/components/Empty";
-import MobileMenu from "@/components/MobileMenu";
-import ErrorMessage from "@/components/ErrorMessage";
+import Empty from "@/components/ui/Empty";
+import MobileMenu from "@/components/layout/MobileMenu";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import setRecapPeriod from "@/constants/recapPeriod";
 import { authOptions } from "@/config/authOptions";
 import { getUserItemRecaps } from "../actions/userItemRecaps";

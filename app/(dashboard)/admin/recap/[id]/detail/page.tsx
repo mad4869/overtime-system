@@ -2,9 +2,9 @@ import { getServerSession } from "next-auth";
 import { type Metadata } from "next";
 
 import ApproveSubmit from "./ApproveSubmit";
-import MobileMenu from "@/components/MobileMenu";
-import UserItemList from "@/components/UserItemList"
-import ErrorMessage from "@/components/ErrorMessage";
+import MobileMenu from "@/components/layout/MobileMenu";
+import UserItemList from "@/components/ui/UserItemList"
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { authOptions } from "@/config/authOptions";
 import { getUserItemRecap } from "../../../actions/userItemRecaps"
 import { type PageProps } from "@/types/customs";

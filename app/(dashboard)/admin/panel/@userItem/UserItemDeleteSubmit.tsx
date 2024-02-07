@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 
-import Button from '@/components/Button'
-import ErrorMessage from '@/components/ErrorMessage'
+import Button from '@/components/ui/Button'
+import ErrorMessage from '@/components/ui/ErrorMessage'
 import useOutsideClick from '@/hooks/useOutsideClick'
 import { deleteUserItem } from '../../actions/userItems'
 
@@ -56,7 +56,7 @@ const UserItemDeleteSubmit = ({ id }: UserItemDeleteSubmitProps) => {
                 </p>
                 <div className='flex items-center justify-center gap-4'>
                     <Button
-                        handleClick={confirmDelete}
+                        onClick={confirmDelete}
                         disabled={isSubmitting}
                         loading={isSubmitting}
                         options={{ color: 'error' }}>

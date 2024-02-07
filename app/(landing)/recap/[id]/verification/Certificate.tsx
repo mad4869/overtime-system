@@ -1,6 +1,6 @@
 import { FaCircleCheck } from "react-icons/fa6";
 
-import UserItemList from "@/components/UserItemList"
+import UserItemList from "@/components/ui/UserItemList"
 import { type SignaturePayload } from "@/actions/signature"
 import { type UserItemRecapSimple } from "@/types/customs"
 
@@ -19,7 +19,7 @@ const Certificate = ({ recap, payload }: CertificateProps) => {
                 <h1 className="text-xl font-bold text-center lg:text-3xl">SERTIFIKAT TANDA TANGAN</h1>
             </div>
             <p className="text-lg text-center">Dokumen ini menyatakan</p>
-            <p className="text-center">
+            <p className="text-center px-2">
                 Surat Perintah Lembur atas nama <strong>{recap.userItems[0].user.name}</strong>
                 &nbsp;yang dibuat pada&nbsp;
                 <strong>
@@ -27,7 +27,7 @@ const Certificate = ({ recap, payload }: CertificateProps) => {
                 </strong>
             </p>
             <UserItemList userItems={recap.userItems} />
-            <p className="text-center">Telah ditandatangani secara digital oleh</p>
+            <p className="text-center px-2">Telah ditandatangani secara digital oleh</p>
             <div className="flex flex-col items-center">
                 <p className="text-xl font-bold">{payload.name}</p>
                 <p className="text-lg">NPK {payload.npk}</p>

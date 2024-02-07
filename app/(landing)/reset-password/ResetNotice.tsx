@@ -4,8 +4,8 @@ import Link from "next/link"
 import { IoMdAlert } from "react-icons/io"
 import { CiCircleCheck } from "react-icons/ci";
 
-import ErrorMessage from "@/components/ErrorMessage"
-import LoadingIndicator from "@/components/LoadingIndicator";
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import LoadingIndicator from "@/components/ui/LoadingIndicator";
 import useResetPassword from "@/hooks/useResetPassword"
 import useVerifyPasswordToken from "@/hooks/useVerifyPasswordToken"
 

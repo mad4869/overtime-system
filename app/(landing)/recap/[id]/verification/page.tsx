@@ -1,7 +1,7 @@
 import { type Metadata } from "next"
 
 import SignatureVerification from "./SignatureVerification"
-import ErrorMessage from "@/components/ErrorMessage"
+import ErrorMessage from "@/components/ui/ErrorMessage"
 import { getUserItemRecap } from "@/app/(dashboard)/dashboard/actions/userItemRecaps"
 import { type PageProps } from "@/types/customs"
 

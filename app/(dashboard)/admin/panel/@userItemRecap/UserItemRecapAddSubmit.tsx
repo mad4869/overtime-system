@@ -5,9 +5,9 @@ import { AnimatePresence } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 
-import Button from '@/components/Button'
-import ErrorMessage from '@/components/ErrorMessage'
-import SuccessMessage from '@/components/SuccessMessage'
+import Button from '@/components/ui/Button'
+import ErrorMessage from '@/components/ui/ErrorMessage'
+import SuccessMessage from '@/components/ui/SuccessMessage'
 import useOutsideClick from '@/hooks/useOutsideClick'
 import { addUserItemRecap } from '../../actions/userItemRecaps'
 
@@ -55,7 +55,7 @@ const UserItemRecapAddSubmit = () => {
             <div className='space-y-4'>
                 <p>Anda ingin membuat rekap baru?</p>
                 <div className='flex items-center justify-center gap-4'>
-                    <Button handleClick={confirmAdd} disabled={isSubmitting} loading={isSubmitting}>Ya</Button>
+                    <Button onClick={confirmAdd} disabled={isSubmitting} loading={isSubmitting}>Ya</Button>
                     <Link href={pathname} scroll={false}>
                         <Button options={{ type: 'outline' }}>Tidak</Button>
                     </Link>

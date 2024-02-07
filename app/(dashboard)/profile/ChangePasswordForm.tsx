@@ -8,10 +8,10 @@ import { AnimatePresence } from "framer-motion"
 import { IoIosSend } from "react-icons/io";
 import { RiLockPasswordFill } from "react-icons/ri"
 
-import Button from '@/components/Button'
-import InputField from "@/components/InputField"
-import ErrorMessage from "@/components/ErrorMessage"
-import SuccessMessage from "@/components/SuccessMessage"
+import Button from '@/components/ui/Button'
+import InputField from "@/components/ui/InputField"
+import ErrorMessage from "@/components/ui/ErrorMessage"
+import SuccessMessage from "@/components/ui/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
 import { userChangePasswordSchema } from "@/schemas/validationSchemas"
 import { updateUserPassword, type UserChangePassword } from './actions/user'

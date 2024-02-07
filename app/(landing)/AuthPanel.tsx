@@ -5,7 +5,7 @@ import { AnimatePresence } from 'framer-motion'
 
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm'
-import Switch from '@/components/Switch'
+import Switch from '@/components/ui/Switch'
 
 const AuthPanel = () => {
     const [activeForm, setActiveForm] = useState<'login' | 'register'>('login')

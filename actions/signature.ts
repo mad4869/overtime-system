@@ -1,7 +1,6 @@
 'use server'
 
 import jwt from 'jsonwebtoken'
-import { type Profile } from '@/types/customs'
 
 export type SignaturePayload = {
     id: number

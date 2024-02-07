@@ -1,21 +1,14 @@
-import { ReactElement, forwardRef } from "react";
 import { type IconType } from "react-icons";
+import { type InputHTMLAttributes, type ReactElement, forwardRef } from "react";
 
-type InputFieldProps = {
-    id: string
-    name: string
-    type: 'text' | 'password' | 'number' | 'date' | 'time' | 'email'
-    placeholder?: string
-    onChange: React.ChangeEventHandler<HTMLInputElement>
-    onBlur: React.ChangeEventHandler<HTMLInputElement>
+type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     icon?: ReactElement<IconType>
     useLabel?: boolean
-    autoFocus?: boolean
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputField({
     id,
-    name,
+    name = '',
     type,
     placeholder,
     onChange,
