@@ -92,7 +92,9 @@ const RecapLetter = ({ userItemsRecap, avp, vp }: RecapLetterProps) => {
                             return (
                                 <tr key={userItem.id}>
                                     <td className='border border-primary'>{index + 1}</td>
-                                    <td className='border border-primary'>{userItem.startTime.toLocaleDateString('id-ID')}</td>
+                                    <td className='border border-primary'>
+                                        {userItem.startTime.toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                                    </td>
                                     <td className='border border-primary'>
                                         {userItem.startTime.toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' })}
                                     </td>
