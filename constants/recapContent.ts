@@ -1,5 +1,5 @@
 import overtimeMap from "./overtimeMap"
-import { departmentMap, unitMap } from "./profileMap"
+import { companyMap, departmentMap, unitMap } from "./profileMap"
 import { offsetWITA } from "./recapPeriod"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
 
@@ -12,12 +12,15 @@ export const setRecapContent = (
     avpSignature: string,
     vpSignature: string
 ) => {
+    const isFromYum = userItemsRecap.userItems[0].user.company === 'YUM'
+    const isFromKne = userItemsRecap.userItems[0].user.company === 'KNE'
+
     return `
     <div class="root">
         <header>
-            <img src='https://overtimesystem.vercel.app/logo_yum.png' alt='Logo YUM' width="104.7" height="108" />
+            <img src="https://overtimesystem.vercel.app/${isFromYum ? 'logo_yum.png' : 'logo_kne.png'}" alt="${isFromYum ? 'Logo YUM' : 'Logo KNE'}" width="${isFromYum ? 104.7 : 124}" height="${isFromYum ? 108 : 46}" />
             <div>
-                <h1>PT YEPEKA USAHA MANDIRI</h1>
+                <h1>${isFromYum ? 'PT. YEPEKA USAHA MANDIRI' : 'PT. KALTIM NUSA ETIKA'}</h1>
                 <h2>SURAT PERINTAH LEMBUR ${recapYear}</h2>
                 <h3>
                     PERIODE&nbsp;
@@ -63,15 +66,15 @@ export const setRecapContent = (
                 </thead>
                 <tbody>
                     ${userItemsRecap.userItems.map((userItem, index) => {
-        const startDate = new Date(userItem.startTime)
-        const finishedDate = new Date(userItem.finishedTime)
-        startDate.setTime(startDate.getTime() + offsetWITA)
-        finishedDate.setTime(finishedDate.getTime() + offsetWITA)
-        const userItemDuration = (finishedDate.getTime()) - (startDate.getTime())
-        const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
+                        const startDate = new Date(userItem.startTime)
+                        const finishedDate = new Date(userItem.finishedTime)
+                        startDate.setTime(startDate.getTime() + offsetWITA)
+                        finishedDate.setTime(finishedDate.getTime() + offsetWITA)
+                        const userItemDuration = (finishedDate.getTime()) - (startDate.getTime())
+                        const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 
-        return (
-            `<tr>
+                        return (
+                            `<tr>
                                 <td>${index + 1}</td>
                                 <td>
                                     ${startDate.toLocaleDateString('id-ID', { weekday: 'long' })}, ${startDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -86,8 +89,8 @@ export const setRecapContent = (
                                 <td>${userItem.item}</td>
                                 <td></td>
                             </tr>`
-        )
-    })}
+                        )
+                    })}
                 </tbody>
             </table>
         </div>
