@@ -9,7 +9,7 @@ async function generateRecapPDF(
     period: string,
     recapYear: string,
     userItemRecaps: UserItemRecapSimple[],
-    avp: Profile,
+    avps: Profile[],
     vp: Profile
 ) {
     const browser = await puppeteer.launch({
@@ -23,8 +23,11 @@ async function generateRecapPDF(
     const page = await browser.newPage()
 
     const pdfContents = await Promise.all(userItemRecaps.map(async (recap) => {
+        const avp = avps.find(avp => avp.unit === recap.userItems[0].user.unit)
+
         const avpToken = await generateSignatureToken(avp)
         const vpToken = await generateSignatureToken(vp)
+
         const avpQRCodeData: string = await new Promise((resolve, reject) => {
             if (recap.isApprovedByAVP) {
                 QRCode.toDataURL(`https://overtimesystem.vercel.app/recap/${recap.id}/verification?token=${avpToken}`, (err, url) => {
@@ -45,7 +48,9 @@ async function generateRecapPDF(
                 resolve('')
             }
         })
+
         const recapContent = setRecapContent(period, recapYear, recap, avp, vp, avpQRCodeData, vpQRCodeData)
+
         return recapContent
     }))
 

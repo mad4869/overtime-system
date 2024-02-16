@@ -1,31 +1,37 @@
 'use client'
 
-import { forwardRef, type ReactElement } from "react"
 import { type IconType } from "react-icons"
+import { forwardRef, type ReactElement, type SelectHTMLAttributes, } from "react"
 
-type DropdownProps = {
-    id: string
-    name: string
-    onChange: React.ChangeEventHandler<HTMLSelectElement>
-    onBlur: React.ChangeEventHandler<HTMLSelectElement>
+type DropdownProps = SelectHTMLAttributes<HTMLSelectElement> & {
+    values: string[]
     useLabel?: boolean
+    labelWidth?: 'sm' | 'md' | 'lg'
     icon?: ReactElement<IconType>
 }
 
 const Dropdown = forwardRef<HTMLSelectElement, DropdownProps>(function Dropdown({
     id,
-    name,
+    name = '',
     onChange,
     onBlur,
     icon,
+    values,
     useLabel = false,
+    labelWidth = 'sm'
 }, ref) {
+    const labelWidthMap = {
+        sm: 'w-28',
+        md: 'w-40',
+        lg: 'w-52'
+    }
+
     return (
         <div className="flex w-full h-full text-xs">
             {useLabel &&
                 <label
                     htmlFor={id}
-                    className="flex items-center gap-1 px-2 py-1 text-white rounded-l w-28 bg-secondary">
+                    className={`flex items-center gap-1 px-2 py-1 text-white rounded-l bg-secondary min-w-fit ${labelWidthMap[labelWidth]}`}>
                     {icon}
                     <span>{name.toUpperCase()}</span>
                 </label>
@@ -40,15 +46,11 @@ const Dropdown = forwardRef<HTMLSelectElement, DropdownProps>(function Dropdown(
                 ref={ref}
                 onChange={onChange}
                 onBlur={onBlur}>
-                <option value="USER">
-                    USER
-                </option>
-                <option value="ADMIN">
-                    ADMIN
-                </option>
-                <option value="SUPER_ADMIN">
-                    SUPER_ADMIN
-                </option>
+                {values.map(value => (
+                    <option key={value} value={value}>
+                        {value}
+                    </option>
+                ))}
             </select>
         </div>
     )

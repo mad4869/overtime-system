@@ -10,10 +10,10 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'Sistem Manajemen Lembur',
+    default: 'Overtime Management System',
     template: ''
   },
-  description: 'Aplikasi web untuk mengatur data pekerjaan lembur karyawan',
+  description: 'Web application to manage overtime workload',
 }
 
 export default function RootLayout({

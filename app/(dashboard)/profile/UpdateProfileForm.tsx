@@ -1,24 +1,24 @@
 'use client'
 
 import Link from "next/link";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { $Enums } from "@prisma/client";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence } from "framer-motion";
 import { FaClipboardList } from "react-icons/fa"
 import { HiIdentification } from "react-icons/hi2"
 import { MdShield, MdEmail } from "react-icons/md"
-import { RiLockPasswordFill } from "react-icons/ri"
 import { FaUser, FaUsers, FaBuilding, FaIdCardAlt } from "react-icons/fa"
 
 import Button from "@/components/ui/Button";
+import Dropdown from "@/components/ui/Dropdown";
 import InputField from "@/components/ui/InputField";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import SuccessMessage from "@/components/ui/SuccessMessage";
-import { updateUserProfile } from "./actions/user";
-import { userRegisterSchema } from "@/schemas/validationSchemas";
+import { userUpdateProfileSchema } from "@/schemas/validationSchemas";
+import { updateUserProfile, type UserUpdateProfile } from "./actions/user";
 import { type Profile } from "@/types/customs";
 
 type UpdateProfileFormProps = {
@@ -26,9 +26,6 @@ type UpdateProfileFormProps = {
 }
 
 const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
-    const userUpdateProfileSchema = userRegisterSchema.omit({ password: true })
-    type UserUpdateProfile = z.infer<typeof userUpdateProfileSchema>
-
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserUpdateProfile>({
         resolver: zodResolver(userUpdateProfileSchema),
         defaultValues: {
@@ -46,8 +43,6 @@ const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
     const [updateProfileError, setUpdateProfileError] = useState('')
 
     const router = useRouter()
-
-    const { id, role, createdAt, updatedAt, isActive, ...rest } = profile
 
     const submitUpdate = async (data: UserUpdateProfile) => {
         const res = await updateUserProfile(data, profile.id)
@@ -106,24 +101,24 @@ const UpdateProfileForm = ({ profile }: UpdateProfileFormProps) => {
                         icon={<FaIdCardAlt size={12} />}
                         {...register('jabatan')} />
                     <ErrorMessage>{errors.jabatan?.message}</ErrorMessage>
-                    <InputField
+                    <Dropdown
                         id="unit"
-                        type="text"
                         useLabel
+                        values={Object.keys($Enums.UserUnit)}
                         icon={<MdShield size={14} />}
                         {...register('unit')} />
                     <ErrorMessage>{errors.unit?.message}</ErrorMessage>
-                    <InputField
+                    <Dropdown
                         id="department"
-                        type="text"
                         useLabel
+                        values={Object.keys($Enums.UserDepartment)}
                         icon={<FaUsers size={12} />}
                         {...register('departemen')} />
                     <ErrorMessage>{errors.departemen?.message}</ErrorMessage>
-                    <InputField
+                    <Dropdown
                         id="company"
-                        type="text"
                         useLabel
+                        values={Object.keys($Enums.UserCompany)}
                         icon={<FaBuilding size={14} />}
                         {...register('perusahaan')} />
                     <ErrorMessage>{errors.perusahaan?.message}</ErrorMessage>

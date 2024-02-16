@@ -6,16 +6,17 @@ import { SiMicrosoftexcel } from "react-icons/si";
 
 import Button from "@/components/ui/Button"
 import setRecapPeriod from "@/constants/recapPeriod";
+import { departmentMap } from "@/constants/profileMap";
 import useExportToExcel from "@/hooks/useExportToExcel"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
 
 type ExportRecapProps = {
     userItemRecaps: UserItemRecapSimple[]
-    avp: Profile
+    avps: Profile[]
     vp: Profile
 }
 
-const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
+const ExportRecap = ({ userItemRecaps, avps, vp }: ExportRecapProps) => {
     const [isExporting, setIsExporting] = useState(false)
 
     const recapPeriod = setRecapPeriod()
@@ -26,7 +27,7 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
 
     const period = `${recapPeriod.startPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })} - ${recapPeriod.finishedPeriod.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}`
 
-    const exportToExcel = useExportToExcel(userItemRecaps, 'Working Unit', period)
+    const exportToExcel = useExportToExcel(userItemRecaps, departmentMap.get(vp.department), period)
     const exportToPDF = async () => {
         setIsExporting(true)
 
@@ -39,7 +40,7 @@ const ExportRecap = ({ userItemRecaps, avp, vp }: ExportRecapProps) => {
                 period,
                 recapYear,
                 userItemRecaps,
-                avp,
+                avps,
                 vp
             })
         })

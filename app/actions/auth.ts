@@ -9,14 +9,16 @@ import { hash } from 'bcrypt'
 import { Resend } from "resend";
 
 import Email from "@/components/ui/Email";
-import { userRegisterSchema, userResetPasswordSchema } from "@/schemas/validationSchemas";
+import { userRegisterSchema, userRegisterAdditionalSchema, userResetPasswordSchema } from "@/schemas/validationSchemas";
 
 export type UserRegister = z.infer<typeof userRegisterSchema>
+export type UserRegisterAdditional = z.infer<typeof userRegisterAdditionalSchema>
+export type UserRegisterComplete = UserRegister & UserRegisterAdditional
 export type UserResetPassword = z.infer<typeof userResetPasswordSchema>
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export async function userRegister(user: UserRegister) {
+export async function checkExistingUser(user: UserRegister) {
     try {
         const existingUser = await prisma.user.findUnique({
             where: { npk: user.npk }
@@ -29,6 +31,27 @@ export async function userRegister(user: UserRegister) {
             }
         }
 
+        return {
+            success: true,
+            message: 'User belum terdaftar dan bisa melanjutkan proses registrasi.',
+        }
+    } catch (error) {
+        console.error('Error during user registration:', error);
+
+        return {
+            success: false,
+            message: 'Internal server error'
+        }
+    }
+}
+
+export async function userRegister(user: UserRegisterComplete) {
+    if (!user.nama || !user.npk || !user.email || !user.password) return {
+        success: false,
+        message: 'Data tidak lengkap. Mohon ulangi proses registrasi.'
+    }
+
+    try {
         const hashedPassword = await hash(user.password, 10)
 
         const newUser = await prisma.user.create({

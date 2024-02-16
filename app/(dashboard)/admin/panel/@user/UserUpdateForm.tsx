@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { AnimatePresence } from "framer-motion"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { IoIosSend } from "react-icons/io";
+import { $Enums } from "@prisma/client"
 
 import Button from '@/components/ui/Button'
 import Toggle from "@/components/ui/Toggle"
@@ -14,8 +15,8 @@ import InputField from "@/components/ui/InputField"
 import ErrorMessage from "@/components/ui/ErrorMessage"
 import SuccessMessage from "@/components/ui/SuccessMessage"
 import useOutsideClick from "@/hooks/useOutsideClick"
-import { userUpdateSchema } from "@/schemas/validationSchemas"
-import { updateUserProfile, type UserUpdate } from '../../actions/users'
+import { adminUpdateUserSchema } from "@/schemas/validationSchemas"
+import { updateUserProfile, type AdminUpdateUser } from '../../actions/users'
 import { type Profile } from "@/types/customs"
 
 type UserUpdateFormProps = {
@@ -26,8 +27,8 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
     const [updateUserSuccess, setUpdateUserSuccess] = useState('')
     const [updateUserError, setUpdateUserError] = useState('')
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserUpdate>({
-        resolver: zodResolver(userUpdateSchema),
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<AdminUpdateUser>({
+        resolver: zodResolver(adminUpdateUserSchema),
         defaultValues: {
             nama: profile.name,
             npk: profile.npk,
@@ -53,7 +54,7 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
         }
     }, [isClickedOutside, router, pathname])
 
-    const submitUpdate = async (data: UserUpdate) => {
+    const submitUpdate = async (data: AdminUpdateUser) => {
         const res = await updateUserProfile(data, profile.id)
         if (res.success) {
             setUpdateUserSuccess(`${res.message} User: ${res.data?.name}`)
@@ -103,6 +104,7 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                     <Dropdown
                         id="role"
                         useLabel
+                        values={Object.keys($Enums.UserRole)}
                         {...register('role')} />
                     <ErrorMessage>{errors.role?.message}</ErrorMessage>
                 </div>
@@ -115,26 +117,26 @@ const UserUpdateForm = ({ profile }: UserUpdateFormProps) => {
                     <ErrorMessage>{errors.jabatan?.message}</ErrorMessage>
                 </div>
                 <div>
-                    <InputField
+                    <Dropdown
                         id="unit"
-                        type="text"
                         useLabel
+                        values={Object.keys($Enums.UserUnit)}
                         {...register('unit')} />
                     <ErrorMessage>{errors.unit?.message}</ErrorMessage>
                 </div>
                 <div>
-                    <InputField
+                    <Dropdown
                         id="department"
-                        type="text"
                         useLabel
+                        values={Object.keys($Enums.UserDepartment)}
                         {...register('departemen')} />
                     <ErrorMessage>{errors.departemen?.message}</ErrorMessage>
                 </div>
                 <div>
-                    <InputField
+                    <Dropdown
                         id="company"
-                        type="text"
                         useLabel
+                        values={Object.keys($Enums.UserCompany)}
                         {...register('perusahaan')} />
                     <ErrorMessage>{errors.perusahaan?.message}</ErrorMessage>
                 </div>

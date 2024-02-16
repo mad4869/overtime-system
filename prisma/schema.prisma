@@ -9,19 +9,19 @@ datasource db {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  name       String     @db.VarChar(255)
-  npk        String     @unique @db.VarChar(255)
-  email      String     @db.VarChar(255)
+  id         Int            @id @default(autoincrement())
+  name       String         @db.VarChar(255)
+  npk        String         @unique @db.VarChar(255)
+  email      String         @db.VarChar(255)
   password   String
-  role       UserRole   @default(USER)
-  position   String     @db.VarChar(255)
-  unit       String     @db.VarChar(255)
-  department String     @db.VarChar(255)
-  company    String     @db.VarChar(255)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  isActive   Boolean    @default(false)
+  role       UserRole       @default(USER)
+  position   String         @db.VarChar(255)
+  unit       UserUnit
+  department UserDepartment
+  company    UserCompany
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isActive   Boolean        @default(false)
   items      UserItem[]
 }
 
@@ -51,4 +51,20 @@ enum UserRole {
   SUPER_ADMIN
   ADMIN
   USER
+}
+
+enum UserUnit {
+  MEKANIK_P6_P1 @map("Mekanik P6/P1")
+  MEKANIK_P2_P5 @map("Mekanik P2/P5")
+  INSTRUMENT    @map("Instrument")
+  ELECTRICAL_1  @map("Electrical 1")
+}
+
+enum UserDepartment {
+  OM_1 @map("Operation & Maintenance 1")
+}
+
+enum UserCompany {
+  YUM @map("PT. Yepeka Usaha Mandiri")
+  KNE @map("PT. Kaltim Nusa Etika")
 }

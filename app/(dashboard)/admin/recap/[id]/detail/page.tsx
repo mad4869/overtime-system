@@ -5,6 +5,7 @@ import ApproveSubmit from "./ApproveSubmit";
 import MobileMenu from "@/components/layout/MobileMenu";
 import UserItemList from "@/components/ui/UserItemList"
 import ErrorMessage from "@/components/ui/ErrorMessage";
+import { unitMap } from "@/constants/profileMap";
 import { authOptions } from "@/config/authOptions";
 import { getUserItemRecap } from "../../../actions/userItemRecaps"
 import { type PageProps } from "@/types/customs";
@@ -40,7 +41,7 @@ export default async function Detail({ params, searchParams }: { params: { id: s
                 <div className="flex items-center justify-center gap-4 text-sm text-primary-300">
                     <h6>NPK {res.data.userItems[0].user.npk}</h6>
                     <span>|</span>
-                    <h6>Unit {res.data.userItems[0].user.unit}</h6>
+                    <h6>Unit {unitMap.get(res.data.userItems[0].user.unit)}</h6>
                 </div>
             </div>
             <UserItemList userItems={res.data.userItems} />

@@ -18,7 +18,7 @@ type ButtonProps = PropsWithChildren & ButtonHTMLAttributes<HTMLButtonElement> &
     options?: ButtonOptions
 }
 
-const Button = ({ children, type = 'button', title, onClick, disabled, loading, icon, options = {
+const Button = ({ children, id, type = 'button', title, onClick, disabled, loading, icon, options = {
     size: 'sm',
     color: 'primary',
     type: 'fill',
@@ -48,6 +48,7 @@ const Button = ({ children, type = 'button', title, onClick, disabled, loading, 
 
     return (
         <button
+            id={id}
             type={type}
             className={`
                 ${setTypeColor(options.type || 'fill', options.color || 'primary')}

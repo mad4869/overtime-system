@@ -1,4 +1,5 @@
 import overtimeMap from "./overtimeMap"
+import { departmentMap, unitMap } from "./profileMap"
 import { offsetWITA } from "./recapPeriod"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
 
@@ -6,7 +7,7 @@ export const setRecapContent = (
     period: string,
     recapYear: string,
     userItemsRecap: UserItemRecapSimple,
-    avp: Profile,
+    avp: Profile | undefined,
     vp: Profile,
     avpSignature: string,
     vpSignature: string
@@ -38,7 +39,7 @@ export const setRecapContent = (
             <div class='profile'>
                 <p class='label'>Unit Kerja</p>
                 <p>:</p>
-                <p>${userItemsRecap.userItems[0].user.unit}</p>
+                <p>${unitMap.get(userItemsRecap.userItems[0].user.unit)}</p>
             </div>
         </main>
         <div class="table">
@@ -62,15 +63,15 @@ export const setRecapContent = (
                 </thead>
                 <tbody>
                     ${userItemsRecap.userItems.map((userItem, index) => {
-                        const startDate = new Date(userItem.startTime)
-                        const finishedDate = new Date(userItem.finishedTime)
-                        startDate.setTime(startDate.getTime() + offsetWITA)
-                        finishedDate.setTime(finishedDate.getTime() + offsetWITA)
-                        const userItemDuration = (finishedDate.getTime()) - (startDate.getTime())
-                        const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
+        const startDate = new Date(userItem.startTime)
+        const finishedDate = new Date(userItem.finishedTime)
+        startDate.setTime(startDate.getTime() + offsetWITA)
+        finishedDate.setTime(finishedDate.getTime() + offsetWITA)
+        const userItemDuration = (finishedDate.getTime()) - (startDate.getTime())
+        const userItemDurationHour = Math.ceil(userItemDuration / 3_600_000)
 
-                        return (
-                            `<tr>
+        return (
+            `<tr>
                                 <td>${index + 1}</td>
                                 <td>
                                     ${startDate.toLocaleDateString('id-ID', { weekday: 'long' })}, ${startDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}
@@ -85,8 +86,8 @@ export const setRecapContent = (
                                 <td>${userItem.item}</td>
                                 <td></td>
                             </tr>`
-                        )
-                    })}
+        )
+    })}
                 </tbody>
             </table>
         </div>
@@ -96,15 +97,15 @@ export const setRecapContent = (
                 ${vpSignature ? `<img src=${vpSignature} alt="Tanda tangan VP" width="80" height="80" />` : ''}
                 <div class='signer'>
                     <p class='signer-name'>${vp.name}</p>
-                    <p>${vp.position} ${vp.unit}</p>
+                    <p>${vp.position} ${departmentMap.get(vp.department)}</p>
                 </div>
             </div>
             <div class='signature'>
                 <p>Diperintah</p>
                 ${avpSignature ? `<img src=${avpSignature} alt="Tanda tangan AVP" width="80" height="80" />` : ''}
                 <div class='signer'>
-                    <p class='signer-name'>${avp.name}</p>
-                    <p>${avp.position} ${avp.unit}</p>
+                    <p class='signer-name'>${avp?.name}</p>
+                    <p>${avp?.position} ${unitMap.get(avp?.unit)}</p>
                 </div>
             </div>
             <div class='signature'>

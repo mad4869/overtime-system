@@ -25,7 +25,8 @@ export async function getUserItemsValid(
                     select: {
                         name: true,
                         npk: true,
-                        unit: true
+                        unit: true,
+                        company: true
                     }
                 }
             },
@@ -63,7 +64,8 @@ export async function getUserItem(userItemId: number | undefined) {
                     select: {
                         name: true,
                         npk: true,
-                        unit: true
+                        unit: true,
+                        company: true
                     }
                 }
             }

@@ -15,10 +15,14 @@ const RecapList = async ({ userItemRecaps }: RecapListProps) => {
     const res = await getSuperAdminProfiles()
     if (!res.data) return <ErrorMessage useIcon>{res.message}</ErrorMessage>
 
-    const vp = res.data.filter((superAdmin) => superAdmin.position === 'VP')
-    const avp = res.data.filter((superAdmin) => superAdmin.position === 'AVP')
+    const vp = res.data.find((superAdmin) => superAdmin.position === 'VP')
+    const avps = res.data.filter((superAdmin) => superAdmin.position === 'AVP')
 
-    if (!vp.length || !avp.length) return <ErrorMessage useIcon>Tidak ditemukan akun berjabatan VP atau AVP</ErrorMessage>
+    if (!vp || !avps.length) return (
+        <ErrorMessage useIcon>
+            Tidak ditemukan akun berjabatan VP atau AVP. Mohon pastikan akun VP dan AVP telah teregistrasi
+        </ErrorMessage>
+    )
 
     return (
         <div className="space-y-4">
@@ -31,7 +35,7 @@ const RecapList = async ({ userItemRecaps }: RecapListProps) => {
                     isApproved={userItemRecap.isApprovedByAVP && userItemRecap.isApprovedByVP}
                     date={userItemRecap.createdAt} />
             ))}
-            <ExportRecap userItemRecaps={userItemRecaps} avp={avp[0]} vp={vp[0]} />
+            <ExportRecap userItemRecaps={userItemRecaps} avps={avps} vp={vp} />
         </div>
     )
 }

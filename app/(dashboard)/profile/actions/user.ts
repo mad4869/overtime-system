@@ -4,10 +4,9 @@ import prisma from "@/prisma/client";
 import { z } from "zod";
 import { compare, hash } from "bcrypt";
 import { revalidatePath } from "next/cache";
-import { userRegisterSchema, userChangePasswordSchema, userDeleteAccountSchema } from "@/schemas/validationSchemas";
+import { userUpdateProfileSchema, userChangePasswordSchema, userDeleteAccountSchema } from "@/schemas/validationSchemas";
 
-type UserRegister = z.infer<typeof userRegisterSchema>
-type UserUpdate = Omit<Partial<UserRegister>, 'password'>
+export type UserUpdateProfile = Partial<z.infer<typeof userUpdateProfileSchema>>
 export type UserChangePassword = z.infer<typeof userChangePasswordSchema>
 export type UserDeleteAccount = z.infer<typeof userDeleteAccountSchema>
 
@@ -39,7 +38,7 @@ export async function getUserProfile(userId: number) {
     }
 }
 
-export async function updateUserProfile(user: UserUpdate, userId: number) {
+export async function updateUserProfile(user: UserUpdateProfile, userId: number) {
     try {
         const targetedProfile = await prisma.user.findUnique({
             where: { id: userId }
