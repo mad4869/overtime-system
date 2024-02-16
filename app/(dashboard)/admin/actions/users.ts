@@ -2,11 +2,13 @@
 
 import prisma from "@/prisma/client";
 import { z } from "zod";
+import { hash } from "bcrypt";
 import { revalidatePath } from "next/cache";
 
-import { userUpdateSchema } from "@/schemas/validationSchemas";
+import { adminAddUserSchema, adminUpdateUserSchema } from "@/schemas/validationSchemas";
 
-export type UserUpdate = z.infer<typeof userUpdateSchema>
+export type AdminAddUser = z.infer<typeof adminAddUserSchema>
+export type AdminUpdateUser = z.infer<typeof adminUpdateUserSchema>
 
 export async function getUserProfile(userId: number | undefined) {
     if (!userId) return {
@@ -142,7 +144,52 @@ export async function activateProfile(userId: number) {
     }
 }
 
-export async function updateUserProfile(user: UserUpdate, userId: number) {
+export async function addUserProfile(user: AdminAddUser) {
+    try {
+        const existingUser = await prisma.user.findUnique({
+            where: { npk: user.npk }
+        })
+
+        if (existingUser) {
+            return {
+                success: false,
+                message: 'User dengan NPK ini sudah terdaftar. Silakan gunakan NPK lain.'
+            }
+        }
+
+        const hashedPassword = await hash(user.password, 10)
+
+        const newUser = await prisma.user.create({
+            data: {
+                name: user.nama,
+                npk: user.npk,
+                email: user.email,
+                password: hashedPassword,
+                position: user.jabatan,
+                unit: user.unit,
+                department: user.departemen,
+                company: user.perusahaan
+            }
+        })
+
+        const { password, ...rest } = newUser
+
+        return {
+            success: true,
+            message: 'Akun berhasil terdaftar. Akun harus diaktivasi sebelum user dapat melakukan login.',
+            data: rest
+        }
+    } catch (error) {
+        console.error('Error during user registration:', error);
+
+        return {
+            success: false,
+            message: 'Internal server error'
+        }
+    }
+}
+
+export async function updateUserProfile(user: AdminUpdateUser, userId: number) {
     try {
         const targetedProfile = await prisma.user.findUnique({
             where: { id: userId }

@@ -42,10 +42,23 @@ export const userRegisterSchema = z.object({
         const hasLetter = /[a-zA-Z]/.test(password)
         return hasNumber && hasLetter
     }, 'Password harus memiliki huruf dan angka sekaligus.'),
+    'confirm password': z.string().min(6, 'Password minimal berisi 6 karakter.')
+})
+
+export const userRegisterAdditionalSchema = z.object({
     jabatan: z.string().trim().min(1, 'Jabatan tidak boleh kosong.').max(255, 'Jabatan tidak boleh melebihi 255 karakter.'),
-    unit: z.string().trim().min(1, 'Unit kerja tidak boleh kosong.').max(255, 'Unit kerja tidak boleh melebihi 255 karakter.'),
-    departemen: z.string().trim().min(1, 'Departemen tidak boleh kosong.').max(255, 'Departemen tidak boleh melebihi 255 karakter.'),
-    perusahaan: z.string().trim().min(1, 'Perusahaan tidak boleh kosong.').max(255, 'Perusahaan tidak boleh melebihi 255 karakter.')
+    unit: z.nativeEnum($Enums.UserUnit, {
+        required_error: 'Unit tidak boleh kosong.',
+        invalid_type_error: 'Unit harus berisi unit kerja yang ditentukan.'
+    }),
+    departemen: z.nativeEnum($Enums.UserDepartment, {
+        required_error: 'Departemen tidak boleh kosong.',
+        invalid_type_error: 'Departemen harus berisi departemen yang ditentukan.'
+    }),
+    perusahaan: z.nativeEnum($Enums.UserCompany, {
+        required_error: 'Perusahaan tidak boleh kosong.',
+        invalid_type_error: 'Perusahaan harus berisi perusahaan yang ditentukan.'
+    })
 })
 
 export const userChangePasswordSchema = z.object({
@@ -57,13 +70,19 @@ export const userChangePasswordSchema = z.object({
     }, 'Password harus memiliki huruf dan angka sekaligus.')
 })
 
-export const userUpdateSchema = userRegisterSchema.extend({
+export const userUpdateProfileSchema = userRegisterSchema.merge(userRegisterAdditionalSchema).omit({
+    password: true,
+    "confirm password": true
+})
+
+export const adminAddUserSchema = userRegisterSchema.merge(userRegisterAdditionalSchema)
+export const adminUpdateUserSchema = userUpdateProfileSchema.extend({
     role: z.nativeEnum($Enums.UserRole, {
         required_error: 'Role tidak boleh kosong.',
         invalid_type_error: 'Role harus berisi USER, ADMIN, atau SUPER_ADMIN'
     }),
     aktif: z.coerce.boolean()
-}).omit({ password: true })
+})
 
 export const adminUpdateRecapSchema = z.object({
     'disetujui AVP': z.coerce.boolean(),

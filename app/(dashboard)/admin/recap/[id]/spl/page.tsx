@@ -26,14 +26,14 @@ export default async function SPL({ params, searchParams }: { params: { id: stri
     if (!recapRes.data) return <ErrorMessage useIcon>{recapRes.message}</ErrorMessage>
     if (!profileRes.data) return <ErrorMessage useIcon>{profileRes.message}</ErrorMessage>
 
-    const vp = profileRes.data.filter((superAdmin) => superAdmin.position === 'VP')
-    const avp = profileRes.data.filter((superAdmin) => superAdmin.position === 'AVP')
+    const vp = profileRes.data.find((superAdmin) => superAdmin.position === 'VP')
+    const avps = profileRes.data.filter((superAdmin) => superAdmin.position === 'AVP')
 
     const mobileMenu = Boolean(searchParams.menu)
 
     return (
         <section className="relative">
-            <RecapLetter userItemsRecap={recapRes.data} avp={avp[0]} vp={vp[0]} />
+            <RecapLetter userItemsRecap={recapRes.data} avps={avps} vp={vp} />
             <MobileMenu showMenu={mobileMenu} currentProfileRole={currentUser.role} />
         </section>
     )

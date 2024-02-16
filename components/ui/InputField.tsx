@@ -4,6 +4,9 @@ import { type InputHTMLAttributes, type ReactElement, forwardRef } from "react";
 type InputFieldProps = InputHTMLAttributes<HTMLInputElement> & {
     icon?: ReactElement<IconType>
     useLabel?: boolean
+    labelWidth?: 'sm' | 'md' | 'lg'
+    useDatalist?: boolean
+    datalistValues?: string[]
 }
 
 const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputField({
@@ -14,21 +17,31 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
     onChange,
     onBlur,
     icon,
+    autoFocus = false,
     useLabel = false,
-    autoFocus = false
+    labelWidth = 'sm',
+    useDatalist = false,
+    datalistValues
 }, ref) {
+    const labelWidthMap = {
+        sm: 'w-28',
+        md: 'w-40',
+        lg: 'w-52'
+    }
+
     return (
         <div className="flex w-full h-full text-xs">
             {useLabel &&
                 <label
                     htmlFor={id}
-                    className="flex items-center gap-1 px-2 py-1 rounded-l w-28 bg-secondary text-white">
+                    className={`flex items-center gap-1 px-2 py-1 text-white rounded-l bg-secondary min-w-fit ${labelWidthMap[labelWidth]}`}>
                     {icon}
                     <span>{name.toUpperCase()}</span>
                 </label>
             }
             <input
                 id={id}
+                list={name}
                 name={name}
                 type={type}
                 ref={ref}
@@ -40,6 +53,13 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(function InputF
                 onChange={onChange}
                 onBlur={onBlur}
                 autoFocus={autoFocus} />
+            {useDatalist && datalistValues && (
+                <datalist id={name}>
+                    {datalistValues.map(value => (
+                        <option key={value} value={value}>{value.toUpperCase()}</option>
+                    ))}
+                </datalist>
+            )}
         </div>
     )
 })

@@ -3,6 +3,7 @@ import { ImUserTie } from "react-icons/im";
 import { MdEditSquare } from "react-icons/md"
 import { FaCircleUser } from "react-icons/fa6";
 import { RiShieldUserFill } from "react-icons/ri";
+import { companyMap, departmentMap, unitMap } from "@/constants/profileMap";
 import { type Profile } from "@/types/customs";
 
 type ProfileListProps = {
@@ -27,7 +28,9 @@ const ProfileList = ({ profile }: ProfileListProps) => {
                         </span>
                     </div>
                 </div>
-                <Link href={{ query: { 'update-profile': true } }}><MdEditSquare size={24} /></Link>
+                <Link href={{ query: { 'update-profile': true } }} title="Edit profile">
+                    <MdEditSquare size={24} />
+                </Link>
             </div>
             <div>
                 <div className="flex items-center gap-4 p-2 text-sm">
@@ -36,15 +39,15 @@ const ProfileList = ({ profile }: ProfileListProps) => {
                 </div>
                 <div className="flex items-center gap-4 p-2 text-sm">
                     <span className="w-32 p-1 text-center text-white rounded bg-primary">Unit Kerja</span>
-                    <span className="text-primary-500">{profile.unit}</span>
+                    <span className="text-primary-500">{unitMap.get(profile.unit)}</span>
                 </div>
                 <div className="flex items-center gap-4 p-2 text-sm">
                     <span className="w-32 p-1 text-center text-white rounded bg-primary">Departemen</span>
-                    <span className="text-primary-500">{profile.department}</span>
+                    <span className="text-primary-500">{departmentMap.get(profile.department)}</span>
                 </div>
                 <div className="flex items-center gap-4 p-2 text-sm">
                     <span className="w-32 p-1 text-center text-white rounded bg-primary">Perusahaan</span>
-                    <span className="text-primary-500">{profile.company}</span>
+                    <span className="text-primary-500">{companyMap.get(profile.company)}</span>
                 </div>
             </div>
         </div>

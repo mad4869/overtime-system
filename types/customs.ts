@@ -9,9 +9,9 @@ export type Profile = {
     email: string;
     role: $Enums.UserRole
     position: string;
-    unit: string;
-    department: string;
-    company: string;
+    unit: $Enums.UserUnit;
+    department: $Enums.UserDepartment;
+    company: $Enums.UserCompany;
     createdAt: Date;
     updatedAt: Date;
     isActive: boolean
@@ -21,7 +21,8 @@ export type UserItem = ({
     user: {
         name: string;
         npk: string;
-        unit: string;
+        unit: $Enums.UserUnit;
+        company: $Enums.UserCompany
     };
 } & {
     id: number;

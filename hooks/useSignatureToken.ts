@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { generateSignatureToken } from "@/actions/signature"
 import { type Profile } from "@/types/customs"
 
-const useSignatureToken = (user: Profile) => {
+const useSignatureToken = (user: Profile | undefined) => {
     const [token, setToken] = useState('')
 
     useEffect(() => {

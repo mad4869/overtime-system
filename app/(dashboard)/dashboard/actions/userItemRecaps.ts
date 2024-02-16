@@ -45,7 +45,8 @@ export async function getUserItemRecaps(
                             select: {
                                 name: true,
                                 npk: true,
-                                unit: true
+                                unit: true,
+                                company: true
                             }
                         }
                     }
@@ -86,7 +87,8 @@ export async function getUserItemRecap(recapId: number) {
                             select: {
                                 name: true,
                                 npk: true,
-                                unit: true
+                                unit: true,
+                                company: true
                             }
                         },
                         id: true,

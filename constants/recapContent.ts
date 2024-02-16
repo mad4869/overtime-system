@@ -1,4 +1,5 @@
 import overtimeMap from "./overtimeMap"
+import { companyMap, departmentMap, unitMap } from "./profileMap"
 import { offsetWITA } from "./recapPeriod"
 import { type Profile, type UserItemRecapSimple } from "@/types/customs"
 
@@ -6,17 +7,20 @@ export const setRecapContent = (
     period: string,
     recapYear: string,
     userItemsRecap: UserItemRecapSimple,
-    avp: Profile,
+    avp: Profile | undefined,
     vp: Profile,
     avpSignature: string,
     vpSignature: string
 ) => {
+    const isFromYum = userItemsRecap.userItems[0].user.company === 'YUM'
+    const isFromKne = userItemsRecap.userItems[0].user.company === 'KNE'
+
     return `
     <div class="root">
         <header>
-            <img src='https://overtimesystem.vercel.app/logo_yum.png' alt='Logo YUM' width="104.7" height="108" />
+            <img src="https://overtimesystem.vercel.app/${isFromYum ? 'logo_yum.png' : 'logo_kne.png'}" alt="${isFromYum ? 'Logo YUM' : 'Logo KNE'}" width="${isFromYum ? 104.7 : 124}" height="${isFromYum ? 108 : 46}" />
             <div>
-                <h1>PT YEPEKA USAHA MANDIRI</h1>
+                <h1>${isFromYum ? 'PT. YEPEKA USAHA MANDIRI' : 'PT. KALTIM NUSA ETIKA'}</h1>
                 <h2>SURAT PERINTAH LEMBUR ${recapYear}</h2>
                 <h3>
                     PERIODE&nbsp;
@@ -38,7 +42,7 @@ export const setRecapContent = (
             <div class='profile'>
                 <p class='label'>Unit Kerja</p>
                 <p>:</p>
-                <p>${userItemsRecap.userItems[0].user.unit}</p>
+                <p>${unitMap.get(userItemsRecap.userItems[0].user.unit)}</p>
             </div>
         </main>
         <div class="table">
@@ -96,15 +100,15 @@ export const setRecapContent = (
                 ${vpSignature ? `<img src=${vpSignature} alt="Tanda tangan VP" width="80" height="80" />` : ''}
                 <div class='signer'>
                     <p class='signer-name'>${vp.name}</p>
-                    <p>${vp.position} ${vp.unit}</p>
+                    <p>${vp.position} ${departmentMap.get(vp.department)}</p>
                 </div>
             </div>
             <div class='signature'>
                 <p>Diperintah</p>
                 ${avpSignature ? `<img src=${avpSignature} alt="Tanda tangan AVP" width="80" height="80" />` : ''}
                 <div class='signer'>
-                    <p class='signer-name'>${avp.name}</p>
-                    <p>${avp.position} ${avp.unit}</p>
+                    <p class='signer-name'>${avp?.name}</p>
+                    <p>${avp?.position} ${unitMap.get(avp?.unit)}</p>
                 </div>
             </div>
             <div class='signature'>

@@ -8,7 +8,9 @@ export type SignaturePayload = {
     npk: string
 }
 
-export async function generateSignatureToken(user: SignaturePayload) {
+export async function generateSignatureToken(user: SignaturePayload | undefined) {
+    if (!user) return ''
+
     const secretKey = process.env.JWT_SECRET_KEY
     const payload: SignaturePayload = { id: user.id, name: user.name, npk: user.npk }
     const token = jwt.sign(payload, secretKey as string)

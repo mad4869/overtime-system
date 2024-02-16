@@ -76,7 +76,7 @@ const LoginForm = () => {
                 <Link
                     href="/reset-password"
                     title="Lupa password"
-                    className="text-xs transition-colors text-secondary hover:text-secondary-800">
+                    className="text-xs transition-colors text-secondary-800 hover:text-secondary-900">
                     Lupa password?
                 </Link>
                 <Button type="submit" title="Log In" disabled={isSubmitting} loading={isSubmitting}>Login</Button>

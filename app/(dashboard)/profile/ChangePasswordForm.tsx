@@ -70,6 +70,7 @@ const ChangePasswordForm = ({ userId }: ChangePasswordFormProps) => {
                         type="password"
                         placeholder="******"
                         useLabel
+                        labelWidth="md"
                         icon={<RiLockPasswordFill className="text-secondary-900" />}
                         {...register('password lama')} />
                     <ErrorMessage>{errors["password lama"]?.message}</ErrorMessage>
@@ -80,6 +81,7 @@ const ChangePasswordForm = ({ userId }: ChangePasswordFormProps) => {
                         type="password"
                         placeholder="*******"
                         useLabel
+                        labelWidth="md"
                         icon={<RiLockPasswordFill />}
                         {...register('password baru')} />
                     <ErrorMessage>{errors["password baru"]?.message}</ErrorMessage>

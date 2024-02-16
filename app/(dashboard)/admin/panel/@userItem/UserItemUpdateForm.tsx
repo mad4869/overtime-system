@@ -92,6 +92,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                             id="user-id"
                             type="number"
                             useLabel
+                            labelWidth='md'
                             {...register('user ID')} />
                         <ErrorMessage>{errors["user ID"]?.message}</ErrorMessage>
                     </div>
@@ -101,6 +102,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                             type="text"
                             placeholder="Mengerjakan tugas lembur"
                             useLabel
+                            labelWidth='md'
                             {...register('pekerjaan')} />
                         <ErrorMessage>{errors.pekerjaan?.message}</ErrorMessage>
                     </div>
@@ -109,6 +111,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                             id='date'
                             type="date"
                             useLabel
+                            labelWidth='md'
                             {...register('tanggal')} />
                         <ErrorMessage>{errors.tanggal?.message}</ErrorMessage>
                     </div>
@@ -117,6 +120,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                             id="start-time"
                             type="time"
                             useLabel
+                            labelWidth='md'
                             {...register('mulai')} />
                         <ErrorMessage>{errors.mulai?.message}</ErrorMessage>
                     </div>
@@ -125,6 +129,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                             id="finished-time"
                             type="time"
                             useLabel
+                            labelWidth='md'
                             {...register('selesai')} />
                         <ErrorMessage>{errors.selesai?.message}</ErrorMessage>
                     </div>
@@ -133,6 +138,7 @@ const UserItemUpdateForm = ({ userItem }: UserItemUpdateFormProps) => {
                             id="user-item-recap-id"
                             type="number"
                             useLabel
+                            labelWidth='md'
                             {...register('user item recap ID')} />
                         <ErrorMessage>{errors["user item recap ID"]?.message}</ErrorMessage>
                     </div>

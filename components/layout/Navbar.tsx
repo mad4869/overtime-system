@@ -32,7 +32,7 @@ const Navbar = async () => {
                 </Link>
                 <Link href="/dashboard" className="items-center hidden w-full gap-4 sm:flex">
                     <Logo size="sm" />
-                    <h1 className={`text-xl md:text-2xl font-bold text-amber-400 ${oswald.className}`}>SML</h1>
+                    <h1 className={`text-xl md:text-2xl font-bold text-amber-400 ${oswald.className}`}>OMS</h1>
                 </Link>
                 <Menu currentProfileRole={currentProfile?.role} />
                 <div className="w-full">
