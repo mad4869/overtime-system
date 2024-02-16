@@ -68,7 +68,7 @@ async function generateRecapPDF(
 
 export async function POST(request: Request) {
     const res = await request.json()
-    const pdfs = await generateRecapPDF(res.period, res.recapYear, res.userItemRecaps, res.avp, res.vp)
+    const pdfs = await generateRecapPDF(res.period, res.recapYear, res.userItemRecaps, res.avps, res.vp)
     const headers = new Headers()
     headers.set('Content-Type', 'application/pdf')
     headers.set('Content-Disposition', 'inline; filename=recap.pdf')
